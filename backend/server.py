@@ -64,6 +64,7 @@ class PageCreate(BaseModel):
     release_title: str
     description: Optional[str] = ""
     cover_image: Optional[str] = ""
+    qr_enabled: Optional[bool] = True
 
 class PageUpdate(BaseModel):
     title: Optional[str] = None
@@ -73,6 +74,7 @@ class PageUpdate(BaseModel):
     description: Optional[str] = None
     cover_image: Optional[str] = None
     status: Optional[str] = None
+    qr_enabled: Optional[bool] = None
 
 class LinkCreate(BaseModel):
     platform: str
