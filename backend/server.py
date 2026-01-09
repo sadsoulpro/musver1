@@ -425,8 +425,7 @@ async def get_page_analytics(page_id: str, user: dict = Depends(get_current_user
 # ===================== ADMIN ROUTES =====================
 
 @api_router.get("/admin/users")
-async def admin_get_users(authorization: str = None):
-    await get_admin_user(authorization)
+async def admin_get_users(admin_user: dict = Depends(get_admin_user)):
     users = await db.users.find({}, {"_id": 0, "password_hash": 0}).to_list(1000)
     
     # Get page counts for each user
