@@ -55,7 +55,7 @@ export default function Login() {
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
                 <Music className="w-5 h-5 text-white" />
               </div>
-              <span className="font-display text-2xl">MYTRACK.CC</span>
+              <span className="font-display text-2xl">MYTRACK</span>
             </div>
             
             <h1 className="text-3xl font-semibold mb-2">Welcome back</h1>
