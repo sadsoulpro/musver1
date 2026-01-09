@@ -29,7 +29,7 @@ export default function AdminPanel() {
       setUsers(usersRes.data);
       setPages(pagesRes.data);
     } catch (error) {
-      toast.error("Failed to load data");
+      toast.error("Не удалось загрузить данные");
     } finally {
       setLoading(false);
     }
@@ -41,7 +41,7 @@ export default function AdminPanel() {
       toast.success(response.data.message);
       fetchData();
     } catch (error) {
-      toast.error("Failed to update user");
+      toast.error("Не удалось обновить пользователя");
     }
   };
 
@@ -51,7 +51,7 @@ export default function AdminPanel() {
       toast.success(response.data.message);
       fetchData();
     } catch (error) {
-      toast.error("Failed to update page");
+      toast.error("Не удалось обновить страницу");
     }
   };
 
@@ -81,7 +81,7 @@ export default function AdminPanel() {
             data-testid="nav-dashboard"
           >
             <BarChart3 className="w-5 h-5" />
-            Dashboard
+            Панель
           </Link>
           
           <Link 
@@ -90,7 +90,7 @@ export default function AdminPanel() {
             data-testid="nav-admin"
           >
             <Shield className="w-5 h-5" />
-            Admin Panel
+            Админ-панель
           </Link>
         </nav>
         
@@ -102,7 +102,7 @@ export default function AdminPanel() {
             data-testid="logout-btn"
           >
             <LogOut className="w-4 h-4 mr-2" />
-            Log out
+            Выйти
           </Button>
         </div>
       </aside>
@@ -116,13 +116,13 @@ export default function AdminPanel() {
               <ArrowLeft className="w-5 h-5" />
             </Button>
           </Link>
-          <h1 className="text-xl font-semibold">Admin Panel</h1>
+          <h1 className="text-xl font-semibold">Админ-панель</h1>
         </div>
         
         {/* Header */}
         <div className="hidden lg:block mb-10">
-          <h1 className="text-2xl font-semibold mb-1">Admin Panel</h1>
-          <p className="text-muted-foreground">Manage users and pages</p>
+          <h1 className="text-2xl font-semibold mb-1">Админ-панель</h1>
+          <p className="text-muted-foreground">Управление пользователями и страницами</p>
         </div>
         
         {/* Stats */}
@@ -132,7 +132,7 @@ export default function AdminPanel() {
               <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
                 <Users className="w-5 h-5 text-blue-500" />
               </div>
-              <span className="text-muted-foreground">Total Users</span>
+              <span className="text-muted-foreground">Всего пользователей</span>
             </div>
             <p className="text-3xl font-semibold" data-testid="total-users">{users.length}</p>
           </div>
@@ -142,7 +142,7 @@ export default function AdminPanel() {
               <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
                 <FileText className="w-5 h-5 text-purple-500" />
               </div>
-              <span className="text-muted-foreground">Total Pages</span>
+              <span className="text-muted-foreground">Всего страниц</span>
             </div>
             <p className="text-3xl font-semibold" data-testid="total-pages">{pages.length}</p>
           </div>
@@ -153,11 +153,11 @@ export default function AdminPanel() {
           <TabsList className="bg-zinc-900 border border-white/5 mb-6">
             <TabsTrigger value="users" data-testid="tab-users">
               <Users className="w-4 h-4 mr-2" />
-              Users
+              Пользователи
             </TabsTrigger>
             <TabsTrigger value="pages" data-testid="tab-pages">
               <FileText className="w-4 h-4 mr-2" />
-              Pages
+              Страницы
             </TabsTrigger>
           </TabsList>
           
@@ -184,7 +184,7 @@ export default function AdminPanel() {
                         <p className="font-medium">{user.username}</p>
                         {user.role === "admin" && (
                           <span className="px-2 py-0.5 rounded-full text-xs bg-primary/20 text-primary">
-                            Admin
+                            Админ
                           </span>
                         )}
                         <span className={`px-2 py-0.5 rounded-full text-xs ${
@@ -199,8 +199,8 @@ export default function AdminPanel() {
                   
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="text-sm font-medium">{user.page_count} pages</p>
-                      <p className="text-xs text-muted-foreground">{user.plan} plan</p>
+                      <p className="text-sm font-medium">{user.page_count} страниц</p>
+                      <p className="text-xs text-muted-foreground">план {user.plan}</p>
                     </div>
                     
                     {user.role !== "admin" && (
@@ -213,12 +213,12 @@ export default function AdminPanel() {
                         {user.status === "active" ? (
                           <>
                             <Ban className="w-4 h-4 mr-1" />
-                            Block
+                            Заблокировать
                           </>
                         ) : (
                           <>
                             <Check className="w-4 h-4 mr-1" />
-                            Unblock
+                            Разблокировать
                           </>
                         )}
                       </Button>
@@ -228,7 +228,7 @@ export default function AdminPanel() {
               ))}
               
               {users.length === 0 && (
-                <p className="text-center text-muted-foreground py-10">No users found</p>
+                <p className="text-center text-muted-foreground py-10">Пользователи не найдены</p>
               )}
             </div>
           </TabsContent>
@@ -279,7 +279,7 @@ export default function AdminPanel() {
                       <p className="text-sm font-medium flex items-center gap-1">
                         <Eye className="w-4 h-4" /> {page.views || 0}
                       </p>
-                      <p className="text-xs text-muted-foreground">{page.total_clicks || 0} clicks</p>
+                      <p className="text-xs text-muted-foreground">{page.total_clicks || 0} кликов</p>
                     </div>
                     
                     <div className="flex items-center gap-2">
@@ -295,7 +295,7 @@ export default function AdminPanel() {
                         onClick={() => togglePageStatus(page.id)}
                         data-testid={`toggle-page-${page.id}`}
                       >
-                        {page.status === "active" ? "Disable" : "Enable"}
+                        {page.status === "active" ? "Отключить" : "Включить"}
                       </Button>
                     </div>
                   </div>
@@ -303,7 +303,7 @@ export default function AdminPanel() {
               ))}
               
               {pages.length === 0 && (
-                <p className="text-center text-muted-foreground py-10">No pages found</p>
+                <p className="text-center text-muted-foreground py-10">Страницы не найдены</p>
               )}
             </div>
           </TabsContent>
