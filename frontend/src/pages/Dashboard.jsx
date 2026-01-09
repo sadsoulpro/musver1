@@ -173,26 +173,26 @@ export default function Dashboard() {
           >
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
-                <MousePointer className="w-5 h-5 text-green-500" />
+                <MousePointer className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
               </div>
-              <span className="text-muted-foreground">Total Clicks</span>
+              <span className="text-sm sm:text-base text-muted-foreground">Total Clicks</span>
             </div>
-            <p className="text-3xl font-semibold" data-testid="total-clicks">{totalClicks.toLocaleString()}</p>
+            <p className="text-2xl sm:text-3xl font-semibold" data-testid="total-clicks">{totalClicks.toLocaleString()}</p>
           </motion.div>
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
+            className="p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
           >
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                <Music className="w-5 h-5 text-blue-500" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                <Music className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
               </div>
-              <span className="text-muted-foreground">Total Pages</span>
+              <span className="text-sm sm:text-base text-muted-foreground">Total Pages</span>
             </div>
-            <p className="text-3xl font-semibold" data-testid="total-pages">{pages.length}</p>
+            <p className="text-2xl sm:text-3xl font-semibold" data-testid="total-pages">{pages.length}</p>
           </motion.div>
         </div>
         
