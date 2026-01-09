@@ -21,7 +21,7 @@ const PLATFORMS = [
   { id: "youtube", name: "YouTube", icon: FaYoutube, color: "#FF0000" },
   { id: "soundcloud", name: "SoundCloud", icon: FaSoundcloud, color: "#FF5500" },
   { id: "tidal", name: "Tidal", icon: SiTidal, color: "#000000" },
-  { id: "deezer", name: "Deezer", icon: SiDeezer, color: "#00C7F2" },
+  { id: "deezer", name: "Deezer", icon: FaLink, color: "#00C7F2" },
   { id: "custom", name: "Custom Link", icon: FaLink, color: "#888888" },
 ];
 
