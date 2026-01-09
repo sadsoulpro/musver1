@@ -121,14 +121,14 @@ export default function Dashboard() {
       </aside>
       
       {/* Main Content */}
-      <main className="lg:ml-64 p-6 lg:p-10">
+      <main className="lg:ml-64 p-4 sm:p-6 lg:p-10">
         {/* Mobile Header */}
-        <div className="flex items-center justify-between mb-8 lg:hidden">
+        <div className="flex items-center justify-between mb-6 sm:mb-8 lg:hidden">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Music className="w-4 h-4 text-white" />
             </div>
-            <span className="font-display text-lg">MYTRACK.CC</span>
+            <span className="font-display text-lg">MYTRACK</span>
           </div>
           <Button variant="ghost" size="icon" onClick={handleLogout}>
             <LogOut className="w-5 h-5" />
@@ -136,13 +136,13 @@ export default function Dashboard() {
         </div>
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-10">
           <div>
-            <h1 className="text-2xl font-semibold mb-1">Welcome back, {user?.username}</h1>
-            <p className="text-muted-foreground">Manage your smart link pages</p>
+            <h1 className="text-xl sm:text-2xl font-semibold mb-1">Welcome back, {user?.username}</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Manage your smart link pages</p>
           </div>
           <Link to="/page/new">
-            <Button data-testid="create-page-btn" className="bg-primary hover:bg-primary/90 rounded-full px-6">
+            <Button data-testid="create-page-btn" className="w-full sm:w-auto bg-primary hover:bg-primary/90 rounded-full px-6">
               <Plus className="w-4 h-4 mr-2" />
               Create Page
             </Button>
@@ -150,29 +150,29 @@ export default function Dashboard() {
         </div>
         
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
+            className="p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
           >
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Eye className="w-5 h-5 text-primary" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
               </div>
-              <span className="text-muted-foreground">Total Views</span>
+              <span className="text-sm sm:text-base text-muted-foreground">Total Views</span>
             </div>
-            <p className="text-3xl font-semibold" data-testid="total-views">{totalViews.toLocaleString()}</p>
+            <p className="text-2xl sm:text-3xl font-semibold" data-testid="total-views">{totalViews.toLocaleString()}</p>
           </motion.div>
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
+            className="p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
           >
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
                 <MousePointer className="w-5 h-5 text-green-500" />
               </div>
               <span className="text-muted-foreground">Total Clicks</span>
