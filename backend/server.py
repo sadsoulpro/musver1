@@ -339,8 +339,7 @@ async def create_link(page_id: str, data: LinkCreate, user: dict = Depends(get_c
     return link
 
 @api_router.put("/pages/{page_id}/links/{link_id}")
-async def update_link(page_id: str, link_id: str, data: LinkUpdate, authorization: str = None):
-    user = await get_current_user(authorization)
+async def update_link(page_id: str, link_id: str, data: LinkUpdate, user: dict = Depends(get_current_user)):
     page = await db.pages.find_one({"id": page_id, "user_id": user["id"]})
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
