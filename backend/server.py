@@ -276,8 +276,7 @@ async def get_page(page_id: str, user: dict = Depends(get_current_user)):
     return page
 
 @api_router.put("/pages/{page_id}")
-async def update_page(page_id: str, data: PageUpdate, authorization: str = None):
-    user = await get_current_user(authorization)
+async def update_page(page_id: str, data: PageUpdate, user: dict = Depends(get_current_user)):
     page = await db.pages.find_one({"id": page_id, "user_id": user["id"]})
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
