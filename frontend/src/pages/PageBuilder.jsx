@@ -537,6 +537,38 @@ export default function PageBuilder() {
           <section>
             <h2 className="text-lg font-semibold mb-4">Platform Links</h2>
             
+            {/* Scan Source */}
+            <div className="mb-6 p-4 rounded-xl bg-zinc-900/50 border border-white/5">
+              <div className="flex items-center gap-2 mb-3">
+                <Search className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium">Scan Source</span>
+              </div>
+              <p className="text-xs text-muted-foreground mb-3">
+                Enter an Apple Music link or UPC/ISRC code to auto-populate platform links
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Apple Music link or UPC/ISRC code..."
+                  value={scanInput}
+                  onChange={(e) => setScanInput(e.target.value)}
+                  data-testid="scan-source-input"
+                  className="h-10 bg-zinc-800 border-zinc-700 flex-1 text-sm"
+                />
+                <Button 
+                  onClick={scanSource}
+                  disabled={scanningSource}
+                  className="h-10 bg-primary hover:bg-primary/90"
+                  data-testid="scan-source-btn"
+                >
+                  {scanningSource ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Search className="w-4 h-4" />
+                  )}
+                </Button>
+              </div>
+            </div>
+            
             {/* Add New Link */}
             <div className="flex gap-2 mb-4">
               <select
