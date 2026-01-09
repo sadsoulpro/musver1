@@ -194,6 +194,28 @@ export default function PageBuilder() {
     }
   };
 
+  const moveLink = async (index, direction) => {
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= links.length) return;
+    
+    const newLinks = [...links];
+    const [movedLink] = newLinks.splice(index, 1);
+    newLinks.splice(newIndex, 0, movedLink);
+    
+    setLinks(newLinks);
+    
+    if (isEditing) {
+      try {
+        const linkIds = newLinks.map(l => l.id);
+        await api.put(`/pages/${pageId}/links/reorder`, { link_ids: linkIds });
+      } catch (error) {
+        toast.error("Failed to save order");
+        // Revert on error
+        setLinks(links);
+      }
+    }
+  };
+
   const getPlatformInfo = (platformId) => {
     return PLATFORMS.find(p => p.id === platformId) || PLATFORMS[PLATFORMS.length - 1];
   };
