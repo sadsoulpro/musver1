@@ -228,26 +228,28 @@ export default function PageBuilder() {
   // Scan source to auto-detect platform links
   const scanSource = async () => {
     if (!scanInput.trim()) {
-      toast.error("Please enter an Apple Music link or UPC/ISRC code");
+      toast.error("Please enter an Apple Music link, Spotify link, or UPC/ISRC code");
       return;
     }
 
     setScanningSource(true);
     
     try {
-      // Detect if input is Apple Music link
+      // Detect input type
       const isAppleMusicLink = scanInput.includes("music.apple.com") || scanInput.includes("itunes.apple.com");
+      const isSpotifyLink = scanInput.includes("open.spotify.com") || scanInput.includes("spotify.com");
       const isUpcIsrc = /^[A-Z0-9]{12,14}$/i.test(scanInput.trim());
 
-      if (!isAppleMusicLink && !isUpcIsrc) {
-        toast.error("Please enter a valid Apple Music link or UPC/ISRC code");
+      if (!isAppleMusicLink && !isSpotifyLink && !isUpcIsrc) {
+        toast.error("Please enter a valid Apple Music link, Spotify link, or UPC/ISRC code");
         setScanningSource(false);
         return;
       }
 
-      // Extract track/album info from Apple Music link or use code
-      let trackId = "";
+      // Extract track/album info
       let searchQuery = "";
+      let coverArtUrl = "";
+      let sourceUrl = scanInput.trim();
 
       if (isAppleMusicLink) {
         // Parse Apple Music URL to get identifiers
@@ -255,37 +257,97 @@ export default function PageBuilder() {
         const albumIndex = urlParts.findIndex(p => p === "album");
         if (albumIndex > -1 && urlParts[albumIndex + 1]) {
           searchQuery = urlParts[albumIndex + 1].replace(/-/g, " ");
-          // Get track ID if present (after ?i=)
-          const trackMatch = scanInput.match(/[?&]i=(\d+)/);
-          trackId = trackMatch ? trackMatch[1] : "";
+        }
+        
+        // Try to fetch cover art from iTunes API
+        try {
+          const searchTerm = encodeURIComponent(searchQuery);
+          const itunesResponse = await fetch(`https://itunes.apple.com/search?term=${searchTerm}&media=music&limit=1`);
+          const itunesData = await itunesResponse.json();
+          if (itunesData.results && itunesData.results[0]) {
+            coverArtUrl = itunesData.results[0].artworkUrl100?.replace("100x100", "600x600") || "";
+          }
+        } catch (e) {
+          console.log("Could not fetch iTunes cover art");
+        }
+      } else if (isSpotifyLink) {
+        // Parse Spotify URL to get track/album info
+        // Format: https://open.spotify.com/track/xxxxx or /album/xxxxx
+        const urlParts = scanInput.split("/");
+        const trackIndex = urlParts.findIndex(p => p === "track" || p === "album");
+        
+        if (trackIndex > -1) {
+          // Get the ID and try to extract name from URL or embed page
+          const spotifyId = urlParts[trackIndex + 1]?.split("?")[0];
+          
+          // Use Spotify embed to try to get metadata
+          try {
+            const embedUrl = `https://open.spotify.com/embed/${urlParts[trackIndex]}/${spotifyId}`;
+            // For search query, we'll use a simplified approach - extract from URL path
+            // In production, you'd use Spotify API with proper auth
+            const pathPart = urlParts[trackIndex + 1]?.split("?")[0];
+            if (pathPart) {
+              // Try to get track name from oEmbed
+              const oembedResponse = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(scanInput)}`);
+              const oembedData = await oembedResponse.json();
+              if (oembedData.title) {
+                searchQuery = oembedData.title;
+                // Extract cover from thumbnail
+                coverArtUrl = oembedData.thumbnail_url || "";
+              }
+            }
+          } catch (e) {
+            console.log("Could not fetch Spotify metadata, using generic search");
+            searchQuery = "spotify track";
+          }
         }
       } else {
         // UPC/ISRC code
-        trackId = scanInput.trim();
-        searchQuery = trackId;
+        searchQuery = scanInput.trim();
+      }
+
+      if (!searchQuery) {
+        searchQuery = "music release";
+      }
+
+      // Update cover image if we found one and don't have one yet
+      if (coverArtUrl && !formData.cover_image) {
+        setFormData(prev => ({ ...prev, cover_image: coverArtUrl }));
+        toast.success("Cover art detected and applied!");
       }
 
       // Generate platform links based on the source
       const detectedLinks = [];
       
-      // Add Apple Music link if it was the source
+      // Add source platform link
       if (isAppleMusicLink) {
         const existingApple = links.find(l => l.platform === "apple");
         if (!existingApple) {
-          detectedLinks.push({ platform: "apple", url: scanInput.trim() });
+          detectedLinks.push({ platform: "apple", url: sourceUrl });
+        }
+      } else if (isSpotifyLink) {
+        const existingSpotify = links.find(l => l.platform === "spotify");
+        if (!existingSpotify) {
+          detectedLinks.push({ platform: "spotify", url: sourceUrl });
         }
       }
 
       // Generate suggested links for other platforms
-      const platformUrls = {
-        spotify: `https://open.spotify.com/search/${encodeURIComponent(searchQuery)}`,
-        youtube: `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`,
-        deezer: `https://www.deezer.com/search/${encodeURIComponent(searchQuery)}`,
-        tidal: `https://listen.tidal.com/search?q=${encodeURIComponent(searchQuery)}`,
-        soundcloud: `https://soundcloud.com/search?q=${encodeURIComponent(searchQuery)}`,
-        yandex: `https://music.yandex.com/search?text=${encodeURIComponent(searchQuery)}`,
-        vk: `https://vk.com/audio?q=${encodeURIComponent(searchQuery)}`,
-      };
+      const platformUrls = {};
+      
+      if (!isSpotifyLink) {
+        platformUrls.spotify = `https://open.spotify.com/search/${encodeURIComponent(searchQuery)}`;
+      }
+      if (!isAppleMusicLink) {
+        platformUrls.apple = `https://music.apple.com/search?term=${encodeURIComponent(searchQuery)}`;
+      }
+      
+      platformUrls.youtube = `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`;
+      platformUrls.deezer = `https://www.deezer.com/search/${encodeURIComponent(searchQuery)}`;
+      platformUrls.tidal = `https://listen.tidal.com/search?q=${encodeURIComponent(searchQuery)}`;
+      platformUrls.soundcloud = `https://soundcloud.com/search?q=${encodeURIComponent(searchQuery)}`;
+      platformUrls.yandex = `https://music.yandex.com/search?text=${encodeURIComponent(searchQuery)}`;
+      platformUrls.vk = `https://vk.com/audio?q=${encodeURIComponent(searchQuery)}`;
 
       // Add links for platforms that don't exist yet
       for (const [platform, url] of Object.entries(platformUrls)) {
