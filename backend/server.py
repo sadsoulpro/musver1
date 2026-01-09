@@ -265,6 +265,7 @@ async def create_page(data: PageCreate, user: dict = Depends(get_current_user)):
         "background_image": "",
         "status": "active",
         "views": 0,
+        "qr_enabled": data.qr_enabled if data.qr_enabled is not None else True,
         "created_at": datetime.now(timezone.utc).isoformat()
     }
     
