@@ -16,6 +16,7 @@ import bcrypt
 from PIL import Image, ImageFilter
 import aiofiles
 import io
+import httpx
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
