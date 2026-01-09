@@ -269,7 +269,7 @@ export default function AdminPanel() {
                         </span>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        by {page.user?.username || "Unknown"} • /artist/{page.slug}
+                        by {page.user?.username || "Unknown"} • /{page.slug}
                       </p>
                     </div>
                   </div>
@@ -283,7 +283,7 @@ export default function AdminPanel() {
                     </div>
                     
                     <div className="flex items-center gap-2">
-                      <a href={`/artist/${page.slug}`} target="_blank" rel="noopener noreferrer">
+                      <a href={`/${page.slug}`} target="_blank" rel="noopener noreferrer">
                         <Button variant="ghost" size="icon">
                           <ExternalLink className="w-4 h-4" />
                         </Button>
