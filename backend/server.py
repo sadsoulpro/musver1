@@ -320,7 +320,7 @@ async def get_page_links(page_id: str, user: dict = Depends(get_current_user)):
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
     
-    links = await db.links.find({"page_id": page_id}, {"_id": 0}).to_list(100)
+    links = await db.links.find({"page_id": page_id}, {"_id": 0}).sort("order", 1).to_list(100)
     return links
 
 @api_router.post("/pages/{page_id}/links")
@@ -329,12 +329,17 @@ async def create_link(page_id: str, data: LinkCreate, user: dict = Depends(get_c
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
     
+    # Get max order for this page
+    max_order_link = await db.links.find_one({"page_id": page_id}, sort=[("order", -1)])
+    next_order = (max_order_link.get("order", 0) + 1) if max_order_link else 0
+    
     link = {
         "id": str(uuid.uuid4()),
         "page_id": page_id,
         "platform": data.platform,
         "url": data.url,
         "active": data.active,
+        "order": data.order if data.order is not None else next_order,
         "clicks": 0,
         "created_at": datetime.now(timezone.utc).isoformat()
     }
