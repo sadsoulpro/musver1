@@ -563,7 +563,7 @@ export default function PageBuilder() {
                   
                   {/* Footer */}
                   <div className="mt-auto pt-4">
-                    <p className="text-[10px] text-zinc-500">Powered by BandLink</p>
+                    <p className="text-[10px] text-zinc-500">Powered by MyTrack.cc</p>
                   </div>
                 </div>
               </div>
