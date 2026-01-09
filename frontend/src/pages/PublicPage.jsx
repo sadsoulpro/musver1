@@ -64,14 +64,14 @@ export default function PublicPage() {
     };
 
     // Set page title
-    document.title = `${title} | MyTrack.cc`;
+    document.title = `${title} | MyTrack`;
 
     // Open Graph tags
     setMetaTag('og:title', title);
     setMetaTag('og:description', description);
     setMetaTag('og:url', pageUrl);
     setMetaTag('og:type', 'music.song');
-    setMetaTag('og:site_name', 'MyTrack.cc');
+    setMetaTag('og:site_name', 'MyTrack');
     if (coverUrl) {
       setMetaTag('og:image', coverUrl);
       setMetaTag('og:image:width', '1000');
@@ -88,7 +88,7 @@ export default function PublicPage() {
 
     // Cleanup on unmount
     return () => {
-      document.title = 'MyTrack.cc';
+      document.title = 'MyTrack';
     };
   }, [page, slug]);
 
