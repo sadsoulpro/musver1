@@ -71,7 +71,7 @@ export default function Dashboard() {
           <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
             <Music className="w-5 h-5 text-white" />
           </div>
-          <span className="font-display text-xl">BANDLINK</span>
+          <span className="font-display text-xl">MYTRACK.CC</span>
         </div>
         
         <nav className="flex-1 space-y-2">
@@ -128,7 +128,7 @@ export default function Dashboard() {
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Music className="w-4 h-4 text-white" />
             </div>
-            <span className="font-display text-lg">BANDLINK</span>
+            <span className="font-display text-lg">MYTRACK.CC</span>
           </div>
           <Button variant="ghost" size="icon" onClick={handleLogout}>
             <LogOut className="w-5 h-5" />
