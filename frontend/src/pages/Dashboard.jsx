@@ -31,28 +31,28 @@ export default function Dashboard() {
       const response = await api.get("/pages");
       setPages(response.data);
     } catch (error) {
-      toast.error("Failed to load pages");
+      toast.error("Не удалось загрузить страницы");
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (pageId) => {
-    if (!window.confirm("Are you sure you want to delete this page?")) return;
+    if (!window.confirm("Вы уверены, что хотите удалить эту страницу?")) return;
     
     try {
       await api.delete(`/pages/${pageId}`);
-      toast.success("Page deleted");
+      toast.success("Страница удалена");
       fetchPages();
     } catch (error) {
-      toast.error("Failed to delete page");
+      toast.error("Не удалось удалить страницу");
     }
   };
 
   const copyLink = (slug) => {
     const url = `${window.location.origin}/${slug}`;
     navigator.clipboard.writeText(url);
-    toast.success("Link copied to clipboard");
+    toast.success("Ссылка скопирована");
   };
 
   const handleLogout = () => {
@@ -81,7 +81,7 @@ export default function Dashboard() {
             data-testid="nav-dashboard"
           >
             <BarChart3 className="w-5 h-5" />
-            Dashboard
+            Панель
           </Link>
           
           {user?.role === "admin" && (
@@ -91,7 +91,7 @@ export default function Dashboard() {
               data-testid="nav-admin"
             >
               <Settings className="w-5 h-5" />
-              Admin Panel
+              Админ-панель
             </Link>
           )}
         </nav>
@@ -115,7 +115,7 @@ export default function Dashboard() {
             data-testid="logout-btn"
           >
             <LogOut className="w-4 h-4 mr-2" />
-            Log out
+            Выйти
           </Button>
         </div>
       </aside>
@@ -138,13 +138,13 @@ export default function Dashboard() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-10">
           <div>
-            <h1 className="text-xl sm:text-2xl font-semibold mb-1">Welcome back, {user?.username}</h1>
-            <p className="text-sm sm:text-base text-muted-foreground">Manage your smart link pages</p>
+            <h1 className="text-xl sm:text-2xl font-semibold mb-1">С возвращением, {user?.username}</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Управляйте вашими страницами</p>
           </div>
           <Link to="/page/new">
             <Button data-testid="create-page-btn" className="w-full sm:w-auto bg-primary hover:bg-primary/90 rounded-full px-6">
               <Plus className="w-4 h-4 mr-2" />
-              Create Page
+              Создать страницу
             </Button>
           </Link>
         </div>
@@ -160,7 +160,7 @@ export default function Dashboard() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                 <Eye className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
               </div>
-              <span className="text-sm sm:text-base text-muted-foreground">Total Views</span>
+              <span className="text-sm sm:text-base text-muted-foreground">Всего просмотров</span>
             </div>
             <p className="text-2xl sm:text-3xl font-semibold" data-testid="total-views">{totalViews.toLocaleString()}</p>
           </motion.div>
@@ -175,7 +175,7 @@ export default function Dashboard() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
                 <MousePointer className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
               </div>
-              <span className="text-sm sm:text-base text-muted-foreground">Total Clicks</span>
+              <span className="text-sm sm:text-base text-muted-foreground">Всего кликов</span>
             </div>
             <p className="text-2xl sm:text-3xl font-semibold" data-testid="total-clicks">{totalClicks.toLocaleString()}</p>
           </motion.div>
@@ -190,7 +190,7 @@ export default function Dashboard() {
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
                 <Music className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500" />
               </div>
-              <span className="text-sm sm:text-base text-muted-foreground">Total Pages</span>
+              <span className="text-sm sm:text-base text-muted-foreground">Всего страниц</span>
             </div>
             <p className="text-2xl sm:text-3xl font-semibold" data-testid="total-pages">{pages.length}</p>
           </motion.div>
@@ -198,7 +198,7 @@ export default function Dashboard() {
         
         {/* Pages List */}
         <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-4">Your Pages</h2>
+          <h2 className="text-lg font-semibold mb-4">Ваши страницы</h2>
           
           {loading ? (
             <div className="flex items-center justify-center py-20">
@@ -213,12 +213,12 @@ export default function Dashboard() {
               <div className="w-16 h-16 rounded-2xl bg-zinc-800 flex items-center justify-center mx-auto mb-4">
                 <Music className="w-8 h-8 text-muted-foreground" />
               </div>
-              <h3 className="font-semibold mb-2">No pages yet</h3>
-              <p className="text-muted-foreground mb-6">Create your first smart link page</p>
+              <h3 className="font-semibold mb-2">Страниц пока нет</h3>
+              <p className="text-muted-foreground mb-6">Создайте свою первую страницу</p>
               <Link to="/page/new">
                 <Button className="bg-primary hover:bg-primary/90 rounded-full">
                   <Plus className="w-4 h-4 mr-2" />
-                  Create Page
+                  Создать страницу
                 </Button>
               </Link>
             </motion.div>
@@ -303,19 +303,19 @@ export default function Dashboard() {
                           <DropdownMenuItem asChild className="xs:hidden">
                             <a href={`/${page.slug}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                               <ExternalLink className="w-4 h-4" />
-                              View Page
+                              Открыть страницу
                             </a>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                             <Link to={`/page/${page.id}/edit`} className="flex items-center gap-2">
                               <Edit className="w-4 h-4" />
-                              Edit
+                              Редактировать
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                             <Link to={`/analytics/${page.id}`} className="flex items-center gap-2">
                               <BarChart3 className="w-4 h-4" />
-                              Analytics
+                              Аналитика
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem 
@@ -323,7 +323,7 @@ export default function Dashboard() {
                             className="text-red-400 focus:text-red-400"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
+                            Удалить
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
