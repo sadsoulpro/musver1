@@ -102,6 +102,7 @@ Build a minimal band.link-like smart link web service for musicians. Focus on MV
 ## API Endpoints
 - POST /api/auth/register
 - POST /api/auth/login
+- POST /api/auth/forgot-password
 - POST /api/auth/reset-password
 - GET /api/auth/me
 - GET/POST /api/pages
