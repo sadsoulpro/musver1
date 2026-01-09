@@ -239,8 +239,7 @@ async def get_user_pages(user: dict = Depends(get_current_user)):
     return pages
 
 @api_router.post("/pages")
-async def create_page(data: PageCreate, authorization: str = None):
-    user = await get_current_user(authorization)
+async def create_page(data: PageCreate, user: dict = Depends(get_current_user)):
     
     # Check slug uniqueness
     existing = await db.pages.find_one({"slug": data.slug})
