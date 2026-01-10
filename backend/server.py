@@ -531,18 +531,35 @@ async def get_public_page(slug: str):
     return page
 
 @api_router.get("/click/{link_id}")
-async def track_click(link_id: str, referrer: Optional[str] = None):
+async def track_click(
+    link_id: str, 
+    referrer: Optional[str] = None,
+    request: Request = None
+):
     link = await db.links.find_one({"id": link_id}, {"_id": 0})
     if not link:
         raise HTTPException(status_code=404, detail="Link not found")
     
-    # Track click
+    # Get geo info from headers (set by proxy/CDN) or IP
+    country = "Unknown"
+    city = "Unknown"
+    if request:
+        # Try to get from headers (Cloudflare, etc.)
+        country = request.headers.get("CF-IPCountry", 
+                  request.headers.get("X-Country", "Unknown"))
+        city = request.headers.get("CF-IPCity",
+               request.headers.get("X-City", "Unknown"))
+    
+    # Track click with geo data
     click = {
         "id": str(uuid.uuid4()),
         "link_id": link_id,
         "page_id": link["page_id"],
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "referrer": referrer
+        "referrer": referrer,
+        "country": country,
+        "city": city,
+        "source": "link"
     }
     await db.clicks.insert_one(click)
     
@@ -550,6 +567,95 @@ async def track_click(link_id: str, referrer: Optional[str] = None):
     await db.links.update_one({"id": link_id}, {"$inc": {"clicks": 1}})
     
     return RedirectResponse(url=link["url"], status_code=302)
+
+# Track page view with geo
+@api_router.post("/track/view/{page_id}")
+async def track_page_view(page_id: str, request: Request = None):
+    page = await db.pages.find_one({"id": page_id})
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    
+    country = "Unknown"
+    city = "Unknown"
+    if request:
+        country = request.headers.get("CF-IPCountry",
+                  request.headers.get("X-Country", "Unknown"))
+        city = request.headers.get("CF-IPCity",
+               request.headers.get("X-City", "Unknown"))
+    
+    view = {
+        "id": str(uuid.uuid4()),
+        "page_id": page_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "country": country,
+        "city": city,
+        "source": "direct"
+    }
+    await db.views.insert_one(view)
+    
+    return {"success": True}
+
+# Track share
+@api_router.post("/track/share/{page_id}")
+async def track_share(page_id: str, share_type: str = "link", request: Request = None):
+    page = await db.pages.find_one({"id": page_id})
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    
+    country = "Unknown"
+    city = "Unknown"
+    if request:
+        country = request.headers.get("CF-IPCountry",
+                  request.headers.get("X-Country", "Unknown"))
+        city = request.headers.get("CF-IPCity",
+               request.headers.get("X-City", "Unknown"))
+    
+    share = {
+        "id": str(uuid.uuid4()),
+        "page_id": page_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "type": share_type,  # "link", "qr", "social"
+        "country": country,
+        "city": city
+    }
+    await db.shares.insert_one(share)
+    
+    # Increment share count on page
+    await db.pages.update_one({"id": page_id}, {"$inc": {"shares": 1, f"shares_{share_type}": 1}})
+    
+    return {"success": True}
+
+# Track QR scan
+@api_router.get("/qr/{page_id}")
+async def track_qr_scan(page_id: str, request: Request = None):
+    page = await db.pages.find_one({"id": page_id, "status": "active"}, {"_id": 0})
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    
+    country = "Unknown"
+    city = "Unknown"
+    if request:
+        country = request.headers.get("CF-IPCountry",
+                  request.headers.get("X-Country", "Unknown"))
+        city = request.headers.get("CF-IPCity",
+               request.headers.get("X-City", "Unknown"))
+    
+    # Track QR scan as a share
+    share = {
+        "id": str(uuid.uuid4()),
+        "page_id": page_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "type": "qr",
+        "country": country,
+        "city": city
+    }
+    await db.shares.insert_one(share)
+    
+    # Increment QR scan count
+    await db.pages.update_one({"id": page_id}, {"$inc": {"qr_scans": 1}})
+    
+    # Redirect to public page
+    return RedirectResponse(url=f"/{page['slug']}", status_code=302)
 
 # ===================== ANALYTICS ROUTES =====================
 
@@ -569,7 +675,122 @@ async def get_page_analytics(page_id: str, user: dict = Depends(get_current_user
         "views": page.get("views", 0),
         "total_clicks": total_clicks,
         "clicks_by_platform": clicks_by_platform,
-        "links": links
+        "links": links,
+        "shares": page.get("shares", 0),
+        "qr_scans": page.get("qr_scans", 0)
+    }
+
+# Global analytics for all user pages
+@api_router.get("/analytics/global/summary")
+async def get_global_analytics(user: dict = Depends(get_current_user)):
+    # Get all user pages
+    pages = await db.pages.find({"user_id": user["id"]}, {"_id": 0}).to_list(100)
+    page_ids = [p["id"] for p in pages]
+    
+    if not page_ids:
+        return {
+            "total_views": 0,
+            "total_clicks": 0,
+            "total_shares": 0,
+            "total_qr_scans": 0,
+            "by_country": [],
+            "by_city": [],
+            "timeline": [],
+            "pages": []
+        }
+    
+    # Aggregate stats from pages
+    total_views = sum(p.get("views", 0) for p in pages)
+    total_shares = sum(p.get("shares", 0) for p in pages)
+    total_qr_scans = sum(p.get("qr_scans", 0) for p in pages)
+    
+    # Get all links for these pages
+    links = await db.links.find({"page_id": {"$in": page_ids}}, {"_id": 0}).to_list(1000)
+    total_clicks = sum(link.get("clicks", 0) for link in links)
+    
+    # Get clicks by country
+    clicks_cursor = db.clicks.aggregate([
+        {"$match": {"page_id": {"$in": page_ids}}},
+        {"$group": {"_id": "$country", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}},
+        {"$limit": 10}
+    ])
+    by_country = []
+    async for doc in clicks_cursor:
+        by_country.append({"country": doc["_id"] or "Unknown", "clicks": doc["count"]})
+    
+    # Get clicks by city
+    city_cursor = db.clicks.aggregate([
+        {"$match": {"page_id": {"$in": page_ids}}},
+        {"$group": {"_id": "$city", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}},
+        {"$limit": 10}
+    ])
+    by_city = []
+    async for doc in city_cursor:
+        by_city.append({"city": doc["_id"] or "Unknown", "clicks": doc["count"]})
+    
+    # Get timeline (last 30 days)
+    thirty_days_ago = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
+    timeline_cursor = db.clicks.aggregate([
+        {"$match": {"page_id": {"$in": page_ids}, "timestamp": {"$gte": thirty_days_ago}}},
+        {"$addFields": {"date": {"$substr": ["$timestamp", 0, 10]}}},
+        {"$group": {"_id": "$date", "clicks": {"$sum": 1}}},
+        {"$sort": {"_id": 1}}
+    ])
+    timeline = []
+    async for doc in timeline_cursor:
+        timeline.append({"date": doc["_id"], "clicks": doc["clicks"]})
+    
+    # Get shares timeline
+    shares_cursor = db.shares.aggregate([
+        {"$match": {"page_id": {"$in": page_ids}, "timestamp": {"$gte": thirty_days_ago}}},
+        {"$addFields": {"date": {"$substr": ["$timestamp", 0, 10]}}},
+        {"$group": {"_id": "$date", "shares": {"$sum": 1}}},
+        {"$sort": {"_id": 1}}
+    ])
+    shares_timeline = {}
+    async for doc in shares_cursor:
+        shares_timeline[doc["_id"]] = doc["shares"]
+    
+    # Merge timeline
+    for item in timeline:
+        item["shares"] = shares_timeline.get(item["date"], 0)
+    
+    # Get shares by type
+    shares_by_type_cursor = db.shares.aggregate([
+        {"$match": {"page_id": {"$in": page_ids}}},
+        {"$group": {"_id": "$type", "count": {"$sum": 1}}}
+    ])
+    shares_by_type = {}
+    async for doc in shares_by_type_cursor:
+        shares_by_type[doc["_id"] or "link"] = doc["count"]
+    
+    # Page stats
+    page_stats = []
+    for p in pages:
+        page_links = [l for l in links if l["page_id"] == p["id"]]
+        page_clicks = sum(l.get("clicks", 0) for l in page_links)
+        page_stats.append({
+            "id": p["id"],
+            "title": p["title"],
+            "slug": p["slug"],
+            "views": p.get("views", 0),
+            "clicks": page_clicks,
+            "shares": p.get("shares", 0),
+            "qr_scans": p.get("qr_scans", 0)
+        })
+    
+    return {
+        "total_views": total_views,
+        "total_clicks": total_clicks,
+        "total_shares": total_shares,
+        "total_qr_scans": total_qr_scans,
+        "shares_by_type": shares_by_type,
+        "by_country": by_country,
+        "by_city": by_city,
+        "timeline": timeline,
+        "pages": page_stats
     }
 
 # ===================== ADMIN ROUTES =====================
