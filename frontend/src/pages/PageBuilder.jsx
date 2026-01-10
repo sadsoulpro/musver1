@@ -20,13 +20,22 @@ import { QRCodeSVG } from "qrcode.react";
 // Custom SVG icons for platforms without react-icons support
 const ZvukIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M8 8l8 4-8 4V8z" fill="currentColor"/>
   </svg>
 );
 
 const MtsIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.08 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm9 10.86v-7.36l7-3.5v7.36l-7 3.5z"/>
+    <rect x="3" y="6" width="18" height="12" rx="2" fill="currentColor"/>
+    <text x="12" y="14" fontSize="6" fill="white" textAnchor="middle" fontWeight="bold">MTC</text>
+  </svg>
+);
+
+// Fallback Deezer icon if SiDeezer is not available
+const DeezerIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M6.01 11.75H0V15h6.01v-3.25zM6.01 7.25H0v3.25h6.01V7.25zM6.01 16.25H0v3.25h6.01v-3.25zM12.005 11.75H6.01V15h5.995v-3.25zM12.005 16.25H6.01v3.25h5.995v-3.25zM17.995 11.75H12V15h5.995v-3.25zM17.995 16.25H12v3.25h5.995v-3.25zM17.995 7.25H12v3.25h5.995V7.25zM24 11.75h-6.005V15H24v-3.25zM24 16.25h-6.005v3.25H24v-3.25zM24 7.25h-6.005v3.25H24V7.25zM24 2.75h-6.005V6H24V2.75z"/>
   </svg>
 );
 
@@ -54,7 +63,7 @@ const PLATFORMS = [
   { id: "itunes", name: "iTunes", icon: FaItunes, color: "#EA4CC0" },
   { id: "spotify", name: "Spotify", icon: FaSpotify, color: "#1DB954" },
   { id: "vk", name: "VK Музыка", icon: FaVk, color: "#4C75A3" },
-  { id: "deezer", name: "Deezer", icon: SiDeezer, color: "#00C7F2" },
+  { id: "deezer", name: "Deezer", icon: DeezerIcon, color: "#A238FF" },
   { id: "zvuk", name: "Звук", icon: ZvukIcon, color: "#6B4EFF" },
   { id: "mts", name: "МТС Музыка", icon: MtsIcon, color: "#E30611" },
   { id: "amazon", name: "Amazon Music", icon: FaAmazon, color: "#FF9900" },
