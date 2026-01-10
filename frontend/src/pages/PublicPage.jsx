@@ -48,14 +48,52 @@ const PLATFORMS = {
 
 export default function PublicPage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [page, setPage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [userPages, setUserPages] = useState([]);
+  const [currentPageIndex, setCurrentPageIndex] = useState(-1);
 
   useEffect(() => {
     fetchPage();
   }, [slug]);
+
+  // Fetch user's other pages for navigation
+  useEffect(() => {
+    if (page?.site_navigation_enabled && page?.user_id) {
+      fetchUserPages();
+    }
+  }, [page?.site_navigation_enabled, page?.user_id]);
+
+  const fetchUserPages = async () => {
+    try {
+      const response = await axios.get(`${API}/users/${page.user_id}/pages`);
+      const pages = response.data;
+      setUserPages(pages);
+      const index = pages.findIndex(p => p.slug === slug);
+      setCurrentPageIndex(index);
+    } catch (err) {
+      console.error("Failed to fetch user pages", err);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPageIndex > 0) {
+      const prevPage = userPages[currentPageIndex - 1];
+      navigate(`/${prevPage.slug}`);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPageIndex < userPages.length - 1) {
+      const nextPage = userPages[currentPageIndex + 1];
+      navigate(`/${nextPage.slug}`);
+    }
+  };
+
+  const showNavigation = page?.site_navigation_enabled && userPages.length >= 2;
 
   // Update OG meta tags when page data loads
   useEffect(() => {
