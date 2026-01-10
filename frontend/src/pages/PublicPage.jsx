@@ -51,6 +51,7 @@ export default function PublicPage() {
   const [page, setPage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     fetchPage();
