@@ -647,6 +647,154 @@ export default function AdminPanel() {
             )}
           </TabsContent>
           
+          {/* Verification Tab */}
+          <TabsContent value="verification">
+            <div className="space-y-6">
+              {/* Pending Requests */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <BadgeCheck className="w-5 h-5 text-primary" />
+                  Заявки на верификацию
+                </h3>
+                
+                {verificationRequests.filter(r => r.status === 'pending').length > 0 ? (
+                  <div className="space-y-3">
+                    {verificationRequests.filter(r => r.status === 'pending').map((req, i) => (
+                      <motion.div
+                        key={req.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="p-4 rounded-xl bg-zinc-900/50 border border-white/5"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="font-semibold">{req.artist_name}</span>
+                              <span className="text-sm text-muted-foreground">(@{req.username})</span>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-2">{req.email}</p>
+                            <div className="text-sm mb-2">
+                              <span className="text-muted-foreground">Соц. сети: </span>
+                              <span className="text-zinc-300">{req.social_links}</span>
+                            </div>
+                            <div className="text-sm">
+                              <span className="text-muted-foreground">Описание: </span>
+                              <span className="text-zinc-300">{req.description}</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-2">
+                              Подана: {new Date(req.created_at).toLocaleString('ru-RU')}
+                            </p>
+                          </div>
+                          <div className="flex gap-2 ml-4">
+                            <Button
+                              size="sm"
+                              onClick={() => approveVerification(req.user_id)}
+                              className="bg-green-600 hover:bg-green-700"
+                            >
+                              <Check className="w-4 h-4 mr-1" />
+                              Одобрить
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => rejectVerification(req.user_id)}
+                            >
+                              <X className="w-4 h-4 mr-1" />
+                              Отклонить
+                            </Button>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-center text-muted-foreground py-8 bg-zinc-900/30 rounded-xl">
+                    Нет ожидающих заявок
+                  </p>
+                )}
+              </div>
+              
+              {/* Verified Users - Grant/Revoke */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <Award className="w-5 h-5 text-yellow-500" />
+                  Управление верификацией пользователей
+                </h3>
+                
+                <div className="space-y-2">
+                  {users.map((user) => (
+                    <div
+                      key={user.id}
+                      className="p-3 rounded-lg bg-zinc-900/30 border border-white/5 flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                          <span className="text-xs font-medium">{user.username?.[0]?.toUpperCase()}</span>
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{user.username}</span>
+                            {user.verified && (
+                              <BadgeCheck className="w-4 h-4 text-primary" />
+                            )}
+                          </div>
+                          <span className="text-xs text-muted-foreground">{user.email}</span>
+                        </div>
+                      </div>
+                      
+                      {user.role !== "admin" && (
+                        user.verified ? (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => revokeVerification(user.id)}
+                          >
+                            Отозвать
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            onClick={() => grantVerification(user.id)}
+                            className="bg-primary hover:bg-primary/90"
+                          >
+                            <BadgeCheck className="w-4 h-4 mr-1" />
+                            Выдать
+                          </Button>
+                        )
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* History */}
+              {verificationRequests.filter(r => r.status !== 'pending').length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">История заявок</h3>
+                  <div className="space-y-2">
+                    {verificationRequests.filter(r => r.status !== 'pending').slice(0, 10).map((req) => (
+                      <div
+                        key={req.id}
+                        className="p-3 rounded-lg bg-zinc-900/30 border border-white/5 flex items-center justify-between"
+                      >
+                        <div>
+                          <span className="font-medium">{req.artist_name}</span>
+                          <span className="text-sm text-muted-foreground ml-2">(@{req.username})</span>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          req.status === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                        }`}>
+                          {req.status === 'approved' ? 'Одобрено' : 'Отклонено'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </TabsContent>
+          
           {/* Users Tab */}
           <TabsContent value="users">
             <div className="space-y-3">
