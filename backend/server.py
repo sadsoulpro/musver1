@@ -357,6 +357,7 @@ async def get_me(user: dict = Depends(get_current_user)):
         "verified": user.get("verified", False),
         "verification_status": user.get("verification_status", "none"),
         "show_verification_badge": user.get("show_verification_badge", True),
+        "site_navigation_enabled": user.get("site_navigation_enabled", False),
         "created_at": user["created_at"]
     }
 
