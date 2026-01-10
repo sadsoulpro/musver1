@@ -644,29 +644,29 @@ export default function PageBuilder() {
           
           {/* Links */}
           <section>
-            <h2 className="text-lg font-semibold mb-4">Ссылки на платформы</h2>
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Ссылки на платформы</h2>
             
             {/* Scan Source */}
-            <div className="mb-6 p-4 rounded-xl bg-zinc-900/50 border border-white/5">
-              <div className="flex items-center gap-2 mb-3">
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 rounded-xl bg-zinc-900/50 border border-white/5">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
                 <Search className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium">Автозаполнение через Odesli</span>
+                <span className="text-xs sm:text-sm font-medium">Автозаполнение через Odesli</span>
               </div>
-              <p className="text-xs text-muted-foreground mb-3">
-                Вставьте ссылку Spotify, Apple Music, YouTube, Deezer, Tidal или SoundCloud — ссылки на все платформы заполнятся автоматически
+              <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
+                Вставьте ссылку Spotify, Apple Music, YouTube, Deezer, Tidal или SoundCloud
               </p>
               <div className="flex gap-2">
                 <Input
-                  placeholder="Вставьте ссылку из любой музыкальной платформы..."
+                  placeholder="Вставьте ссылку..."
                   value={scanInput}
                   onChange={(e) => setScanInput(e.target.value)}
                   data-testid="scan-source-input"
-                  className="h-10 bg-zinc-800 border-zinc-700 flex-1 text-sm"
+                  className="h-9 sm:h-10 bg-zinc-800 border-zinc-700 flex-1 text-xs sm:text-sm"
                 />
                 <Button 
                   onClick={scanSource}
                   disabled={scanningSource}
-                  className="h-10 bg-primary hover:bg-primary/90"
+                  className="h-9 sm:h-10 bg-primary hover:bg-primary/90 px-3"
                   data-testid="scan-source-btn"
                 >
                   {scanningSource ? (
@@ -679,31 +679,33 @@ export default function PageBuilder() {
             </div>
             
             {/* Add New Link */}
-            <div className="flex gap-2 mb-4">
+            <div className="flex flex-col sm:flex-row gap-2 mb-3 sm:mb-4">
               <select
                 value={newLink.platform}
                 onChange={(e) => setNewLink(prev => ({ ...prev, platform: e.target.value }))}
-                className="h-12 px-4 rounded-xl bg-zinc-900 border border-zinc-800 text-foreground"
+                className="h-10 sm:h-12 px-3 sm:px-4 rounded-xl bg-zinc-900 border border-zinc-800 text-foreground text-sm"
                 data-testid="platform-select"
               >
                 {PLATFORMS.map(p => (
                   <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
               </select>
-              <Input
-                placeholder="https://..."
-                value={newLink.url}
-                onChange={(e) => setNewLink(prev => ({ ...prev, url: e.target.value }))}
-                data-testid="link-url-input"
-                className="h-12 bg-zinc-900 border-zinc-800 flex-1"
-              />
-              <Button 
-                onClick={addLink}
-                className="h-12 bg-primary hover:bg-primary/90"
-                data-testid="add-link-btn"
-              >
-                <Plus className="w-4 h-4" />
-              </Button>
+              <div className="flex gap-2 flex-1">
+                <Input
+                  placeholder="https://..."
+                  value={newLink.url}
+                  onChange={(e) => setNewLink(prev => ({ ...prev, url: e.target.value }))}
+                  data-testid="link-url-input"
+                  className="h-10 sm:h-12 bg-zinc-900 border-zinc-800 flex-1"
+                />
+                <Button 
+                  onClick={addLink}
+                  className="h-10 sm:h-12 bg-primary hover:bg-primary/90 px-3 sm:px-4"
+                  data-testid="add-link-btn"
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </div>
             </div>
             
             {/* Links List */}
