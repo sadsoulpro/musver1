@@ -71,7 +71,7 @@ export default function Dashboard() {
           <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
             <Music className="w-5 h-5 text-white" />
           </div>
-          <span className="font-display text-xl">MYTRACK</span>
+          <Link to="/"><span className="font-display text-xl">MYTRACK</span></Link>
         </div>
         
         <nav className="flex-1 space-y-2">

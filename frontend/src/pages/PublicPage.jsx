@@ -345,10 +345,11 @@ export default function PublicPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
               className="mt-8 flex flex-col items-center"
+              onClick={handleQRShare}
             >
-              <div className="p-3 bg-white rounded-xl shadow-lg">
+              <div className="p-3 bg-white rounded-xl shadow-lg cursor-pointer hover:scale-105 transition-transform">
                 <QRCodeSVG
-                  value={window.location.href}
+                  value={`${process.env.REACT_APP_BACKEND_URL}/api/qr/${page.id}`}
                   size={100}
                   level="M"
                   includeMargin={false}
