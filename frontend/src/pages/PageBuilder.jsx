@@ -486,7 +486,7 @@ export default function PageBuilder() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2">
@@ -520,7 +520,7 @@ export default function PageBuilder() {
         </div>
       </header>
       
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 grid lg:grid-cols-2 gap-6 lg:gap-10">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 grid lg:grid-cols-2 gap-6 lg:gap-10 overflow-hidden">
         {/* Form */}
         <div className="space-y-8">
           {/* Basic Info */}
