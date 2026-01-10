@@ -100,6 +100,14 @@ export default function GlobalAnalytics() {
             <Settings className="w-5 h-5" />
             Настройки
           </Link>
+          
+          <Link 
+            to="/verification" 
+            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <BadgeCheck className="w-5 h-5" />
+            Верификация
+          </Link>
         </nav>
         
         <div className="pt-6 border-t border-white/5">
@@ -108,7 +116,12 @@ export default function GlobalAnalytics() {
               <span className="text-sm font-medium">{user?.username?.[0]?.toUpperCase()}</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium truncate">{user?.username}</p>
+              <div className="flex items-center gap-1">
+                <p className="font-medium truncate">{user?.username}</p>
+                {user?.verified && user?.show_verification_badge !== false && (
+                  <BadgeCheck className="w-4 h-4 text-primary flex-shrink-0" />
+                )}
+              </div>
               <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
             </div>
           </div>
