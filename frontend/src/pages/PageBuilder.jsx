@@ -571,7 +571,7 @@ export default function PageBuilder() {
             <div className="p-3 sm:p-4 rounded-xl bg-primary/5 border border-primary/20">
               <div className="flex items-center gap-2 mb-2 sm:mb-3">
                 <Search className="w-4 h-4 text-primary" />
-                <span className="text-xs sm:text-sm font-medium">Автозаполнение через Odesli</span>
+                <span className="text-xs sm:text-sm font-medium">Автозаполнение</span>
               </div>
               <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
                 Вставьте ссылку из Spotify, Apple Music, YouTube или другой платформы — данные заполнятся автоматически
