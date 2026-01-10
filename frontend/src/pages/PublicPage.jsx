@@ -284,7 +284,7 @@ export default function PublicPage() {
                   fgColor="#18181b"
                 />
               </div>
-              <p className="text-xs text-zinc-500 mt-2">Scan to share</p>
+              <p className="text-xs text-zinc-500 mt-2">Сканируйте, чтобы поделиться</p>
             </motion.div>
           )}
         </div>

@@ -56,7 +56,7 @@ export default function Register() {
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
                 <Music className="w-5 h-5 text-white" />
               </div>
-              <span className="font-display text-2xl">MYTRACK</span>
+              <Link to="/"><span className="font-display text-2xl">MYTRACK</span></Link>
             </div>
             
             <h1 className="text-3xl font-semibold mb-2">Создайте аккаунт</h1>
@@ -66,11 +66,11 @@ export default function Register() {
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email">Эл. почта</Label>
+                <Label htmlFor="email">E-Mail</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="вы@пример.com"
+                  placeholder="mail@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -84,7 +84,7 @@ export default function Register() {
                 <Input
                   id="username"
                   type="text"
-                  placeholder="вашеимяартиста"
+                  placeholder="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required

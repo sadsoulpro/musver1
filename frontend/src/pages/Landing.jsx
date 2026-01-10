@@ -15,7 +15,7 @@ export default function Landing() {
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary flex items-center justify-center">
             <Music className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <span className="font-display text-xl sm:text-2xl tracking-tight">MYTRACK</span>
+          <Link to="/"><span className="font-display text-xl sm:text-2xl tracking-tight">MYTRACK</span></Link>
         </div>
         
         <div className="flex items-center gap-2 sm:gap-4">
@@ -39,12 +39,12 @@ export default function Landing() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="font-display text-4xl sm:text-5xl lg:text-7xl tracking-tight leading-none mb-4 sm:mb-6">
-              ОДНА ССЫЛКА<br />
-              <span className="text-primary">ВСЯ ТВОЯ</span><br />
-              МУЗЫКА
+              СОЗДАЙ<br />
+              <span className="text-primary">МУЛЬТИССЫЛКУ</span><br />
+              ДЛЯ СВОЕЙ <span className="text-primary">МУЗЫКИ</span>
             </h1>
             <p className="text-muted-foreground text-base sm:text-lg mb-6 sm:mb-8 max-w-md">
-              Создавайте стильные страницы для ваших релизов. Одна ссылка — все платформы.
+              Стильные страницы для ваших релизов. Одна ссылка — все платформы.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Link to="/register">
@@ -81,11 +81,11 @@ export default function Landing() {
                   {/* Mock Content */}
                   <div className="p-6 pt-12 flex flex-col items-center text-center">
                     <div className="w-24 h-24 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 mb-4" />
-                    <h3 className="font-display text-xl">ИМЯ АРТИСТА</h3>
-                    <p className="text-sm text-muted-foreground mb-6">Новый сингл уже доступен</p>
+                    <h3 className="font-display text-xl">Artist Name</h3>
+                    <p className="text-sm text-muted-foreground mb-6">Song Name</p>
                     
                     <div className="w-full space-y-3">
-                      {["Spotify", "Apple Music", "YouTube"].map((platform, i) => (
+                      {["Apple Music", "Spotify", "YouTube"].map((platform, i) => (
                         <div 
                           key={platform}
                           className="w-full py-3 px-4 rounded-xl bg-white/5 border border-white/10 text-sm font-medium"

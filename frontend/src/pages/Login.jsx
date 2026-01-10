@@ -55,21 +55,21 @@ export default function Login() {
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
                 <Music className="w-5 h-5 text-white" />
               </div>
-              <span className="font-display text-2xl">MYTRACK</span>
+              <Link to="/"><span className="font-display text-2xl">MYTRACK</span></Link>
             </div>
             
-            <h1 className="text-3xl font-semibold mb-2">С возвращением</h1>
+            <h1 className="text-3xl font-semibold mb-2">Здравствуйте!</h1>
             <p className="text-muted-foreground mb-8">
-              Войдите, чтобы управлять вашими страницами
+              Войдите, чтобы создать мультиссылку.
             </p>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email">Эл. почта</Label>
+                <Label htmlFor="email">E-Mail</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="mail@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

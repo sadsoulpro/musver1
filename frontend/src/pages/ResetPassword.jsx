@@ -77,7 +77,7 @@ export default function ResetPassword() {
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
                 <Music className="w-5 h-5 text-white" />
               </div>
-              <span className="font-display text-2xl">MYTRACK</span>
+              <Link to="/"><span className="font-display text-2xl">MYTRACK</span></Link>
             </div>
             
             {error && !success ? (
@@ -108,7 +108,7 @@ export default function ResetPassword() {
                 </div>
                 <h1 className="text-3xl font-semibold mb-4">Пароль изменён</h1>
                 <p className="text-muted-foreground mb-8">
-                  Ваш пароль был успешно обновлён. Теперь вы можете войти с новым паролем.
+                  Ваш пароль был успешно изменен. Войдите в свой аккаунт.
                 </p>
                 <Button 
                   onClick={() => navigate("/login")}

@@ -49,23 +49,23 @@ export default function ForgotPassword() {
               <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
                 <Music className="w-5 h-5 text-white" />
               </div>
-              <span className="font-display text-2xl">MYTRACK</span>
+              <Link to="/"><span className="font-display text-2xl">MYTRACK</span></Link>
             </div>
             
             {!submitted ? (
               <>
                 <h1 className="text-3xl font-semibold mb-2">Восстановление пароля</h1>
                 <p className="text-muted-foreground mb-8">
-                  Введите email, указанный при регистрации. Мы отправим вам ссылку для сброса пароля.
+                  Введите почту, указанную при регистрации. Мы отправим вам ссылку для сброса пароля.
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="email">Эл. почта</Label>
+                    <Label htmlFor="email">E-Mail</Label>
                     <Input
                       id="email"
                       type="email"
-                      placeholder="вы@пример.com"
+                      placeholder="mail@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -80,7 +80,7 @@ export default function ForgotPassword() {
                     data-testid="forgot-submit-btn"
                     className="w-full h-12 bg-primary hover:bg-primary/90 rounded-xl font-semibold"
                   >
-                    {loading ? "Отправка..." : "Отправить инструкции"}
+                    {loading ? "Отправка..." : "Восстановить пароль"}
                   </Button>
                 </form>
               </>
@@ -95,7 +95,7 @@ export default function ForgotPassword() {
                 </div>
                 <h1 className="text-3xl font-semibold mb-4">Проверьте почту</h1>
                 <p className="text-muted-foreground mb-8">
-                  Мы отправили инструкции по сбросу пароля на <span className="text-foreground font-medium">{email}</span>
+                  Мы отправили вам ссылку для сброса пароля на <span className="text-foreground font-medium">{email}</span>
                 </p>
                 <p className="text-sm text-muted-foreground mb-6">
                   Не получили письмо? Проверьте папку «Спам» или попробуйте снова.
@@ -129,7 +129,7 @@ export default function ForgotPassword() {
           </div>
           <h2 className="font-display text-4xl mb-4">ВОССТАНОВИТЕ ДОСТУП</h2>
           <p className="text-muted-foreground max-w-sm">
-            Мы поможем вам вернуться в аккаунт. Просто введите ваш email.
+            Забыли пароль?. Просто введите ваш email.
           </p>
         </div>
       </div>
