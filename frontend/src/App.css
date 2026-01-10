@@ -32,3 +32,18 @@
         transform: rotate(360deg);
     }
 }
+
+/* Force text truncation for long URLs */
+.link-url-truncate {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Prevent horizontal overflow on page builder */
+.page-builder-links {
+    max-width: 100%;
+    overflow: hidden;
+}
