@@ -84,6 +84,15 @@ export default function Dashboard() {
             Панель
           </Link>
           
+          <Link 
+            to="/analytics" 
+            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
+            data-testid="nav-analytics"
+          >
+            <Eye className="w-5 h-5" />
+            Аналитика
+          </Link>
+          
           {user?.role === "admin" && (
             <Link 
               to="/admin" 
