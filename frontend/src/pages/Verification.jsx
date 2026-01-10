@@ -241,10 +241,49 @@ export default function Verification() {
             {status?.verified && (
               <p className="text-sm text-muted-foreground mt-4">
                 Ваш аккаунт верифицирован. Галочка отображается рядом с именем артиста на публичных страницах.
-                Вы можете отключить её в настройках.
               </p>
             )}
           </motion.div>
+          
+          {/* Badge Settings - only for verified users */}
+          {status?.verified && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5 mb-6"
+            >
+              <h2 className="font-semibold mb-4">Настройки галочки</h2>
+              <div className="flex items-center justify-between p-4 bg-zinc-800/50 rounded-xl">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    {status?.show_badge !== false ? (
+                      <ToggleRight className="w-5 h-5 text-primary" />
+                    ) : (
+                      <ToggleLeft className="w-5 h-5 text-zinc-500" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-medium">Показывать галочку</p>
+                    <p className="text-sm text-muted-foreground">
+                      {status?.show_badge !== false 
+                        ? "Галочка видна на публичных страницах" 
+                        : "Галочка скрыта от других пользователей"
+                      }
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant={status?.show_badge !== false ? "default" : "outline"}
+                  onClick={toggleBadge}
+                  disabled={badgeLoading}
+                  className={status?.show_badge !== false ? "bg-primary hover:bg-primary/90" : ""}
+                >
+                  {badgeLoading ? "..." : status?.show_badge !== false ? "Отключить" : "Включить"}
+                </Button>
+              </div>
+            </motion.div>
+          )}
           
           {/* Pending Request Info */}
           {status?.pending_request && (
