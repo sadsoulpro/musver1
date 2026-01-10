@@ -339,7 +339,7 @@ async def reset_password(data: ResetPasswordRequest):
     
     return {"message": "Пароль успешно изменён"}
 
-@api_router.get("/auth/me", response_model=UserResponse)
+@api_router.get("/auth/me")
 async def get_me(user: dict = Depends(get_current_user)):
     return {
         "id": user["id"],
@@ -348,6 +348,9 @@ async def get_me(user: dict = Depends(get_current_user)):
         "role": user["role"],
         "status": user["status"],
         "plan": user["plan"],
+        "verified": user.get("verified", False),
+        "verification_status": user.get("verification_status", "none"),
+        "show_verification_badge": user.get("show_verification_badge", True),
         "created_at": user["created_at"]
     }
 
