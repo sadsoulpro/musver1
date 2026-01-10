@@ -324,19 +324,6 @@ export default function PublicPage() {
           </>
         )}
       </AnimatePresence>
-      
-      {/* Back Button - always visible */}
-      <motion.button
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        onClick={goBack}
-        className="fixed top-4 left-4 z-20 group"
-        aria-label="Go back"
-      >
-        <div className="relative">
-          <div className="absolute inset-0 bg-white/10 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
-          <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-900/60 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-white/30 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
-            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white transition-colors" />
           </div>
         </div>
       </motion.button>
