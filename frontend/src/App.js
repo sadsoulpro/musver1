@@ -109,7 +109,7 @@ function App() {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading, refreshUser }}>
       <BrowserRouter>
         <Routes>
           {/* Public Routes */}
