@@ -30,6 +30,7 @@ export default function AdminPanel() {
     fetchData();
     fetchGlobalAnalytics();
     fetchSystemMetrics();
+    fetchVerificationRequests();
     
     // Refresh system metrics every 30 seconds
     const metricsInterval = setInterval(fetchSystemMetrics, 30000);
@@ -69,6 +70,15 @@ export default function AdminPanel() {
     }
   };
 
+  const fetchVerificationRequests = async () => {
+    try {
+      const response = await api.get("/admin/verification/requests");
+      setVerificationRequests(response.data);
+    } catch (error) {
+      console.error("Failed to fetch verification requests");
+    }
+  };
+
   const toggleUserBlock = async (userId) => {
     try {
       const response = await api.put(`/admin/users/${userId}/block`);
@@ -76,6 +86,48 @@ export default function AdminPanel() {
       fetchData();
     } catch (error) {
       toast.error("Не удалось обновить пользователя");
+    }
+  };
+
+  const approveVerification = async (userId) => {
+    try {
+      await api.put(`/admin/verification/${userId}/approve`);
+      toast.success("Верификация одобрена");
+      fetchVerificationRequests();
+      fetchData();
+    } catch (error) {
+      toast.error("Не удалось одобрить верификацию");
+    }
+  };
+
+  const rejectVerification = async (userId) => {
+    try {
+      await api.put(`/admin/verification/${userId}/reject`);
+      toast.success("Верификация отклонена");
+      fetchVerificationRequests();
+      fetchData();
+    } catch (error) {
+      toast.error("Не удалось отклонить верификацию");
+    }
+  };
+
+  const grantVerification = async (userId) => {
+    try {
+      await api.put(`/admin/verification/${userId}/grant`);
+      toast.success("Верификация выдана");
+      fetchData();
+    } catch (error) {
+      toast.error(error.response?.data?.detail || "Не удалось выдать верификацию");
+    }
+  };
+
+  const revokeVerification = async (userId) => {
+    try {
+      await api.put(`/admin/verification/${userId}/revoke`);
+      toast.success("Верификация отозвана");
+      fetchData();
+    } catch (error) {
+      toast.error("Не удалось отозвать верификацию");
     }
   };
 
