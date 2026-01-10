@@ -117,6 +117,9 @@ function App() {
           <Route path="/analytics" element={
             <ProtectedRoute><GlobalAnalytics /></ProtectedRoute>
           } />
+          <Route path="/settings" element={
+            <ProtectedRoute><Settings /></ProtectedRoute>
+          } />
           <Route path="/page/new" element={
             <ProtectedRoute><PageBuilder /></ProtectedRoute>
           } />
