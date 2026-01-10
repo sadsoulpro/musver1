@@ -218,6 +218,14 @@ export default function AdminPanel() {
             <Settings className="w-5 h-5" />
             Настройки
           </Link>
+          
+          <Link 
+            to="/verification" 
+            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <BadgeCheck className="w-5 h-5" />
+            Верификация
+          </Link>
         </nav>
         
         <div className="pt-6 border-t border-white/5">
