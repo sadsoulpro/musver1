@@ -272,88 +272,74 @@ export default function PublicPage() {
       <AnimatePresence>
         {showNavigation && (
           <>
-            {/* Previous Page Arrow */}
-            {currentPageIndex > 0 && (
-              <motion.button
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                onClick={goToPreviousPage}
-                className="fixed left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 group"
-                aria-label="Previous page"
-              >
-                <div className="relative">
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  {/* Button */}
-                  <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-zinc-900/80 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
-                    <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 group-hover:text-primary transition-colors" />
-                  </div>
-                </div>
-                {/* Preview tooltip */}
-                <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                  <div className="bg-zinc-900/90 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 whitespace-nowrap">
-                    <p className="text-xs text-muted-foreground">Предыдущий</p>
-                    <p className="text-sm font-medium truncate max-w-[120px]">
-                      {userPages[currentPageIndex - 1]?.release_title}
-                    </p>
-                  </div>
-                </div>
-              </motion.button>
-            )}
-            
-            {/* Next Page Arrow */}
-            {currentPageIndex < userPages.length - 1 && (
-              <motion.button
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                onClick={goToNextPage}
-                className="fixed right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 group"
-                aria-label="Next page"
-              >
-                <div className="relative">
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  {/* Button */}
-                  <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-zinc-900/80 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
-                    <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 group-hover:text-primary transition-colors" />
-                  </div>
-                </div>
-                {/* Preview tooltip */}
-                <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                  <div className="bg-zinc-900/90 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 whitespace-nowrap text-right">
-                    <p className="text-xs text-muted-foreground">Следующий</p>
-                    <p className="text-sm font-medium truncate max-w-[120px]">
-                      {userPages[currentPageIndex + 1]?.release_title}
-                    </p>
-                  </div>
-                </div>
-              </motion.button>
-            )}
-            
-            {/* Page indicator dots */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 sm:gap-2"
+            {/* Previous Page Arrow - always visible with infinite scroll */}
+            <motion.button
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              onClick={goToPreviousPage}
+              className="fixed left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 group"
+              aria-label="Previous page"
             >
-              {userPages.map((p, idx) => (
-                <button
-                  key={p.id}
-                  onClick={() => navigate(`/${p.slug}`)}
-                  className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all ${
-                    idx === currentPageIndex 
-                      ? 'bg-primary w-6 sm:w-8' 
-                      : 'bg-white/30 hover:bg-white/50'
-                  }`}
-                  aria-label={`Go to ${p.release_title}`}
-                />
-              ))}
-            </motion.div>
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-zinc-900/80 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
+                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 group-hover:text-primary transition-colors" />
+                </div>
+              </div>
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden sm:block">
+                <div className="bg-zinc-900/90 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 whitespace-nowrap">
+                  <p className="text-xs text-muted-foreground">Предыдущий</p>
+                  <p className="text-sm font-medium truncate max-w-[120px]">
+                    {userPages[(currentPageIndex <= 0 ? userPages.length : currentPageIndex) - 1]?.release_title}
+                  </p>
+                </div>
+              </div>
+            </motion.button>
+            
+            {/* Next Page Arrow - always visible with infinite scroll */}
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              onClick={goToNextPage}
+              className="fixed right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 group"
+              aria-label="Next page"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-zinc-900/80 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 group-hover:text-primary transition-colors" />
+                </div>
+              </div>
+              <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden sm:block">
+                <div className="bg-zinc-900/90 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 whitespace-nowrap text-right">
+                  <p className="text-xs text-muted-foreground">Следующий</p>
+                  <p className="text-sm font-medium truncate max-w-[120px]">
+                    {userPages[(currentPageIndex >= userPages.length - 1 ? -1 : currentPageIndex) + 1]?.release_title}
+                  </p>
+                </div>
+              </div>
+            </motion.button>
           </>
         )}
       </AnimatePresence>
+      
+      {/* Back Button - always visible */}
+      <motion.button
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        onClick={goBack}
+        className="fixed top-4 left-4 z-20 group"
+        aria-label="Go back"
+      >
+        <div className="relative">
+          <div className="absolute inset-0 bg-white/10 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-zinc-900/60 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-white/30 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white transition-colors" />
+          </div>
+        </div>
+      </motion.button>
       
       {/* Content */}
       <motion.div 
