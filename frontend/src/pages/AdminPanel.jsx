@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { 
   Users, FileText, Shield, Ban, Check, Eye, ExternalLink,
   Globe, MapPin, MousePointer, Share2, QrCode, Cpu, 
-  HardDrive, Activity, TrendingUp, Server,
+  HardDrive, Activity, TrendingUp, Server, Music,
   BadgeCheck, X, Award
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
