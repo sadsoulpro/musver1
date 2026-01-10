@@ -120,7 +120,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           
           {/* Protected Routes */}
-          <Route path="/dashboard" element={
+          <Route path="/multilinks" element={
             <ProtectedRoute><Dashboard /></ProtectedRoute>
           } />
           <Route path="/analytics" element={
