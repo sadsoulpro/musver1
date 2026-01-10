@@ -279,6 +279,7 @@ export default function PageBuilder() {
         "deezer.com", "deezer.page.link",
         "tidal.com", "listen.tidal.com",
         "soundcloud.com",
+        "amazon.com/music", "music.amazon",
         "song.link", "album.link", "odesli.co"
       ];
       
@@ -330,11 +331,13 @@ export default function PageBuilder() {
       // Also add the source URL if it matches a platform we support
       const sourcePlatformMap = {
         "spotify": sourceUrl.includes("spotify.com"),
-        "apple": sourceUrl.includes("music.apple.com") || sourceUrl.includes("itunes.apple.com"),
+        "apple": sourceUrl.includes("music.apple.com"),
+        "itunes": sourceUrl.includes("itunes.apple.com"),
         "youtube": sourceUrl.includes("youtube.com") || sourceUrl.includes("youtu.be"),
         "soundcloud": sourceUrl.includes("soundcloud.com"),
         "tidal": sourceUrl.includes("tidal.com"),
         "deezer": sourceUrl.includes("deezer.com") || sourceUrl.includes("deezer.page.link"),
+        "amazon": sourceUrl.includes("amazon.com/music") || sourceUrl.includes("music.amazon"),
       };
 
       for (const [platform, matches] of Object.entries(sourcePlatformMap)) {
@@ -353,6 +356,18 @@ export default function PageBuilder() {
         return;
       }
 
+      // Sort detected links according to PLATFORM_ORDER
+      detectedLinks.sort((a, b) => {
+        const orderA = PLATFORM_ORDER.indexOf(a.platform);
+        const orderB = PLATFORM_ORDER.indexOf(b.platform);
+        const posA = orderA === -1 ? 999 : orderA;
+        const posB = orderB === -1 ? 999 : orderB;
+        return posA - posB;
+      });
+
+      // Collect all new links first
+      const newLinks = [];
+      
       // Add detected links
       for (const linkData of detectedLinks) {
         if (isEditing) {
@@ -362,28 +377,51 @@ export default function PageBuilder() {
               url: linkData.url,
               active: true
             });
-            setLinks(prev => [...prev, response.data]);
+            newLinks.push(response.data);
             linksAdded++;
           } catch (error) {
             console.error(`Failed to add ${linkData.platform} link`);
           }
         } else {
-          setLinks(prev => [...prev, {
+          newLinks.push({
             id: Date.now().toString() + linkData.platform,
             platform: linkData.platform,
             url: linkData.url,
             active: true,
             clicks: 0
-          }]);
+          });
           linksAdded++;
         }
       }
 
-      const platformNames = detectedLinks.map(l => 
+      // Combine existing links with new links and sort all by PLATFORM_ORDER
+      const allLinks = [...links, ...newLinks];
+      allLinks.sort((a, b) => {
+        const orderA = PLATFORM_ORDER.indexOf(a.platform);
+        const orderB = PLATFORM_ORDER.indexOf(b.platform);
+        const posA = orderA === -1 ? 999 : orderA;
+        const posB = orderB === -1 ? 999 : orderB;
+        return posA - posB;
+      });
+      
+      setLinks(allLinks);
+
+      // If editing, update the order on backend
+      if (isEditing && allLinks.length > 0) {
+        try {
+          const linkIds = allLinks.map(l => l.id);
+          await api.put(`/pages/${pageId}/links/reorder`, { link_ids: linkIds });
+        } catch (error) {
+          console.error("Failed to reorder links");
+        }
+      }
+
+      const platformNames = detectedLinks.slice(0, 5).map(l => 
         PLATFORMS.find(p => p.id === l.platform)?.name || l.platform
       ).join(", ");
       
-      toast.success(`Добавлено ${linksAdded} ссылок: ${platformNames}`);
+      const moreCount = detectedLinks.length > 5 ? ` и ещё ${detectedLinks.length - 5}` : "";
+      toast.success(`Добавлено ${linksAdded} ссылок: ${platformNames}${moreCount}`);
       setScanInput("");
     } catch (error) {
       console.error("Scan error:", error);
