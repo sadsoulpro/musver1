@@ -525,10 +525,10 @@ export default function PageBuilder() {
         <div className="space-y-8">
           {/* Basic Info */}
           <section>
-            <h2 className="text-lg font-semibold mb-4">Основная информация</h2>
-            <div className="space-y-4">
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Основная информация</h2>
+            <div className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="title">Название страницы</Label>
+                <Label htmlFor="title" className="text-sm">Название страницы</Label>
                 <Input
                   id="title"
                   name="title"
@@ -537,12 +537,12 @@ export default function PageBuilder() {
                   onChange={handleChange}
                   required
                   data-testid="page-title-input"
-                  className="h-12 bg-zinc-900 border-zinc-800"
+                  className="h-10 sm:h-12 bg-zinc-900 border-zinc-800"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="slug">URL-адрес</Label>
+                <Label htmlFor="slug" className="text-sm">URL-адрес</Label>
                 <div className="flex items-center">
                   <span className="text-muted-foreground text-sm mr-2">/</span>
                   <Input
@@ -553,14 +553,14 @@ export default function PageBuilder() {
                     onChange={handleChange}
                     required
                     data-testid="page-slug-input"
-                    className="h-12 bg-zinc-900 border-zinc-800"
+                    className="h-10 sm:h-12 bg-zinc-900 border-zinc-800"
                   />
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="artist_name">Имя артиста</Label>
+                  <Label htmlFor="artist_name" className="text-sm">Имя артиста</Label>
                   <Input
                     id="artist_name"
                     name="artist_name"
@@ -569,11 +569,11 @@ export default function PageBuilder() {
                     onChange={handleChange}
                     required
                     data-testid="artist-name-input"
-                    className="h-12 bg-zinc-900 border-zinc-800"
+                    className="h-10 sm:h-12 bg-zinc-900 border-zinc-800"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="release_title">Название релиза</Label>
+                  <Label htmlFor="release_title" className="text-sm">Название релиза</Label>
                   <Input
                     id="release_title"
                     name="release_title"
@@ -582,13 +582,13 @@ export default function PageBuilder() {
                     onChange={handleChange}
                     required
                     data-testid="release-title-input"
-                    className="h-12 bg-zinc-900 border-zinc-800"
+                    className="h-10 sm:h-12 bg-zinc-900 border-zinc-800"
                   />
                 </div>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="description">Описание (необязательно)</Label>
+                <Label htmlFor="description" className="text-sm">Описание (необязательно)</Label>
                 <Textarea
                   id="description"
                   name="description"
@@ -596,7 +596,7 @@ export default function PageBuilder() {
                   value={formData.description}
                   onChange={handleChange}
                   data-testid="description-input"
-                  className="bg-zinc-900 border-zinc-800 min-h-[100px]"
+                  className="bg-zinc-900 border-zinc-800 min-h-[80px] sm:min-h-[100px]"
                 />
               </div>
             </div>
