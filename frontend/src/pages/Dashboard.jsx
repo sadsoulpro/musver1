@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { api, useAuth } from "@/App";
 import { toast } from "sonner";
 import { 
   Music, Plus, Eye, MousePointer, ExternalLink, 
-  MoreVertical, Trash2, Edit, BarChart3, Copy
+  MoreVertical, Trash2, Edit, BarChart3, Copy, Globe
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -19,11 +20,17 @@ import Sidebar from "@/components/Sidebar";
 export default function Dashboard() {
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useAuth();
+  const [siteMode, setSiteMode] = useState(false);
+  const [siteModeLoading, setSiteModeLoading] = useState(false);
+  const { user, refreshUser } = useAuth();
 
   useEffect(() => {
     fetchPages();
-  }, []);
+    // Initialize site mode from user settings
+    if (user?.site_navigation_enabled) {
+      setSiteMode(true);
+    }
+  }, [user]);
 
   const fetchPages = async () => {
     try {
@@ -52,6 +59,20 @@ export default function Dashboard() {
     const url = `${window.location.origin}/${slug}`;
     navigator.clipboard.writeText(url);
     toast.success("Ссылка скопирована");
+  };
+
+  const toggleSiteMode = async () => {
+    setSiteModeLoading(true);
+    try {
+      const response = await api.put("/settings/site-navigation", { enabled: !siteMode });
+      setSiteMode(response.data.enabled);
+      if (refreshUser) await refreshUser();
+      toast.success(response.data.enabled ? "Режим сайта включён" : "Режим сайта выключен");
+    } catch (error) {
+      toast.error("Не удалось изменить настройку");
+    } finally {
+      setSiteModeLoading(false);
+    }
   };
 
   const totalViews = pages.reduce((sum, p) => sum + (p.views || 0), 0);
