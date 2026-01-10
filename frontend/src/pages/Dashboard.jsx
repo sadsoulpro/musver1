@@ -5,8 +5,7 @@ import { api, useAuth } from "@/App";
 import { toast } from "sonner";
 import { 
   Music, Plus, Eye, MousePointer, ExternalLink, 
-  MoreVertical, Trash2, Edit, BarChart3, LogOut,
-  Settings, Copy, Shield, BadgeCheck
+  MoreVertical, Trash2, Edit, BarChart3, Copy
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -15,12 +14,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { motion } from "framer-motion";
+import Sidebar from "@/components/Sidebar";
 
 export default function Dashboard() {
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchPages();
@@ -55,117 +54,12 @@ export default function Dashboard() {
     toast.success("Ссылка скопирована");
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
   const totalViews = pages.reduce((sum, p) => sum + (p.views || 0), 0);
   const totalClicks = pages.reduce((sum, p) => sum + (p.total_clicks || 0), 0);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-zinc-900/50 border-r border-white/5 p-6 hidden lg:flex flex-col">
-        <div className="flex items-center gap-2 mb-10">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-            <Music className="w-5 h-5 text-white" />
-          </div>
-          <Link to="/multilinks"><span className="font-display text-xl">MYTRACK</span></Link>
-        </div>
-        
-        <nav className="flex-1 space-y-2">
-          <Link 
-            to="/multilinks" 
-            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 text-foreground"
-            data-testid="nav-multilinks"
-          >
-            <BarChart3 className="w-5 h-5" />
-            Мультиссылки
-          </Link>
-          
-          <Link 
-            to="/analytics" 
-            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
-            data-testid="nav-analytics"
-          >
-            <Eye className="w-5 h-5" />
-            Аналитика
-          </Link>
-          
-          {user?.role === "admin" && (
-            <Link 
-              to="/admin" 
-              className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
-              data-testid="nav-admin"
-            >
-              <Shield className="w-5 h-5" />
-              Админ-панель
-            </Link>
-          )}
-          
-          <Link 
-            to="/settings" 
-            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
-            data-testid="nav-settings"
-          >
-            <Settings className="w-5 h-5" />
-            Настройки
-          </Link>
-          
-          <Link 
-            to="/verification" 
-            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <BadgeCheck className="w-5 h-5" />
-            Верификация
-          </Link>
-        </nav>
-        
-        <div className="pt-6 border-t border-white/5">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
-              <span className="text-primary font-semibold">
-                {user?.username?.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1">
-                <p className="font-medium truncate">{user?.username}</p>
-                {user?.verified && user?.show_verification_badge !== false && (
-                  <BadgeCheck className="w-4 h-4 text-primary flex-shrink-0" />
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
-            </div>
-          </div>
-          <Button 
-            variant="ghost" 
-            className="w-full justify-start text-muted-foreground hover:text-foreground"
-            onClick={handleLogout}
-            data-testid="logout-btn"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Выйти
-          </Button>
-        </div>
-      </aside>
-      
-      {/* Main Content */}
-      <main className="lg:ml-64 p-4 sm:p-6 lg:p-10">
-        {/* Mobile Header */}
-        <div className="flex items-center justify-between mb-6 sm:mb-8 lg:hidden">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Music className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-display text-lg">MYTRACK</span>
-          </div>
-          <Button variant="ghost" size="icon" onClick={handleLogout}>
-            <LogOut className="w-5 h-5" />
-          </Button>
-        </div>
-        
+    <Sidebar>
+      <div className="p-4 sm:p-6 lg:p-10">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-10">
           <div>
@@ -365,7 +259,7 @@ export default function Dashboard() {
             </div>
           )}
         </div>
-      </main>
-    </div>
+      </div>
+    </Sidebar>
   );
 }
