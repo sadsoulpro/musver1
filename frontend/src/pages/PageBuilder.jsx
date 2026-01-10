@@ -489,38 +489,38 @@ export default function PageBuilder() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             <Link to="/multilinks">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="flex-shrink-0">
                 <ArrowLeft className="w-5 h-5" />
               </Button>
             </Link>
-            <h1 className="font-semibold">{isEditing ? "Редактирование страницы" : "Создание новой страницы"}</h1>
+            <h1 className="font-semibold text-sm sm:text-base truncate">{isEditing ? "Редактирование" : "Новая страница"}</h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {isEditing && formData.slug && (
-              <a href={`/${formData.slug}`} target="_blank" rel="noopener noreferrer">
+              <a href={`/${formData.slug}`} target="_blank" rel="noopener noreferrer" className="hidden sm:block">
                 <Button variant="outline" className="rounded-full" data-testid="view-public-page-btn">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Открыть страницу
+                  <ExternalLink className="w-4 h-4 sm:mr-2" />
+                  <span className="hidden md:inline">Открыть страницу</span>
                 </Button>
               </a>
             )}
             <Button 
               onClick={handleSubmit}
               disabled={saving}
-              className="bg-primary hover:bg-primary/90 rounded-full"
+              className="bg-primary hover:bg-primary/90 rounded-full text-sm"
               data-testid="save-page-btn"
             >
-              <Save className="w-4 h-4 mr-2" />
-              {saving ? "Сохранение..." : "Сохранить"}
+              <Save className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">{saving ? "Сохранение..." : "Сохранить"}</span>
             </Button>
           </div>
         </div>
       </header>
       
-      <div className="max-w-7xl mx-auto p-6 grid lg:grid-cols-2 gap-10">
+      <div className="max-w-7xl mx-auto p-4 sm:p-6 grid lg:grid-cols-2 gap-6 lg:gap-10">
         {/* Form */}
         <div className="space-y-8">
           {/* Basic Info */}
