@@ -99,6 +99,15 @@ function App() {
     setUser(null);
   };
 
+  const refreshUser = async () => {
+    try {
+      const response = await api.get("/auth/me");
+      setUser(response.data);
+    } catch (error) {
+      console.error("Failed to refresh user");
+    }
+  };
+
   return (
     <AuthContext.Provider value={{ user, login, register, logout, loading }}>
       <BrowserRouter>
