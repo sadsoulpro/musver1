@@ -15,6 +15,7 @@ import PublicPage from "@/pages/PublicPage";
 import Analytics from "@/pages/Analytics";
 import GlobalAnalytics from "@/pages/GlobalAnalytics";
 import AdminPanel from "@/pages/AdminPanel";
+import Settings from "@/pages/Settings";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
