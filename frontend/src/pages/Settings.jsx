@@ -124,21 +124,6 @@ export default function Settings() {
     }
   };
 
-  const toggleBadge = async () => {
-    setBadgeLoading(true);
-    try {
-      const response = await api.put("/settings/verification-badge");
-      toast.success(response.data.show_badge ? "Галочка включена" : "Галочка отключена");
-      if (refreshUser) {
-        await refreshUser();
-      }
-    } catch (error) {
-      toast.error("Не удалось изменить настройку");
-    } finally {
-      setBadgeLoading(false);
-    }
-  };
-
   const handleLogout = () => {
     logout();
     navigate("/");
