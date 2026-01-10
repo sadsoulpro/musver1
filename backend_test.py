@@ -471,6 +471,9 @@ def main():
         ("User Login", tester.test_auth_login_user),
         ("Get Current User", tester.test_auth_me),
         
+        # API Integration tests (high priority)
+        ("Odesli API Integration", tester.test_odesli_integration),
+        
         # Page management tests
         ("Create Page", tester.test_create_page),
         ("Get User Pages", tester.test_get_pages),
