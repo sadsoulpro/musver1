@@ -1,0 +1,213 @@
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/App";
+import { 
+  Music, BarChart3, Eye, Shield, Settings, LogOut, 
+  BadgeCheck, Menu, X
+} from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+
+const navItems = [
+  { path: "/multilinks", label: "Мультиссылки", icon: BarChart3 },
+  { path: "/analytics", label: "Аналитика", icon: Eye },
+  { path: "/settings", label: "Настройки", icon: Settings },
+  { path: "/verification", label: "Верификация", icon: BadgeCheck },
+];
+
+const adminItems = [
+  { path: "/admin", label: "Админ-панель", icon: Shield },
+];
+
+// Reusable navigation content
+function NavContent({ currentPath, user, onLogout, onNavigate }) {
+  const allItems = user?.role === "admin" 
+    ? [...navItems.slice(0, 2), ...adminItems, ...navItems.slice(2)]
+    : navItems;
+
+  return (
+    <>
+      <nav className="flex-1 space-y-2">
+        {allItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = currentPath === item.path || 
+            (item.path === "/multilinks" && currentPath === "/multilinks") ||
+            (item.path === "/analytics" && currentPath.startsWith("/analytics"));
+          
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+                isActive
+                  ? "bg-white/5 text-foreground"
+                  : "hover:bg-white/5 text-muted-foreground hover:text-foreground"
+              }`}
+              data-testid={`nav-${item.path.replace("/", "")}`}
+            >
+              <Icon className="w-5 h-5" />
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+      
+      <div className="pt-6 border-t border-white/5">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+            <span className="text-primary font-semibold">
+              {user?.username?.charAt(0).toUpperCase()}
+            </span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1">
+              <p className="font-medium truncate">{user?.username}</p>
+              {user?.verified && user?.show_verification_badge !== false && (
+                <BadgeCheck className="w-4 h-4 text-primary flex-shrink-0" />
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+          </div>
+        </div>
+        <Button 
+          variant="ghost" 
+          className="w-full justify-start text-muted-foreground hover:text-foreground"
+          onClick={onLogout}
+          data-testid="logout-btn"
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Выйти
+        </Button>
+      </div>
+    </>
+  );
+}
+
+// Mobile menu component
+function MobileMenu({ user, onLogout }) {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  
+  const handleNavigate = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="lg:hidden"
+          data-testid="mobile-menu-btn"
+        >
+          <Menu className="w-5 h-5" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent 
+        side="left" 
+        className="w-72 bg-zinc-900 border-white/5 p-0"
+      >
+        <div className="flex flex-col h-full p-6">
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-10">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+              <Music className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-display text-xl">MYTRACK</span>
+          </div>
+          
+          {/* Nav Content */}
+          <NavContent 
+            currentPath={location.pathname}
+            user={user}
+            onLogout={() => {
+              setOpen(false);
+              onLogout();
+            }}
+            onNavigate={handleNavigate}
+          />
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+// Desktop Sidebar component
+function DesktopSidebar({ user, onLogout }) {
+  const location = useLocation();
+  
+  return (
+    <aside className="fixed left-0 top-0 h-full w-64 bg-zinc-900/50 border-r border-white/5 p-6 hidden lg:flex flex-col z-40">
+      {/* Logo */}
+      <div className="flex items-center gap-2 mb-10">
+        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+          <Music className="w-5 h-5 text-white" />
+        </div>
+        <Link to="/multilinks">
+          <span className="font-display text-xl">MYTRACK</span>
+        </Link>
+      </div>
+      
+      {/* Nav Content */}
+      <NavContent 
+        currentPath={location.pathname}
+        user={user}
+        onLogout={onLogout}
+        onNavigate={() => {}}
+      />
+    </aside>
+  );
+}
+
+// Mobile Header component
+function MobileHeader({ user, onLogout }) {
+  return (
+    <div className="flex items-center justify-between p-4 lg:hidden sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/5">
+      <div className="flex items-center gap-3">
+        <MobileMenu user={user} onLogout={onLogout} />
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <Music className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-display text-lg">MYTRACK</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main Sidebar component that exports all pieces
+export default function Sidebar({ children }) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Desktop Sidebar */}
+      <DesktopSidebar user={user} onLogout={handleLogout} />
+      
+      {/* Mobile Header */}
+      <MobileHeader user={user} onLogout={handleLogout} />
+      
+      {/* Main Content */}
+      <main className="lg:ml-64">
+        {children}
+      </main>
+    </div>
+  );
+}
+
+// Export individual components for flexibility
+export { MobileMenu, MobileHeader, DesktopSidebar, NavContent };
