@@ -227,6 +227,9 @@ async def login(data: UserLogin):
             "role": user["role"],
             "status": user["status"],
             "plan": user["plan"],
+            "verified": user.get("verified", False),
+            "verification_status": user.get("verification_status", "none"),
+            "show_verification_badge": user.get("show_verification_badge", True),
             "created_at": user["created_at"]
         }
     }
