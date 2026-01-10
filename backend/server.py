@@ -842,6 +842,194 @@ async def admin_disable_page(page_id: str, admin_user: dict = Depends(get_admin_
     
     return {"message": f"Page {new_status}", "status": new_status}
 
+# Admin global analytics - all users
+@api_router.get("/admin/analytics/global")
+async def admin_global_analytics(admin_user: dict = Depends(get_admin_user)):
+    """Global analytics for all users - admin only"""
+    
+    # Get all pages
+    pages = await db.pages.find({}, {"_id": 0}).to_list(10000)
+    page_ids = [p["id"] for p in pages]
+    
+    # Get all links
+    links = await db.links.find({}, {"_id": 0}).to_list(10000)
+    
+    # Calculate totals
+    total_views = sum(p.get("views", 0) for p in pages)
+    total_clicks = sum(l.get("clicks", 0) for l in links)
+    total_shares = sum(p.get("shares", 0) for p in pages)
+    total_qr_scans = sum(p.get("qr_scans", 0) for p in pages)
+    
+    # Get clicks by country
+    by_country = []
+    if page_ids:
+        clicks_cursor = db.clicks.aggregate([
+            {"$group": {"_id": "$country", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 10}
+        ])
+        async for doc in clicks_cursor:
+            by_country.append({"country": doc["_id"] or "Unknown", "clicks": doc["count"]})
+    
+    # Get clicks by city
+    by_city = []
+    if page_ids:
+        city_cursor = db.clicks.aggregate([
+            {"$group": {"_id": "$city", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 10}
+        ])
+        async for doc in city_cursor:
+            by_city.append({"city": doc["_id"] or "Unknown", "clicks": doc["count"]})
+    
+    # Timeline (last 30 days)
+    timeline = []
+    thirty_days_ago = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
+    
+    timeline_cursor = db.clicks.aggregate([
+        {"$match": {"timestamp": {"$gte": thirty_days_ago}}},
+        {"$addFields": {"date": {"$substr": ["$timestamp", 0, 10]}}},
+        {"$group": {"_id": "$date", "clicks": {"$sum": 1}}},
+        {"$sort": {"_id": 1}}
+    ])
+    async for doc in timeline_cursor:
+        timeline.append({"date": doc["_id"], "clicks": doc["clicks"]})
+    
+    # Shares timeline
+    shares_cursor = db.shares.aggregate([
+        {"$match": {"timestamp": {"$gte": thirty_days_ago}}},
+        {"$addFields": {"date": {"$substr": ["$timestamp", 0, 10]}}},
+        {"$group": {"_id": "$date", "shares": {"$sum": 1}}},
+        {"$sort": {"_id": 1}}
+    ])
+    shares_timeline = {}
+    async for doc in shares_cursor:
+        shares_timeline[doc["_id"]] = doc["shares"]
+    
+    for item in timeline:
+        item["shares"] = shares_timeline.get(item["date"], 0)
+    
+    # Top pages by views
+    top_pages = sorted(pages, key=lambda x: x.get("views", 0), reverse=True)[:10]
+    top_pages_data = []
+    for p in top_pages:
+        page_links = [l for l in links if l["page_id"] == p["id"]]
+        page_clicks = sum(l.get("clicks", 0) for l in page_links)
+        user = await db.users.find_one({"id": p["user_id"]}, {"_id": 0, "username": 1})
+        top_pages_data.append({
+            "id": p["id"],
+            "title": p["title"],
+            "slug": p["slug"],
+            "views": p.get("views", 0),
+            "clicks": page_clicks,
+            "shares": p.get("shares", 0),
+            "username": user.get("username", "Unknown") if user else "Unknown"
+        })
+    
+    # Shares by type
+    shares_by_type = {}
+    type_cursor = db.shares.aggregate([
+        {"$group": {"_id": "$type", "count": {"$sum": 1}}}
+    ])
+    async for doc in type_cursor:
+        shares_by_type[doc["_id"] or "link"] = doc["count"]
+    
+    # Users count
+    users_count = await db.users.count_documents({})
+    
+    return {
+        "total_views": total_views,
+        "total_clicks": total_clicks,
+        "total_shares": total_shares,
+        "total_qr_scans": total_qr_scans,
+        "total_pages": len(pages),
+        "total_users": users_count,
+        "shares_by_type": shares_by_type,
+        "by_country": by_country,
+        "by_city": by_city,
+        "timeline": timeline,
+        "top_pages": top_pages_data
+    }
+
+# VPS Resource Monitoring - admin only
+@api_router.get("/admin/system/metrics")
+async def admin_system_metrics(admin_user: dict = Depends(get_admin_user)):
+    """Get VPS system metrics - admin only"""
+    import psutil
+    
+    # CPU usage
+    cpu_percent = psutil.cpu_percent(interval=0.5)
+    cpu_count = psutil.cpu_count()
+    
+    # Memory usage
+    memory = psutil.virtual_memory()
+    memory_total = memory.total / (1024 ** 3)  # GB
+    memory_used = memory.used / (1024 ** 3)  # GB
+    memory_percent = memory.percent
+    
+    # Disk usage
+    disk = psutil.disk_usage('/')
+    disk_total = disk.total / (1024 ** 3)  # GB
+    disk_used = disk.used / (1024 ** 3)  # GB
+    disk_percent = disk.percent
+    
+    # Network I/O
+    net_io = psutil.net_io_counters()
+    bytes_sent = net_io.bytes_sent / (1024 ** 2)  # MB
+    bytes_recv = net_io.bytes_recv / (1024 ** 2)  # MB
+    
+    # Uptime
+    boot_time = datetime.fromtimestamp(psutil.boot_time())
+    uptime = datetime.now() - boot_time
+    uptime_str = f"{uptime.days}д {uptime.seconds // 3600}ч {(uptime.seconds % 3600) // 60}м"
+    
+    # Load average (Linux only)
+    try:
+        load_avg = psutil.getloadavg()
+        load_1, load_5, load_15 = load_avg
+    except:
+        load_1, load_5, load_15 = 0, 0, 0
+    
+    return {
+        "cpu": {
+            "percent": cpu_percent,
+            "count": cpu_count,
+            "load_1m": round(load_1, 2),
+            "load_5m": round(load_5, 2),
+            "load_15m": round(load_15, 2)
+        },
+        "memory": {
+            "total_gb": round(memory_total, 2),
+            "used_gb": round(memory_used, 2),
+            "percent": memory_percent
+        },
+        "disk": {
+            "total_gb": round(disk_total, 2),
+            "used_gb": round(disk_used, 2),
+            "percent": disk_percent
+        },
+        "network": {
+            "sent_mb": round(bytes_sent, 2),
+            "recv_mb": round(bytes_recv, 2)
+        },
+        "uptime": uptime_str,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
+
+# VPS Metrics History - store and retrieve historical data
+@api_router.get("/admin/system/metrics/history")
+async def admin_system_metrics_history(admin_user: dict = Depends(get_admin_user), hours: int = 24):
+    """Get historical VPS metrics - admin only"""
+    
+    since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
+    
+    metrics = await db.system_metrics.find(
+        {"timestamp": {"$gte": since}},
+        {"_id": 0}
+    ).sort("timestamp", 1).to_list(1000)
+    
+    return metrics
+
 # ===================== METADATA LOOKUP =====================
 
 @api_router.get("/lookup/itunes")
