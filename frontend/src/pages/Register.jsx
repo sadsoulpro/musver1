@@ -29,7 +29,7 @@ export default function Register() {
     try {
       await register(email, username, password);
       toast.success("Аккаунт создан! Добро пожаловать в MyTrack!");
-      navigate("/dashboard");
+      navigate("/multilinks");
     } catch (error) {
       toast.error(error.response?.data?.detail || "Ошибка регистрации");
     } finally {
