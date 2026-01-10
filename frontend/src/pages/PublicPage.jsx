@@ -1,24 +1,41 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Music, ExternalLink } from "lucide-react";
-import { FaSpotify, FaApple, FaYoutube, FaSoundcloud, FaLink, FaYandex, FaVk } from "react-icons/fa";
-import { SiTidal } from "react-icons/si";
+import { FaSpotify, FaApple, FaYoutube, FaSoundcloud, FaLink, FaYandex, FaVk, FaAmazon, FaItunes } from "react-icons/fa";
+import { SiTidal, SiDeezer } from "react-icons/si";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { QRCodeSVG } from "qrcode.react";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
+// Custom SVG icons for platforms without react-icons support
+const ZvukIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+  </svg>
+);
+
+const MtsIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18l6.9 3.45L12 11.08 5.1 7.63 12 4.18zM4 8.82l7 3.5v7.36l-7-3.5V8.82zm9 10.86v-7.36l7-3.5v7.36l-7 3.5z"/>
+  </svg>
+);
+
 const PLATFORMS = {
-  spotify: { name: "Spotify", icon: FaSpotify, color: "#1DB954", bgClass: "platform-spotify" },
-  apple: { name: "Apple Music", icon: FaApple, color: "#FA233B", bgClass: "platform-apple" },
+  yandex: { name: "Яндекс Музыка", icon: FaYandex, color: "#FFCC00", bgClass: "platform-yandex" },
   youtube: { name: "YouTube", icon: FaYoutube, color: "#FF0000", bgClass: "platform-youtube" },
-  soundcloud: { name: "SoundCloud", icon: FaSoundcloud, color: "#FF5500", bgClass: "platform-soundcloud" },
+  apple: { name: "Apple Music", icon: FaApple, color: "#FA233B", bgClass: "platform-apple" },
+  itunes: { name: "iTunes", icon: FaItunes, color: "#EA4CC0", bgClass: "platform-itunes" },
+  spotify: { name: "Spotify", icon: FaSpotify, color: "#1DB954", bgClass: "platform-spotify" },
+  vk: { name: "VK Музыка", icon: FaVk, color: "#4C75A3", bgClass: "platform-vk" },
+  deezer: { name: "Deezer", icon: SiDeezer, color: "#00C7F2", bgClass: "platform-deezer" },
+  zvuk: { name: "Звук", icon: ZvukIcon, color: "#6B4EFF", bgClass: "platform-zvuk" },
+  mts: { name: "МТС Музыка", icon: MtsIcon, color: "#E30611", bgClass: "platform-mts" },
+  amazon: { name: "Amazon Music", icon: FaAmazon, color: "#FF9900", bgClass: "platform-amazon" },
   tidal: { name: "Tidal", icon: SiTidal, color: "#000000", bgClass: "platform-tidal" },
-  deezer: { name: "Deezer", icon: FaLink, color: "#00C7F2", bgClass: "platform-deezer" },
-  yandex: { name: "Yandex Music", icon: FaYandex, color: "#FF0000", bgClass: "platform-yandex" },
-  vk: { name: "VK Music", icon: FaVk, color: "#4C75A3", bgClass: "platform-vk" },
-  custom: { name: "Listen Now", icon: FaLink, color: "#888888", bgClass: "" },
+  soundcloud: { name: "SoundCloud", icon: FaSoundcloud, color: "#FF5500", bgClass: "platform-soundcloud" },
+  custom: { name: "Слушать", icon: FaLink, color: "#888888", bgClass: "" },
 };
 
 export default function PublicPage() {
