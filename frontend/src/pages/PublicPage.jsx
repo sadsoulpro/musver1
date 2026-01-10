@@ -303,6 +303,41 @@ export default function PublicPage() {
             )}
           </div>
           
+          {/* Share Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex gap-3 mt-6 justify-center"
+          >
+            <button
+              onClick={() => handleShare("link")}
+              className="flex items-center gap-2 px-4 py-2 bg-zinc-800/80 hover:bg-zinc-700 border border-white/10 rounded-lg text-sm transition-all"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="text-green-500">Скопировано!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4" />
+                  <span>Скопировать</span>
+                </>
+              )}
+            </button>
+            
+            {typeof navigator !== 'undefined' && navigator.share && (
+              <button
+                onClick={() => handleShare("social")}
+                className="flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 border border-primary/30 rounded-lg text-sm transition-all"
+              >
+                <Share2 className="w-4 h-4 text-primary" />
+                <span>Поделиться</span>
+              </button>
+            )}
+          </motion.div>
+          
           {/* QR Code - only show if enabled */}
           {page.qr_enabled !== false && (
             <motion.div
