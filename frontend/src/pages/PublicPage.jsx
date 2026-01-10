@@ -133,6 +133,30 @@ export default function PublicPage() {
     window.open(`${API}/click/${link.id}`, "_blank");
   };
 
+  const handleShare = async (type = "link") => {
+    // Track share
+    try {
+      await axios.post(`${API}/track/share/${page.id}?share_type=${type}`);
+    } catch (e) {
+      console.log("Share tracking failed");
+    }
+    
+    const url = `${window.location.origin}/${slug}`;
+    
+    if (type === "link") {
+      navigator.clipboard.writeText(url);
+    }
+  };
+
+  const handleQRShare = async () => {
+    // Track QR share
+    try {
+      await axios.post(`${API}/track/share/${page.id}?share_type=qr`);
+    } catch (e) {
+      console.log("QR tracking failed");
+    }
+  };
+
   const getPlatformInfo = (platformId) => {
     return PLATFORMS[platformId] || PLATFORMS.custom;
   };
