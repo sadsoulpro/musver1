@@ -721,6 +721,13 @@ async def get_public_page(slug: str):
     page["links"] = links
     page["views"] = page.get("views", 0) + 1
     
+    # Get user verification status
+    user = await db.users.find_one({"id": page["user_id"]}, {"_id": 0, "verified": 1, "show_verification_badge": 1})
+    if user:
+        page["user_verified"] = user.get("verified", False) and user.get("show_verification_badge", True)
+    else:
+        page["user_verified"] = False
+    
     return page
 
 @api_router.get("/click/{link_id}")
