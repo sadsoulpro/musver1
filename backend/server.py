@@ -446,6 +446,28 @@ async def delete_account(user: dict = Depends(get_current_user)):
     
     return {"message": "Аккаунт и все связанные данные удалены"}
 
+@api_router.put("/settings/site-navigation")
+async def toggle_site_navigation(data: dict, user: dict = Depends(get_current_user)):
+    """Toggle site navigation mode (shows arrows on public pages)"""
+    enabled = data.get("enabled", False)
+    
+    await db.users.update_one(
+        {"id": user["id"]},
+        {"$set": {"site_navigation_enabled": enabled}}
+    )
+    
+    return {"enabled": enabled, "message": "Настройка сохранена"}
+
+@api_router.get("/users/{user_id}/pages")
+async def get_user_pages_public(user_id: str):
+    """Get all active pages for a user (for site navigation)"""
+    pages = await db.pages.find(
+        {"user_id": user_id, "status": "active"},
+        {"id": 1, "slug": 1, "title": 1, "artist_name": 1, "release_title": 1, "cover_image": 1, "_id": 0}
+    ).sort("created_at", 1).to_list(100)
+    
+    return pages
+
 # ===================== VERIFICATION ROUTES =====================
 
 class VerificationRequest(BaseModel):
