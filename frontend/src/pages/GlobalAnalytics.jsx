@@ -5,7 +5,7 @@ import { api, useAuth } from "@/App";
 import { toast } from "sonner";
 import { 
   Music, Eye, MousePointer, TrendingUp, Share2, QrCode,
-  Globe, MapPin, BarChart3, Settings, LogOut, ArrowUpRight
+  Globe, MapPin, BarChart3, Settings, LogOut, ArrowUpRight, Shield
 } from "lucide-react";
 import { motion } from "framer-motion";
 import {
