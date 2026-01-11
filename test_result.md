@@ -173,7 +173,8 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "IP Geolocation for Analytics"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -183,3 +184,5 @@ agent_communication:
     message: "Implemented Odesli integration. Please test the /api/lookup/odesli endpoint with a Spotify or Apple Music URL to verify it returns correct platform links."
   - agent: "testing"
     message: "✅ COMPLETED - Odesli API integration testing successful. The /api/lookup/odesli endpoint is working correctly and returns platform links for all major music platforms. All backend tests passed except for 2 cleanup tests that failed due to user account being blocked during admin testing (expected behavior). Ready for main agent to summarize and finish."
+  - agent: "main"
+    message: "Added IP geolocation for analytics. Please test track_click, track_page_view endpoints to verify they now return real country/city based on IP address instead of 'Unknown'. The geolocation uses ip-api.com free service. Test by: 1) Creating a page with links, 2) Clicking links via /api/click/{link_id}, 3) Checking analytics at /api/analytics/global/summary to see if by_country and by_city arrays have real locations."
