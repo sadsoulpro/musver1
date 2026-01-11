@@ -1688,6 +1688,260 @@ async def admin_system_metrics_history(admin_user: dict = Depends(get_admin_user
     
     return metrics
 
+# ===================== RBAC MANAGEMENT API =====================
+
+# --- Plan Config Management (Owner/Admin only) ---
+
+@api_router.get("/admin/plan-configs")
+async def get_all_plan_configs(user: dict = Depends(get_admin_user)):
+    """Get all plan configurations"""
+    configs = await db.plan_configs.find({}, {"_id": 0}).to_list(100)
+    
+    # If no configs in DB, return defaults
+    if not configs:
+        return list(DEFAULT_PLAN_CONFIGS.values())
+    
+    return configs
+
+@api_router.get("/admin/plan-configs/{plan_name}")
+async def get_plan_config_by_name(plan_name: str, user: dict = Depends(get_admin_user)):
+    """Get specific plan configuration"""
+    config = await db.plan_configs.find_one({"plan_name": plan_name}, {"_id": 0})
+    if not config:
+        config = DEFAULT_PLAN_CONFIGS.get(plan_name)
+        if not config:
+            raise HTTPException(status_code=404, detail="Plan not found")
+    return config
+
+@api_router.put("/admin/plan-configs/{plan_name}")
+async def update_plan_config(plan_name: str, data: PlanConfigUpdate, user: dict = Depends(get_admin_user)):
+    """Update plan configuration - changes apply to all users on this plan"""
+    # Check if user has permission (owner or admin)
+    if not has_role_permission(user.get("role", "user"), "admin"):
+        raise HTTPException(status_code=403, detail="Требуется роль админа или владельца")
+    
+    update_data = {k: v for k, v in data.dict().items() if v is not None}
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No data to update")
+    
+    # Upsert the config
+    result = await db.plan_configs.update_one(
+        {"plan_name": plan_name},
+        {"$set": {**update_data, "plan_name": plan_name, "updated_at": datetime.now(timezone.utc).isoformat()}},
+        upsert=True
+    )
+    
+    config = await db.plan_configs.find_one({"plan_name": plan_name}, {"_id": 0})
+    logging.info(f"Plan config updated: {plan_name} by {user['email']}")
+    
+    return config
+
+@api_router.post("/admin/plan-configs")
+async def create_plan_config(data: PlanConfigCreate, user: dict = Depends(get_admin_user)):
+    """Create new plan configuration"""
+    if not has_role_permission(user.get("role", "user"), "admin"):
+        raise HTTPException(status_code=403, detail="Требуется роль админа или владельца")
+    
+    existing = await db.plan_configs.find_one({"plan_name": data.plan_name})
+    if existing:
+        raise HTTPException(status_code=400, detail="План с таким именем уже существует")
+    
+    config = {
+        **data.dict(),
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    await db.plan_configs.insert_one(config)
+    
+    return {k: v for k, v in config.items() if k != "_id"}
+
+# --- User Management (Admin panel) ---
+
+@api_router.get("/admin/users/list")
+async def admin_list_users(
+    skip: int = 0,
+    limit: int = 50,
+    role: Optional[str] = None,
+    plan: Optional[str] = None,
+    is_banned: Optional[bool] = None,
+    search: Optional[str] = None,
+    user: dict = Depends(get_admin_user)
+):
+    """List users with filters - for admin panel"""
+    query = {}
+    
+    if role:
+        query["role"] = role
+    if plan:
+        query["plan"] = plan
+    if is_banned is not None:
+        query["is_banned"] = is_banned
+    if search:
+        query["$or"] = [
+            {"email": {"$regex": search, "$options": "i"}},
+            {"username": {"$regex": search, "$options": "i"}}
+        ]
+    
+    users = await db.users.find(query, {"_id": 0, "password_hash": 0}).skip(skip).limit(limit).to_list(limit)
+    total = await db.users.count_documents(query)
+    
+    # Add page count for each user
+    for u in users:
+        u["page_count"] = await db.pages.count_documents({"user_id": u["id"]})
+    
+    return {
+        "users": users,
+        "total": total,
+        "skip": skip,
+        "limit": limit
+    }
+
+@api_router.put("/admin/users/{user_id}/role")
+async def admin_update_user_role(user_id: str, data: UserRoleUpdate, user: dict = Depends(get_owner_user)):
+    """Update user role - OWNER ONLY"""
+    if data.role not in ROLE_HIERARCHY:
+        raise HTTPException(status_code=400, detail=f"Invalid role. Valid roles: {list(ROLE_HIERARCHY.keys())}")
+    
+    target_user = await db.users.find_one({"id": user_id})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Cannot change owner's role
+    if target_user.get("role") == "owner" and user["id"] != user_id:
+        raise HTTPException(status_code=403, detail="Нельзя изменить роль владельца")
+    
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {"role": data.role, "updated_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    logging.info(f"User role changed: {user_id} -> {data.role} by {user['email']}")
+    
+    return {"success": True, "user_id": user_id, "new_role": data.role}
+
+@api_router.put("/admin/users/{user_id}/plan")
+async def admin_update_user_plan(user_id: str, data: UserPlanUpdate, user: dict = Depends(get_admin_user)):
+    """Update user plan - Admin/Owner"""
+    if data.plan not in ["free", "pro", "ultimate"]:
+        raise HTTPException(status_code=400, detail="Invalid plan. Valid plans: free, pro, ultimate")
+    
+    target_user = await db.users.find_one({"id": user_id})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {"plan": data.plan, "updated_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    logging.info(f"User plan changed: {user_id} -> {data.plan} by {user['email']}")
+    
+    return {"success": True, "user_id": user_id, "new_plan": data.plan}
+
+@api_router.put("/admin/users/{user_id}/ban")
+async def admin_ban_user(user_id: str, data: UserBanUpdate, user: dict = Depends(get_admin_user)):
+    """Ban/unban user - Admin/Moderator"""
+    target_user = await db.users.find_one({"id": user_id})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Cannot ban owner or admin (unless you're owner)
+    target_role = target_user.get("role", "user")
+    if target_role in ["owner", "admin"] and user.get("role") != "owner":
+        raise HTTPException(status_code=403, detail="Нельзя заблокировать администратора")
+    
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {
+            "is_banned": data.is_banned,
+            "status": "blocked" if data.is_banned else "active",
+            "banned_at": datetime.now(timezone.utc).isoformat() if data.is_banned else None,
+            "banned_by": user["id"] if data.is_banned else None
+        }}
+    )
+    
+    action = "забанен" if data.is_banned else "разбанен"
+    logging.info(f"User {action}: {user_id} by {user['email']}")
+    
+    return {"success": True, "user_id": user_id, "is_banned": data.is_banned}
+
+@api_router.put("/admin/users/{user_id}/verify")
+async def admin_verify_user(user_id: str, data: UserVerifyUpdate, user: dict = Depends(get_admin_user)):
+    """Set verified badge - Admin/Moderator"""
+    target_user = await db.users.find_one({"id": user_id})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {
+            "is_verified": data.is_verified,
+            "verified": data.is_verified,
+            "verification_status": "approved" if data.is_verified else "none",
+            "verified_at": datetime.now(timezone.utc).isoformat() if data.is_verified else None,
+            "verified_by": user["id"] if data.is_verified else None
+        }}
+    )
+    
+    action = "верифицирован" if data.is_verified else "снята верификация"
+    logging.info(f"User {action}: {user_id} by {user['email']}")
+    
+    return {"success": True, "user_id": user_id, "is_verified": data.is_verified}
+
+@api_router.get("/admin/users/{user_id}")
+async def admin_get_user(user_id: str, user: dict = Depends(get_admin_user)):
+    """Get user details - Admin panel"""
+    target_user = await db.users.find_one({"id": user_id}, {"_id": 0, "password_hash": 0})
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    target_user["page_count"] = await db.pages.count_documents({"user_id": user_id})
+    target_user["total_clicks"] = 0
+    
+    # Get total clicks across all user's pages
+    pages = await db.pages.find({"user_id": user_id}, {"id": 1}).to_list(100)
+    if pages:
+        page_ids = [p["id"] for p in pages]
+        target_user["total_clicks"] = await db.clicks.count_documents({"page_id": {"$in": page_ids}})
+    
+    return target_user
+
+# --- Access Check API ---
+
+@api_router.get("/check-access/{requirement}")
+async def api_check_access(requirement: str, value: Optional[int] = None, user: dict = Depends(get_current_user)):
+    """Check if current user has access to a feature"""
+    has_access = await check_access(user, requirement, value)
+    
+    # Get plan config for additional info
+    plan_config = await get_plan_config(user.get("plan", "free"))
+    
+    return {
+        "has_access": has_access,
+        "requirement": requirement,
+        "user_plan": user.get("plan", "free"),
+        "user_role": user.get("role", "user"),
+        "launch_mode": LAUNCH_MODE,
+        "plan_config": plan_config
+    }
+
+@api_router.get("/my-limits")
+async def get_my_limits(user: dict = Depends(get_current_user)):
+    """Get current user's plan limits and usage"""
+    plan_config = await get_plan_config(user.get("plan", "free"))
+    page_count = await db.pages.count_documents({"user_id": user["id"]})
+    
+    return {
+        "plan": user.get("plan", "free"),
+        "role": user.get("role", "user"),
+        "is_verified": user.get("is_verified", False),
+        "launch_mode": LAUNCH_MODE,
+        "limits": plan_config,
+        "usage": {
+            "pages_count": page_count,
+            "pages_remaining": plan_config["max_pages_limit"] - page_count if plan_config["max_pages_limit"] != -1 else "unlimited"
+        }
+    }
+
 # ===================== METADATA LOOKUP =====================
 
 @api_router.get("/lookup/itunes")
