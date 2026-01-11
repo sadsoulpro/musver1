@@ -387,20 +387,28 @@ async def register(data: UserCreate):
     if existing:
         raise HTTPException(status_code=400, detail="Email or username already exists")
     
+    # Auto-assign owner role and ultimate plan for specific email
+    is_owner = data.email.lower() == OWNER_EMAIL.lower()
+    
     user = {
         "id": str(uuid.uuid4()),
         "email": data.email,
         "username": data.username,
         "password_hash": hash_password(data.password),
-        "role": "user",
+        "role": "owner" if is_owner else "user",
         "status": "active",
-        "plan": "free",
-        "verified": False,
-        "verification_status": "none",  # none, pending, approved, rejected
+        "plan": "ultimate" if is_owner else "free",
+        "is_verified": is_owner,  # Owner is auto-verified
+        "is_banned": False,
+        "verified": is_owner,  # Legacy field
+        "verification_status": "approved" if is_owner else "none",
         "show_verification_badge": True,
         "created_at": datetime.now(timezone.utc).isoformat()
     }
     await db.users.insert_one(user)
+    
+    if is_owner:
+        logging.info(f"Owner account created: {data.email}")
     
     token = create_token(user["id"], user["role"])
     return {
@@ -412,6 +420,8 @@ async def register(data: UserCreate):
             "role": user["role"],
             "status": user["status"],
             "plan": user["plan"],
+            "is_verified": user["is_verified"],
+            "is_banned": user["is_banned"],
             "verified": user["verified"],
             "verification_status": user["verification_status"],
             "show_verification_badge": user["show_verification_badge"],
