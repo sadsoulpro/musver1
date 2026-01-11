@@ -226,7 +226,7 @@ class BandLinkAPITester:
             
         link_data = {
             "platform": "spotify",
-            "url": "https://open.spotify.com/track/test",
+            "url": "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",  # Valid Spotify URL
             "active": True
         }
         
