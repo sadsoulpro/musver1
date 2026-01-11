@@ -230,6 +230,106 @@ export default function Analytics() {
             )}
           </div>
         </section>
+        
+        {/* Geography Section */}
+        <section className="mt-6 sm:mt-10">
+          <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">География кликов</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Countries */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <Globe className="w-5 h-5 text-muted-foreground" />
+                <h3 className="font-semibold">По странам</h3>
+              </div>
+              {analytics.by_country?.length > 0 ? (
+                <div className="space-y-3">
+                  {analytics.by_country.slice(0, 5).map((item, i) => {
+                    const maxClicks = analytics.by_country[0]?.clicks || 1;
+                    const percentage = ((item.clicks / maxClicks) * 100).toFixed(0);
+                    return (
+                      <div key={i} className="flex items-center gap-3">
+                        <span className="text-lg w-6">{getCountryFlag(item.country)}</span>
+                        <div className="flex-1">
+                          <div className="flex justify-between text-sm mb-1">
+                            <span className="font-medium">{item.country}</span>
+                            <span className="text-muted-foreground">{item.clicks}</span>
+                          </div>
+                          <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${percentage}%` }}
+                              transition={{ duration: 0.5, delay: 0.4 + i * 0.05 }}
+                              className="h-full bg-primary rounded-full"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="h-[120px] flex items-center justify-center text-muted-foreground text-sm">
+                  <div className="text-center">
+                    <Globe className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p>Нет данных</p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+            
+            {/* Cities */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5"
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin className="w-5 h-5 text-muted-foreground" />
+                <h3 className="font-semibold">По городам</h3>
+              </div>
+              {analytics.by_city?.length > 0 ? (
+                <div className="space-y-3">
+                  {analytics.by_city.slice(0, 5).map((item, i) => {
+                    const maxClicks = analytics.by_city[0]?.clicks || 1;
+                    const percentage = ((item.clicks / maxClicks) * 100).toFixed(0);
+                    return (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="w-6 h-6 rounded bg-zinc-800 flex items-center justify-center text-xs font-medium">{i + 1}</div>
+                        <div className="flex-1">
+                          <div className="flex justify-between text-sm mb-1">
+                            <span className="font-medium">{item.city}</span>
+                            <span className="text-muted-foreground">{item.clicks}</span>
+                          </div>
+                          <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${percentage}%` }}
+                              transition={{ duration: 0.5, delay: 0.5 + i * 0.05 }}
+                              className="h-full bg-blue-500 rounded-full"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="h-[120px] flex items-center justify-center text-muted-foreground text-sm">
+                  <div className="text-center">
+                    <MapPin className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                    <p>Нет данных</p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </section>
       </main>
     </div>
   );
