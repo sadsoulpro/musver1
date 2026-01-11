@@ -101,7 +101,8 @@ def test_rbac_system():
         print(f"❌ Get users list failed: {users_response.status_code}")
         return False
         
-    users = users_response.json()
+    users_data = users_response.json()
+    users = users_data.get('users', [])
     if not users or len(users) == 0 or 'page_count' not in users[0]:
         print(f"❌ Users list missing page_count field or empty")
         return False
