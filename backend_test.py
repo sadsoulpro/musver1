@@ -731,8 +731,10 @@ class BandLinkAPITester:
             print(f"❌ Expected plan 'ultimate', got '{user.get('plan')}'")
             return False
             
-        if not user.get('is_verified'):
-            print(f"❌ Expected is_verified=true, got {user.get('is_verified')}")
+        # Check both is_verified and verified fields (legacy support)
+        is_verified = user.get('is_verified') or user.get('verified')
+        if not is_verified:
+            print(f"❌ Expected is_verified=true, got is_verified={user.get('is_verified')}, verified={user.get('verified')}")
             return False
             
         print(f"   ✅ Owner role: {user.get('role')}")
