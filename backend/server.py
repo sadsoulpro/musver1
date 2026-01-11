@@ -47,6 +47,53 @@ FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
 UPLOAD_DIR = ROOT_DIR / 'uploads'
 UPLOAD_DIR.mkdir(exist_ok=True)
 
+# ===================== RBAC CONFIGURATION =====================
+
+# Owner email - gets automatic owner role
+OWNER_EMAIL = "thedrumepic@gmail.com"
+
+# Role hierarchy (higher index = more permissions)
+ROLE_HIERARCHY = {
+    "user": 0,
+    "moderator": 1,
+    "admin": 2,
+    "owner": 3
+}
+
+# Default plan limits (used as fallback if PlanConfig not found)
+DEFAULT_PLAN_CONFIGS = {
+    "free": {
+        "plan_name": "free",
+        "max_pages_limit": 3,
+        "can_use_custom_design": False,
+        "has_analytics": True,
+        "has_advanced_analytics": False,
+        "can_remove_branding": False,
+        "priority_support": False
+    },
+    "pro": {
+        "plan_name": "pro",
+        "max_pages_limit": 20,
+        "can_use_custom_design": True,
+        "has_analytics": True,
+        "has_advanced_analytics": True,
+        "can_remove_branding": True,
+        "priority_support": False
+    },
+    "ultimate": {
+        "plan_name": "ultimate",
+        "max_pages_limit": -1,  # unlimited
+        "can_use_custom_design": True,
+        "has_analytics": True,
+        "has_advanced_analytics": True,
+        "can_remove_branding": True,
+        "priority_support": True
+    }
+}
+
+# Launch mode - when True, check_access returns True for all active users
+LAUNCH_MODE = True
+
 # Geo cache to avoid too many API calls
 _geo_cache = {}
 
