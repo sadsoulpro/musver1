@@ -217,6 +217,37 @@ class TokenResponse(BaseModel):
     token: str
     user: UserResponse
 
+# ===================== RBAC MODELS =====================
+
+class PlanConfigCreate(BaseModel):
+    plan_name: str
+    max_pages_limit: int = 3
+    can_use_custom_design: bool = False
+    has_analytics: bool = True
+    has_advanced_analytics: bool = False
+    can_remove_branding: bool = False
+    priority_support: bool = False
+
+class PlanConfigUpdate(BaseModel):
+    max_pages_limit: Optional[int] = None
+    can_use_custom_design: Optional[bool] = None
+    has_analytics: Optional[bool] = None
+    has_advanced_analytics: Optional[bool] = None
+    can_remove_branding: Optional[bool] = None
+    priority_support: Optional[bool] = None
+
+class UserRoleUpdate(BaseModel):
+    role: str  # owner, admin, moderator, user
+
+class UserPlanUpdate(BaseModel):
+    plan: str  # free, pro, ultimate
+
+class UserBanUpdate(BaseModel):
+    is_banned: bool
+
+class UserVerifyUpdate(BaseModel):
+    is_verified: bool
+
 # ===================== HELPERS =====================
 
 def hash_password(password: str) -> str:
