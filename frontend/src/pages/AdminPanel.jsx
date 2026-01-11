@@ -657,16 +657,16 @@ export default function AdminPanel() {
                         transition={{ delay: i * 0.05 }}
                         className="p-4 rounded-xl bg-zinc-900/50 border border-white/5"
                       >
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2 flex-wrap">
                               <span className="font-semibold">{req.artist_name}</span>
                               <span className="text-sm text-muted-foreground">(@{req.username})</span>
                             </div>
-                            <p className="text-sm text-muted-foreground mb-2">{req.email}</p>
+                            <p className="text-sm text-muted-foreground mb-2 truncate">{req.email}</p>
                             <div className="text-sm mb-2">
                               <span className="text-muted-foreground">Соц. сети: </span>
-                              <span className="text-zinc-300">{req.social_links}</span>
+                              <span className="text-zinc-300 break-all">{req.social_links}</span>
                             </div>
                             <div className="text-sm">
                               <span className="text-muted-foreground">Описание: </span>
@@ -676,22 +676,23 @@ export default function AdminPanel() {
                               Подана: {new Date(req.created_at).toLocaleString('ru-RU')}
                             </p>
                           </div>
-                          <div className="flex gap-2 ml-4">
+                          <div className="flex gap-2 flex-shrink-0">
                             <Button
                               size="sm"
                               onClick={() => approveVerification(req.user_id)}
-                              className="bg-green-600 hover:bg-green-700"
+                              className="bg-green-600 hover:bg-green-700 flex-1 sm:flex-none"
                             >
-                              <Check className="w-4 h-4 mr-1" />
-                              Одобрить
+                              <Check className="w-4 h-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Одобрить</span>
                             </Button>
                             <Button
                               size="sm"
                               variant="destructive"
                               onClick={() => rejectVerification(req.user_id)}
+                              className="flex-1 sm:flex-none"
                             >
-                              <X className="w-4 h-4 mr-1" />
-                              Отклонить
+                              <X className="w-4 h-4 sm:mr-1" />
+                              <span className="hidden sm:inline">Отклонить</span>
                             </Button>
                           </div>
                         </div>
