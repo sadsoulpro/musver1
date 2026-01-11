@@ -435,7 +435,11 @@ async def login(data: UserLogin):
     if not user or not verify_password(data.password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    if user["status"] == "blocked":
+    # Check if user is banned
+    if user.get("is_banned", False):
+        raise HTTPException(status_code=403, detail="Аккаунт заблокирован. Обратитесь в поддержку.")
+    
+    if user.get("status") == "blocked":
         raise HTTPException(status_code=403, detail="Account blocked")
     
     token = create_token(user["id"], user["role"])
@@ -447,7 +451,9 @@ async def login(data: UserLogin):
             "username": user["username"],
             "role": user["role"],
             "status": user["status"],
-            "plan": user["plan"],
+            "plan": user.get("plan", "free"),
+            "is_verified": user.get("is_verified", False),
+            "is_banned": user.get("is_banned", False),
             "verified": user.get("verified", False),
             "verification_status": user.get("verification_status", "none"),
             "show_verification_badge": user.get("show_verification_badge", True),
