@@ -867,13 +867,19 @@ async def track_page_view(page_id: str, request: Request = None):
     if not page:
         raise HTTPException(status_code=404, detail="Page not found")
     
-    country = "Unknown"
-    city = "Unknown"
+    country = "Неизвестно"
+    city = "Неизвестно"
     if request:
-        country = request.headers.get("CF-IPCountry",
-                  request.headers.get("X-Country", "Unknown"))
-        city = request.headers.get("CF-IPCity",
-               request.headers.get("X-City", "Unknown"))
+        # First try CDN headers
+        country = request.headers.get("CF-IPCountry", "")
+        city = request.headers.get("CF-IPCity", "")
+        
+        # If no CDN headers, use IP geolocation
+        if not country or country == "Unknown":
+            client_ip = get_client_ip(request)
+            geo = await get_geo_from_ip(client_ip)
+            country = geo["country"]
+            city = geo["city"]
     
     view = {
         "id": str(uuid.uuid4()),
