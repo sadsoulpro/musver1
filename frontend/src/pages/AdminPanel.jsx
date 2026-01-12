@@ -7,7 +7,7 @@ import {
   Globe, MapPin, MousePointer, Share2, QrCode, Cpu, 
   HardDrive, Activity, TrendingUp, Server, Music,
   BadgeCheck, X, Crown, ChevronDown, UserCog, Sliders, 
-  Save, BarChart3, PieChart, Calendar, Clock, Zap
+  Save, BarChart3, PieChart, Calendar, Clock, Zap, Link2, Trash2, Search
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from "framer-motion";
