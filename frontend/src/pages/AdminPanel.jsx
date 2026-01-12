@@ -116,6 +116,38 @@ export default function AdminPanel() {
     }
   };
 
+  const fetchSubdomains = async (search = "") => {
+    try {
+      const params = search ? `?search=${encodeURIComponent(search)}` : "";
+      const response = await api.get(`/admin/subdomains${params}`);
+      setSubdomains(response.data.subdomains || []);
+      setSubdomainsTotal(response.data.total || 0);
+    } catch (error) {
+      console.error("Failed to fetch subdomains");
+    }
+  };
+
+  const toggleSubdomainAdmin = async (subdomainId, currentDisabled) => {
+    try {
+      await api.put(`/admin/subdomains/${subdomainId}/toggle`, { disabled_by_admin: !currentDisabled });
+      toast.success(currentDisabled ? "Поддомен разблокирован" : "Поддомен заблокирован");
+      fetchSubdomains(subdomainSearch);
+    } catch (error) {
+      toast.error("Ошибка");
+    }
+  };
+
+  const deleteSubdomainAdmin = async (subdomainId) => {
+    if (!confirm("Удалить поддомен? Это действие необратимо.")) return;
+    try {
+      await api.delete(`/admin/subdomains/${subdomainId}`);
+      toast.success("Поддомен удалён");
+      fetchSubdomains(subdomainSearch);
+    } catch (error) {
+      toast.error("Ошибка");
+    }
+  };
+
   // User Management
   const toggleUserBan = async (userId, currentBanned) => {
     try {
