@@ -15,6 +15,7 @@ import PublicPage from "@/pages/PublicPage";
 import Analytics from "@/pages/Analytics";
 import GlobalAnalytics from "@/pages/GlobalAnalytics";
 import AdminPanel from "@/pages/AdminPanel";
+import Domains from "@/pages/Domains";
 import Settings from "@/pages/Settings";
 import Verification from "@/pages/Verification";
 import FAQ from "@/pages/FAQ";
@@ -242,6 +243,9 @@ function App() {
           } />
           <Route path="/settings" element={
             <ProtectedRoute><Settings /></ProtectedRoute>
+          } />
+          <Route path="/domains" element={
+            <ProtectedRoute><Domains /></ProtectedRoute>
           } />
           <Route path="/verification" element={
             <ProtectedRoute><Verification /></ProtectedRoute>
