@@ -421,7 +421,7 @@ export default function Domains() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-blue-400 mt-1">•</span>
-                <span>Выключенный поддомен показывает страницу "Domain is inactive"</span>
+                <span>Выключенный поддомен показывает страницу "Домен неактивен"</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-blue-400 mt-1">•</span>
