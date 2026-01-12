@@ -65,6 +65,7 @@ DEFAULT_PLAN_CONFIGS = {
     "free": {
         "plan_name": "free",
         "max_pages_limit": 3,
+        "max_subdomains_limit": 1,
         "can_use_custom_design": False,
         "has_analytics": True,
         "has_advanced_analytics": False,
@@ -74,6 +75,7 @@ DEFAULT_PLAN_CONFIGS = {
     "pro": {
         "plan_name": "pro",
         "max_pages_limit": 20,
+        "max_subdomains_limit": 3,
         "can_use_custom_design": True,
         "has_analytics": True,
         "has_advanced_analytics": True,
@@ -83,6 +85,7 @@ DEFAULT_PLAN_CONFIGS = {
     "ultimate": {
         "plan_name": "ultimate",
         "max_pages_limit": -1,  # unlimited
+        "max_subdomains_limit": -1,  # unlimited
         "can_use_custom_design": True,
         "has_analytics": True,
         "has_advanced_analytics": True,
