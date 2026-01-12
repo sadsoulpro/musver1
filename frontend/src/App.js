@@ -12,6 +12,7 @@ import ResetPassword from "@/pages/ResetPassword";
 import Dashboard from "@/pages/Dashboard";
 import PageBuilder from "@/pages/PageBuilder";
 import PublicPage from "@/pages/PublicPage";
+import SubdomainPage from "@/pages/SubdomainPage";
 import Analytics from "@/pages/Analytics";
 import GlobalAnalytics from "@/pages/GlobalAnalytics";
 import AdminPanel from "@/pages/AdminPanel";
@@ -19,6 +20,7 @@ import Domains from "@/pages/Domains";
 import Settings from "@/pages/Settings";
 import Verification from "@/pages/Verification";
 import FAQ from "@/pages/FAQ";
+import { getSubdomain } from "@/utils/subdomain";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
