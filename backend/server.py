@@ -2226,6 +2226,71 @@ async def resolve_subdomain_page(subdomain: str, path: str):
     
     return page
 
+# --- Subdomain Page Endpoint (for direct subdomain access) ---
+
+@api_router.get("/subdomain-page")
+async def get_subdomain_page(request: Request, slug: Optional[str] = None):
+    """
+    Get page data when accessing via subdomain.
+    Uses subdomain from request state (set by middleware).
+    If no slug provided, returns list of user's pages.
+    """
+    subdomain = getattr(request.state, 'subdomain', '') or request.headers.get('x-subdomain', '').lower().strip()
+    
+    if not subdomain:
+        raise HTTPException(status_code=400, detail="Поддомен не указан")
+    
+    # Resolve subdomain
+    subdomain_doc = await db.subdomains.find_one({"subdomain": subdomain}, {"_id": 0})
+    if not subdomain_doc:
+        raise HTTPException(status_code=404, detail="Поддомен не найден")
+    
+    if not subdomain_doc.get("is_active", True) or subdomain_doc.get("disabled_by_admin", False):
+        raise HTTPException(status_code=410, detail="Домен неактивен")
+    
+    # Check user
+    user = await db.users.find_one({"id": subdomain_doc["user_id"]}, {"_id": 0})
+    if not user or user.get("is_banned"):
+        raise HTTPException(status_code=410, detail="Домен неактивен")
+    
+    # If no slug, return user info and page list
+    if not slug:
+        pages = await db.pages.find(
+            {"user_id": subdomain_doc["user_id"], "status": "active"},
+            {"_id": 0, "id": 1, "title": 1, "slug": 1, "cover_image": 1, "artist_name": 1, "release_title": 1}
+        ).to_list(100)
+        
+        return {
+            "subdomain": subdomain,
+            "username": user.get("username"),
+            "pages": pages,
+            "verified": user.get("verified", False) and user.get("show_verification_badge", True)
+        }
+    
+    # Find specific page by slug
+    page = await db.pages.find_one(
+        {"slug": slug, "user_id": subdomain_doc["user_id"], "status": "active"},
+        {"_id": 0}
+    )
+    if not page:
+        raise HTTPException(status_code=404, detail="Страница не найдена")
+    
+    # Increment view count
+    await db.pages.update_one({"id": page["id"]}, {"$inc": {"views": 1}})
+    
+    # Get links
+    links = await db.links.find({"page_id": page["id"], "active": True}, {"_id": 0}).sort("order", 1).to_list(100)
+    page["links"] = links
+    
+    # Get plan config for branding
+    plan_config = await get_plan_config(user.get("plan", "free"))
+    page["can_remove_branding"] = plan_config.get("can_remove_branding", False)
+    page["user_verified"] = user.get("verified", False) and user.get("show_verification_badge", True)
+    page["subdomain"] = subdomain
+    page["owner_username"] = user.get("username")
+    
+    return page
+
 @api_router.get("/my-limits")
 async def get_my_limits(user: dict = Depends(get_current_user)):
     """Get current user's plan limits and usage"""
