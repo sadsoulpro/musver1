@@ -329,6 +329,13 @@ export default function AdminPanel() {
                   <FileText className="w-4 h-4 mr-1.5" />
                   Страницы
                 </TabsTrigger>
+                <TabsTrigger value="domains" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white text-xs sm:text-sm px-3 sm:px-4">
+                  <Link2 className="w-4 h-4 mr-1.5" />
+                  Домены
+                  {subdomainsTotal > 0 && (
+                    <span className="ml-1.5 px-1.5 py-0.5 rounded-full bg-white/10 text-[10px]">{subdomainsTotal}</span>
+                  )}
+                </TabsTrigger>
                 {verificationRequests.filter(r => r.status === 'pending').length > 0 && (
                   <TabsTrigger value="verification" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white text-xs sm:text-sm px-3 sm:px-4 relative">
                     <BadgeCheck className="w-4 h-4 mr-1.5" />
