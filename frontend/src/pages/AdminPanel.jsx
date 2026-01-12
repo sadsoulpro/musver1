@@ -129,7 +129,8 @@ export default function AdminPanel() {
 
   const toggleSubdomainAdmin = async (subdomainId, currentDisabled) => {
     try {
-      await api.put(`/admin/subdomains/${subdomainId}/toggle`, { disabled_by_admin: !currentDisabled });
+      // Backend expects is_active: if currently disabled, we want to enable (is_active: true)
+      await api.put(`/admin/subdomains/${subdomainId}/toggle`, { is_active: currentDisabled });
       toast.success(currentDisabled ? "Поддомен разблокирован" : "Поддомен заблокирован");
       fetchSubdomains(subdomainSearch);
     } catch (error) {
