@@ -111,7 +111,7 @@ export default function Domains() {
   };
 
   const copyToClipboard = (subdomain) => {
-    const url = `${subdomain}.mytrack.app`;
+    const url = `${subdomain}.mytrack.cc`;
     navigator.clipboard.writeText(url);
     setCopiedId(subdomain);
     toast.success("Скопировано!");
@@ -208,7 +208,7 @@ export default function Domains() {
                     maxLength={32}
                   />
                   <div className="h-10 px-3 flex items-center bg-zinc-800 border border-l-0 border-white/10 rounded-r-lg text-muted-foreground text-sm">
-                    .mytrack.app
+                    .mytrack.cc
                   </div>
                 </div>
                 
@@ -327,7 +327,7 @@ export default function Domains() {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
                             <p className={`font-mono font-semibold ${!sub.is_active && 'text-zinc-500'}`}>
-                              {sub.subdomain}.mytrack.app
+                              {sub.subdomain}.mytrack.cc
                             </p>
                             {!sub.is_active && (
                               <span className="px-2 py-0.5 rounded-full text-[10px] bg-zinc-700 text-zinc-400">
@@ -364,7 +364,7 @@ export default function Domains() {
 
                         {/* External link */}
                         <a 
-                          href={`https://${sub.subdomain}.mytrack.app`} 
+                          href={`https://${sub.subdomain}.mytrack.cc`} 
                           target="_blank" 
                           rel="noopener noreferrer"
                         >
@@ -417,7 +417,7 @@ export default function Domains() {
             <ul className="space-y-2 text-sm text-zinc-400">
               <li className="flex items-start gap-2">
                 <span className="text-blue-400 mt-1">•</span>
-                <span>Ваши страницы будут доступны по адресу: <code className="text-blue-300 bg-blue-500/10 px-1 rounded">поддомен.mytrack.app/slug</code></span>
+                <span>Ваши страницы будут доступны по адресу: <code className="text-blue-300 bg-blue-500/10 px-1 rounded">поддомен.mytrack.cc/slug</code></span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-blue-400 mt-1">•</span>

@@ -2137,12 +2137,12 @@ async def resolve_subdomain(subdomain: str):
         raise HTTPException(status_code=404, detail="Subdomain not found")
     
     if not subdomain_doc.get("is_active", True):
-        raise HTTPException(status_code=410, detail="Domain is inactive")
+        raise HTTPException(status_code=410, detail="Домен неактивен")
     
     # Get user info
     user = await db.users.find_one({"id": subdomain_doc["user_id"]}, {"_id": 0, "id": 1, "username": 1, "is_banned": 1})
     if not user or user.get("is_banned"):
-        raise HTTPException(status_code=410, detail="Domain is inactive")
+        raise HTTPException(status_code=410, detail="Домен неактивен")
     
     return {
         "subdomain": subdomain_doc,
@@ -2161,12 +2161,12 @@ async def resolve_subdomain_page(subdomain: str, path: str):
         raise HTTPException(status_code=404, detail="Subdomain not found")
     
     if not subdomain_doc.get("is_active", True):
-        raise HTTPException(status_code=410, detail="Domain is inactive")
+        raise HTTPException(status_code=410, detail="Домен неактивен")
     
     # Check user
     user = await db.users.find_one({"id": subdomain_doc["user_id"]}, {"_id": 0})
     if not user or user.get("is_banned"):
-        raise HTTPException(status_code=410, detail="Domain is inactive")
+        raise HTTPException(status_code=410, detail="Домен неактивен")
     
     # Find page by slug belonging to this user
     page = await db.pages.find_one(

@@ -899,7 +899,7 @@ export default function AdminPanel() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <p className="font-mono font-semibold">{sub.subdomain}.mytrack.app</p>
+                            <p className="font-mono font-semibold">{sub.subdomain}.mytrack.cc</p>
                             {sub.disabled_by_admin && (
                               <span className="px-2 py-0.5 rounded-full text-[10px] bg-red-500/20 text-red-400">
                                 Заблокирован
@@ -922,7 +922,7 @@ export default function AdminPanel() {
 
                       <div className="flex items-center gap-2 pl-14 sm:pl-0">
                         <a 
-                          href={`https://${sub.subdomain}.mytrack.app`} 
+                          href={`https://${sub.subdomain}.mytrack.cc`} 
                           target="_blank" 
                           rel="noopener noreferrer"
                         >
