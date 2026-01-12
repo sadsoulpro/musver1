@@ -22,10 +22,6 @@ const navItems = [
   { path: "/faq", label: "FAQ", icon: HelpCircle },
 ];
 
-const adminItems = [
-  { path: "/admin", label: "Админ-панель", icon: Shield },
-];
-
 // Reusable navigation content
 function NavContent({ currentPath, user, onLogout, onNavigate }) {
   const isAdminRole = user?.role === "admin" || user?.role === "owner" || user?.role === "moderator";
