@@ -770,8 +770,11 @@ export default function AdminPanel() {
                                 const currentConfig = planConfigs.find(p => p.plan_name === config.plan_name);
                                 updatePlanConfig(config.plan_name, {
                                   max_pages_limit: currentConfig.max_pages_limit,
+                                  max_subdomains_limit: currentConfig.max_subdomains_limit,
                                   has_analytics: currentConfig.has_analytics,
                                   has_advanced_analytics: currentConfig.has_advanced_analytics,
+                                  can_use_ai_generation: currentConfig.can_use_ai_generation,
+                                  can_verify_profile: currentConfig.can_verify_profile,
                                   can_remove_branding: currentConfig.can_remove_branding,
                                   priority_support: currentConfig.priority_support
                                 });
