@@ -257,6 +257,7 @@ export default function Dashboard() {
                         className="h-8 w-8 sm:h-9 sm:w-9"
                         onClick={() => copyLink(page.slug)}
                         data-testid={`copy-link-${page.id}`}
+                        title="Копировать ссылку"
                       >
                         <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       </Button>
@@ -264,9 +265,8 @@ export default function Dashboard() {
                         href={`/${page.slug}`} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="hidden xs:block"
                       >
-                        <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9" data-testid={`view-page-${page.id}`}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9" data-testid={`view-page-${page.id}`} title="Открыть страницу">
                           <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         </Button>
                       </a>
@@ -277,12 +277,6 @@ export default function Dashboard() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-zinc-900 border-zinc-800">
-                          <DropdownMenuItem asChild className="xs:hidden">
-                            <a href={`/${page.slug}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                              <ExternalLink className="w-4 h-4" />
-                              Открыть страницу
-                            </a>
-                          </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                             <Link to={`/page/${page.id}/edit`} className="flex items-center gap-2">
                               <Edit className="w-4 h-4" />
