@@ -8,7 +8,7 @@ import json
 import time
 
 def test_rbac_system():
-    base_url = "https://app-uploader-4.preview.emergentagent.com/api"
+    base_url = "https://musoconnect-2.preview.emergentagent.com/api"
     
     print("🚀 Testing RBAC + Dynamic Plan Limits System")
     print("=" * 60)

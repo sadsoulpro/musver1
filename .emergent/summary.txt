@@ -1,152 +1,163 @@
 <analysis>**original_problem_statement:**
-The user's initial request was анализируй гит и загрузи его, чтобы работать с ним дальше (analyze git and load it to work with it further). This evolved into a series of feature requests:
+Initial request was to open the application and load it. The session evolved to include a series of feature requests and UI improvements for a band.link-style application for musicians.
 
-1.  **Analytics Geo IP:** Fix Unknown city/country in analytics by implementing IP geolocation.
-2.  **UI/UX Fixes:** Add country flags, fix old Unknown DB entries, fix mobile UI for Admin Panel and Page Builder.
-3.  **Individual Track Analytics:** Add a chart for visitor geography (by country).
-4.  **RBAC & Plan Limits:**
-    *   Implement a Role-Based Access Control (RBAC) system (owner, admin, moderator, user) and dynamic subscription plans (free, pro, ultimate).
-    *   Create configurable limits for plans (e.g., max pages, custom design, analytics access).
-    *   Create admin API endpoints to manage users (roles, plans, ban, verify) and plan limits.
-    *   The user  should automatically be assigned the  role and  plan.
-5.  **Admin Panel Redesign:**
-    *   Completely redesign the Admin Panel UI to be modern and responsive.
-    *   Add a Global Analytics dashboard for high-level roles (owner, admin, moderator) showing site-wide statistics.
-    *   Implement UI for managing the new RBAC features.
-    *   Restrict the VPS monitoring tab to  and  roles.
-6.  **Plan-Based Features:**
-    *   Implement Advanced Analytics and Remove Branding features based on the user's subscription plan.
-    *   Display the user's current plan in the sidebar.
-    *   Fix a display bug () in the VPS monitoring section.
-7.  **Subdomain Management System (Current Task):**
-    *   Create a Domains page for users to manage custom subdomains.
-    *   Subdomains should point to a user's smart-links (e.g., ).
-    *   Implement plan-based limits for the number of subdomains.
-    *   Admin/Owner should be able to manage all subdomains and configure limits.
-    *   Use backend middleware to process requests based on the subdomain.
+**PRODUCT REQUIREMENTS:**
+
+1.  **Icon Fix:** Fix missing platform icons on the public page. (Resolved, was a data issue).
+2.  **Contact Info:** Allow users to add email and social media links via the Domains page, and display them.
+3.  **Contact Info Placement:** Move the contact info from individual release pages to the main page of the user's subdomain.
+4.  **Profile Customization:**
+    *   Add a Profile Description field, display it on the subdomain page instead of the URL.
+    *   Add an Artist Pseudonym field, display it on the subdomain page instead of the username.
+5.  **UI/UX Improvements:**
+    *   On the Multilinks page, change the Open Page action from a dropdown item to a dedicated icon.
+    *   Reorder sections on the Domains page.
+    *   Update help text on the Domains page.
+6.  **Landing Page Overhaul:**
+    *   Implement a full-screen HERO section.
+    *   Update the site logo and favicon.
+    *   Change the site-wide font to Gilroy with specific weights for different elements.
+    *   Make the landing page fully responsive, adjusting element order for mobile/tablet views.
+7.  **Logo Consistency:** Ensure the new logo is used across all pages (login, register, sidebar, etc.).
+8.  **RandomCover Feature (V1):**
+    *   Create a new page/feature called RandomCover for generating cover art.
+    *   Use  for a canvas-based editor.
+    *   Implement functionality to add a background image, add/edit text, and use a transformer.
+    *   Include a Random Design button and an export-to-image function.
+    *   Create a backend endpoint to save the generated cover.
+9.  **RandomCover Feature (V2 - Current Task):**
+    *   Implement live preview (instant updates without Apply buttons).
+    *   Add smart guides and snapping for element alignment.
+    *   Implement Undo/Redo functionality with keyboard shortcuts.
+    *   Implement autosaving to  with a restore prompt.
 
 **User's preferred language**:
-The user's primary language is **Russian**. The next agent MUST respond in Russian.
+Russian. The next agent MUST respond in Russian.
 
 **what currently exists?**
-The project is a full-stack smart-link service for musicians (React frontend, FastAPI backend, MongoDB). A significant amount of work has been completed:
--   Full user authentication system is in place.
--   IP-based geolocation for analytics is functional.
--   A comprehensive RBAC (Role-Based Access Control) system with dynamic, configurable user plans (Free, Pro, Ultimate) has been implemented on the backend.
--   Plan-based features like Advanced Analytics and Remove Branding are working.
--   The Admin Panel has been completely redesigned. It's now responsive and includes a global analytics dashboard, user management (roles, plans, ban/verify), and plan configuration editors.
--   The backend infrastructure for the new subdomain feature has been initiated (database models, API endpoints, plan limits).
+A full-stack application for musicians to create multilink pages for their releases. The app features user authentication, page creation, subdomain management, and a new cover art generator tool (RandomCover). The landing page has been completely redesigned with a new font (Gilroy) and a full-screen hero section. The application logo has been updated sitewide. The RandomCover feature has just undergone a major rewrite to add advanced UX features like live preview, snapping guides, undo/redo, and autosave.
 
 **Last working item**:
--   **Last item agent was working:** The agent was beginning the implementation of the Subdomain Management feature. It successfully set up the required backend components (added subdomain limits to plan configs, created Pydantic models and API endpoints for subdomains, and added a unique DB index). It then created the new, but still empty, frontend page file . The next logical step was to integrate this page into the frontend application's routing and navigation.
--   **Status:** IN PROGRESS
--   **Agent Testing Done:** N
--   **Which testing method agent to use?** both
--   **User Testing Done:** N
+- **Last item agent was working:** The agent was working on a major UX overhaul for the  feature. It completely rewrote the  component to implement live previews, snapping smart guides, undo/redo history, and autosaving to localStorage, as requested by the user. The new file has been written, but its functionality has not yet been tested.
+- **Status:** IN PROGRESS
+- **Agent Testing Done:** N
+- **Which testing method agent to use?** Frontend testing agent. The agent should test the new  page functionality thoroughly:
+    1.  Verify that the page loads without errors.
+    2.  Test the live preview: change text content, font size, and color, and confirm the canvas updates instantly.
+    3.  Test snapping: drag an element and verify that guide lines appear and the element snaps to the center of the canvas and to the edges/center of other elements.
+    4.  Test Undo/Redo: perform several actions (add text, move, resize) and then use the Undo/Redo buttons (and ideally Ctrl+Z/Ctrl+Y) to verify the state changes correctly.
+    5.  Test Autosave: make changes, refresh the page, and verify if a prompt to restore the previous session appears and works.
+- **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
--   **Issue 1 (P0): Complete the Subdomain Management Feature.**
+- **Issue 1 (P0):** The new  implementation is untested and may contain bugs.
 
-**Issues Detail:**
--   **Issue 1: Complete the Subdomain Management Feature.**
-    -   **Attempted fixes:** The backend infrastructure (models, API endpoints, DB indexes) has been created. A placeholder frontend file was created.
-    -   **Next debug checklist:**
-        1.  **Frontend Routing:** Add a route for the new  page in .
-        2.  **Frontend Navigation:** Add a Домены (Domains) link to the sidebar in .
-        3.  **Frontend UI:** Build the UI in  to list, add, and toggle subdomains, respecting plan limits.
-        4.  **Backend Middleware:** Implement the core middleware logic in  to intercept requests, identify the subdomain, and serve the correct user page.
-        5.  **Admin Panel:** Add functionality to the Admin Panel for admins/owners to view and manage all subdomains system-wide.
-    -   **Why fix this issue and what will be achieved with the fix?** This will complete a major user-requested feature, allowing users to customize their smart-link URLs with personal subdomains, a key feature for branding.
-    -   **Status:** IN PROGRESS
-    -   **Is recurring issue?** N
-    -   **Should Test frontend/backend/both after fix?** both
-    -   **Blocked on other issue:** None.
+  - **Issues Detail:**
+    - **Issue 1: Potential bugs in the new RandomCover component**
+      - **Attempted fixes:** A complete rewrite of the component has just been performed. No fixes have been attempted on the new code yet.
+      - **Next debug checklist:**
+        1.  Start the application and navigate to the  page.
+        2.  Open the browser's developer console and check for any runtime errors.
+        3.  Systematically test each new feature as described in the Which testing method to use? section above (live preview, snapping, undo/redo, autosave).
+        4.  Inspect the component's state and props using React DevTools to debug any unexpected behavior.
+        5.  Review the code in  for logical errors, especially in the history management, snapping calculations, and  interaction.
+      - **Why fix this issue and what will be achieved with the fix?** This is the user's latest and most complex request. Fixing any issues will complete the implementation of a professional-grade cover art editor, delivering significant value.
+      - **Status:** NOT STARTED
+      - **Is recurring issue?** N
+      - **Should Test frontend/backend/both after fix?** Frontend
+      - **Blocked on other issue:** None
 
 **In progress Task List**:
--   **Task 1: Complete the Subdomain Management Feature.**
-    -   **Where to resume:** Add the route for the new Domains page in .
-    -   **What will be achieved with this?** Users will be able to manage and use custom subdomains for their smart-link pages.
-    -   **Status:** IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?** both
-    -   **Blocked on something:** No.
+- **Task 1 (P0):** Test and validate the new  editor functionality.
+    - **Where to resume:** Navigate to the  page and begin testing the features implemented in the latest version of .
+    - **What will be achieved with this?** Confirmation that the live preview, smart guides, undo/redo, and autosave features work as requested.
+    - **Status:** TESTING PENDING
+    - **Should Test frontend/backend/both after fix?** Frontend
+    - **Blocked on something:** None
 
 **Upcoming and Future Tasks**
-There are no other explicit upcoming tasks mentioned by the user. After completing the subdomain feature, the agent should confirm with the user what to work on next.
+- None were explicitly mentioned by the user after the  request. The agent should confirm completion of the current task and then ask the user for the next steps.
 
 **Completed work in this session**
--   **IP Geolocation:** Implemented backend logic to resolve user IP to country/city ().
--   **RBAC & Plans:** Built a full backend system for roles (owner, admin, etc.) and dynamic plans (free, pro, ultimate) with configurable limits ().
--   **Admin Panel Overhaul:** Completely redesigned the Admin Panel UI/UX, making it responsive and adding management tools for users, plans, and a new global analytics dashboard ().
--   **Plan-Based Features:** Enabled/disabled Advanced Analytics and Remove Branding based on the user's plan (, ).
--   **UI/UX Fixes:**
-    -   Added country flags to all analytics views.
-    -   Fixed mobile layout issues in the Admin Panel and Page Builder.
-    -   Fixed a  display bug in the VPS monitoring section.
-    -   Added the user's current plan to the sidebar ().
-
-**Earlier issues found/mentioned but not fixed**
--   None. The agent has addressed all issues raised by the user so far.
-
-**Known issue recurrence from previous fork**
--   None.
+- **Feature:** Added Contact Information section (Artist Name, Description, Email, Socials) to user profiles, editable on the  page.
+- **Feature:** Implemented the initial version of the RandomCover feature with a  canvas, text/image addition, and save functionality (, ).
+- **UI Overhaul:** Redesigned the landing page () with a full-screen hero, new Gilroy font, new logo, and responsive layouts.
+- **UI/UX:**
+  - Replaced the old logo sitewide (Sidebar, Login, Register, Forgot Password pages).
+  - Updated the site's favicon.
+  - Moved contact info from individual release pages to the main subdomain page footer.
+  - Replaced the username/subdomain URL on the subdomain page with the new artist name and description ().
+  - Improved the Multilinks page UI by making the Open page action a dedicated icon ().
+  - Reorganized the layout of the  page for better UX.
+- **Bug Fix:** Resolved an error with the Random Design button in the RandomCover editor caused by a missing filter in the Konva library.
+- **Backend:**
+  - Added new endpoints for managing profile contact info () and saving covers ().
+  - Updated user data models to store the new profile information in MongoDB.
+- **Testing:** Successfully performed backend testing after adding new contact info endpoints.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Backend:** FastAPI, MongoDB (with ), PyJWT for authentication, Pydantic for data modeling,  for external API calls.
--   **Frontend:** React, Tailwind CSS, Framer Motion, Recharts for charts.
--   **Architecture:** Full-stack monolith-in-repo. Communication via a REST API secured with JWT. The new feature will introduce backend middleware for subdomain routing.
+- **Frontend:** React, React Router, Tailwind CSS,  for 2D canvas graphics,  for icons.
+- **Backend:** FastAPI, MongoDB (via ).
+- **Architecture:** Full-stack monolith with a React SPA consuming a FastAPI backend. Services are managed by .
 
 **key DB schema**
--   **users**: 
--   **pages**: 
--   **clicks**: 
--   **plan_configs**: 
--   **subdomains**: 
+- **users:** (Implicitly updated) Contains user details, roles, plans, and a nested  document.
+  - : 
+- **covers:** (New collection) Stores metadata for generated cover art.
+  - 
+
+**changes in tech stack**
+- **Added Frontend Libraries:** ,  for the cover art editor.
 
 **All files of reference**
--   : The core backend file containing all API logic, database models, and the new RBAC/subdomain systems.
--   : The completely redesigned admin interface.
--   : The page for displaying individual track analytics, now with logic for basic vs. advanced views.
--   : The main frontend router file. **Needs to be updated.**
--   : The navigation component. **Needs to be updated.**
--   : The new, currently empty, file for the subdomain management UI. **Needs to be built.**
+- : **(Most important)** The file containing the latest, untested implementation of the cover art editor.
+- : The completely redesigned landing page.
+- : The page for managing subdomains and now also profile/contact information.
+- : The public-facing page for a user's subdomain, which now displays profile info.
+- : The main navigation component, updated with the new logo and RandomCover link.
+- : The main backend file, updated with endpoints for contact info and cover uploading.
+- : Updated to include the Gilroy font family.
+- : Updated with the  for the Gilroy font.
 
 **Critical Info for New Agent**
--   The immediate task is to build the subdomain feature. The backend API is partially ready, but the frontend UI and the critical backend middleware for handling requests are not yet implemented.
--   All new features must respect the existing RBAC and Plan Limits system. The  dependency in the backend is the intended way to enforce this.
--   The user  has the  role and should have access to all features.
--   **All communication with the user must be in Russian.**
+- The most recent task was a complete rewrite of . This new code is powerful but completely untested. The top priority is to test it thoroughly and fix any ensuing bugs.
+- The user communicates in Russian. All responses must be in Russian.
+- The project uses MongoDB, not PostgreSQL as the user once mentioned. The agent correctly clarified this and proceeded with MongoDB.
+- Subdomain testing requires a workaround. The agent patched  to allow testing via query parameters on the preview URL (e.g., ). This is crucial for testing subdomain-related features.
 
 **documents and test reports created in this job**
--   
--   
+- : Updated to reflect successful backend tests after adding contact info endpoints.
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **Request:** Implement a full subdomain management system (UI, logic, limits, admin controls, middleware).
-2.  **Request:** Add user's plan to UI, fix VPS NaN bug, implement advanced analytics & branding removal, improve analytics, check responsiveness.
-3.  **Request:** Register , redesign admin panel with global analytics and role-based tabs, make it responsive.
-4.  **Request:** Update AdminPanel to show new RBAC management functions.
-5.  **Request:** Implement RBAC + Dynamic Plan Limits system.
-6.  **User Message:** Acknowledged completion of previous tasks.
-7.  **Request:** Fix mobile UI for Admin Panel, add flags to Admin Global Analytics, add country chart to track analytics.
-8.  **User Message:** Acknowledged completion of country flag feature.
-9.  **Request:** Add country flags, fix Unknown entries, add Open Page button on mobile after saving.
-10. **Request:** Fix Unknown country and city in analytics by showing real data.
+1.  **User:** Move the contact info block below the subdomains list on the  page. (Completed)
+2.  **User:** Update the help text in the How subdomains work section. (Completed)
+3.  **User:** Massive landing page overhaul: full-screen hero, new logo, new Gilroy font with specific weights. (Completed)
+4.  **User:** Optimize the landing page text and layout for all devices, especially mobile. (Completed)
+5.  **User:** On mobile/tablet, move the phone mockup below the hero text. (Completed)
+6.  **User:** On mobile/tablet, move the hero buttons below the phone mockup. (Completed)
+7.  **User:** Update the logo for authenticated users in their dashboard/sidebar. (Completed)
+8.  **User:** Change the favicon and update the logo on the Forgot Password page. (Completed)
+9.  **User:** Add the  editor V2: live preview, smart guides, undo/redo, and autosave. (In Progress - code written, not tested)
+10. **User:** Provided an image showing a runtime error in the first version of the RandomCover editor. (Resolved)
 
 **Project Health Check:**
--   **Broken:** The subdomain feature is non-functional and incomplete. The backend API exists, but the frontend is just a placeholder and the core request-handling middleware is missing.
--   **Mocked:** The backend  function is a placeholder that currently returns  for all active users, as per the user's initial request for a phased implementation.
+- **Broken:** The  page is potentially broken or buggy after a major rewrite. Its state is unknown until tested.
+- **Mocked:** None.
 
 **3rd Party Integrations**
--   **ip-api.com:** Used for IP to Geolocation lookup. Does not require an API key.
+- Odesli: Used for automatically fetching music platform links. Integrated in the original app template.
 
 **Testing status**
--   **Testing agent used after significant changes:** YES
--   **Troubleshoot agent used after agent stuck in loop:** NO
--   **Test files created:** None. Testing was performed by adding test cases to .
--   **Known regressions:** None.
+- **Testing agent used after significant changes:** YES (backend testing agent was used after adding contact endpoints).
+- **Troubleshoot agent used after agent stuck in loop:** NO
+- **Test files created:** None.
+- **Known regressions:** None.
+
+**Credentials to test flow:**
+The agent has successfully used  credentials to log in. This should continue to work.
 
 **What agent forgot to execute**
-The agent was in the middle of implementing the subdomain feature. It created the frontend file  but did not yet add the corresponding route in  or the navigation link in . These are the immediate next steps to make the new page accessible.</analysis>
+- The agent has not yet tested the major refactor of the  component. This is the critical next step.</analysis>
