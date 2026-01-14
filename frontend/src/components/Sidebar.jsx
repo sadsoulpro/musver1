@@ -89,11 +89,10 @@ function NavContent({ currentPath, user, onLogout, onNavigate }) {
               <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
               {user?.plan && (
                 <span className={`px-1.5 py-0.5 rounded text-[9px] font-medium ${
-                  user.plan === 'ultimate' ? 'bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-300' :
-                  user.plan === 'pro' ? 'bg-blue-500/20 text-blue-400' :
+                  user.plan === 'pro' ? 'bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-300' :
                   'bg-zinc-700 text-zinc-400'
                 }`}>
-                  {user.plan === 'ultimate' ? 'ULTIMATE' : user.plan === 'pro' ? 'PRO' : 'FREE'}
+                  {user.plan === 'pro' ? 'PRO' : 'FREE'}
                 </span>
               )}
             </div>
