@@ -134,11 +134,15 @@ export default function Register() {
       {/* Right Side - Visual (hidden on mobile/tablet) */}
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary/20 via-zinc-900 to-background items-center justify-center p-12">
         <div className="text-center">
-          <div className="w-24 h-24 xl:w-32 xl:h-32 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-6">
-            <Music className="w-12 h-12 xl:w-16 xl:h-16 text-primary" />
+          <div className="w-32 h-32 xl:w-40 xl:h-40 flex items-center justify-center mx-auto mb-6">
+            <img 
+              src="/MyTrack-logo-main.svg" 
+              alt="MyTrack" 
+              className="h-20 xl:h-24 w-auto"
+            />
           </div>
-          <h2 className="font-display text-3xl xl:text-4xl mb-4">ПРИСОЕДИНЯЙТЕСЬ К MYTRACK</h2>
-          <p className="text-muted-foreground max-w-sm">
+          <h2 className="font-gilroy-600 text-2xl xl:text-3xl mb-4">ПРИСОЕДИНЯЙТЕСЬ К MYTRACK</h2>
+          <p className="font-gilroy-300 text-muted-foreground max-w-sm">
             Создавайте красивые страницы со смарт-ссылками для ваших релизов. Бесплатно.
           </p>
         </div>
