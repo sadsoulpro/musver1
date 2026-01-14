@@ -85,7 +85,11 @@ export default function Support() {
       setNewTicket({ subject: "", message: "", category: "general" });
       toast.success("Обращение отправлено");
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Не удалось создать обращение");
+      const detail = error.response?.data?.detail;
+      const errorMsg = typeof detail === 'string' ? detail : 
+                       Array.isArray(detail) ? detail.map(d => d.msg || d).join(', ') :
+                       "Не удалось создать обращение";
+      toast.error(errorMsg);
     } finally {
       setSubmitting(false);
     }
