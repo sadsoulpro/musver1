@@ -1367,8 +1367,10 @@ export default function RandomCover() {
                   </div>
 
                   {/* Text Controls - Live Preview */}
-                  <div className="bg-zinc-900/50 rounded-2xl border border-white/5 p-4">
-                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  <div className={`bg-zinc-900/50 rounded-2xl border border-white/5 p-3 lg:p-4 ${
+                    activeControlTab !== "text" ? "hidden lg:block" : ""
+                  }`}>
+                    <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm lg:text-base">
                       <Type className="w-4 h-4 text-primary" />
                       Текст {selectedText && <span className="text-xs text-muted-foreground">(выбран)</span>}
                     </h3>
@@ -1406,7 +1408,7 @@ export default function RandomCover() {
                             </Select>
                           </div>
 
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-2 gap-2 lg:gap-3">
                             <div>
                               <Label className="text-xs">Цвет</Label>
                               <div className="flex gap-2 mt-1">
