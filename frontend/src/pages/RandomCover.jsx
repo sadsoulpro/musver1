@@ -1189,22 +1189,98 @@ export default function RandomCover() {
                       </Stage>
                     </div>
 
-                    <p className="text-center text-xs text-muted-foreground mt-4">
+                    <p className="text-center text-xs text-muted-foreground mt-3 lg:mt-4">
                       Финальное разрешение: {OUTPUT_SIZE}x{OUTPUT_SIZE}px • 
                       История: {historyIndex + 1}/{history.length}
                     </p>
+                    
+                    {/* Mobile Quick Actions */}
+                    <div className="flex lg:hidden gap-2 mt-4 justify-center flex-wrap">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="flex-1 max-w-[140px]"
+                      >
+                        <Upload className="w-4 h-4 mr-1" />
+                        Фото
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={addTextElement}
+                        className="flex-1 max-w-[140px]"
+                      >
+                        <Type className="w-4 h-4 mr-1" />
+                        Текст
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={saveCover}
+                        disabled={saving || (!bgImage && textElements.length === 0)}
+                        className="flex-1 max-w-[140px] bg-primary"
+                      >
+                        {saving ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <>
+                            <Download className="w-4 h-4 mr-1" />
+                            Скачать
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   </div>
                 </motion.div>
 
-                {/* Controls Panel */}
+                {/* Controls Panel - Desktop always visible, Mobile collapsible */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="order-1 lg:order-2 space-y-4"
+                  className={`order-2 space-y-3 lg:space-y-4 ${mobileControlsOpen ? 'block' : 'hidden lg:block'}`}
                 >
-                  {/* Image Upload */}
-                  <div className="bg-zinc-900/50 rounded-2xl border border-white/5 p-4">
-                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                  {/* Mobile Tab Navigation */}
+                  <div className="lg:hidden flex gap-1 bg-zinc-900/50 rounded-xl p-1 border border-white/5">
+                    <button
+                      onClick={() => setActiveControlTab("image")}
+                      className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${
+                        activeControlTab === "image" 
+                          ? "bg-primary text-white" 
+                          : "text-zinc-400 hover:text-white"
+                      }`}
+                    >
+                      <ImageIcon className="w-4 h-4 mx-auto mb-1" />
+                      Фон
+                    </button>
+                    <button
+                      onClick={() => setActiveControlTab("text")}
+                      className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${
+                        activeControlTab === "text" 
+                          ? "bg-primary text-white" 
+                          : "text-zinc-400 hover:text-white"
+                      }`}
+                    >
+                      <Type className="w-4 h-4 mx-auto mb-1" />
+                      Текст
+                    </button>
+                    <button
+                      onClick={() => setActiveControlTab("actions")}
+                      className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${
+                        activeControlTab === "actions" 
+                          ? "bg-primary text-white" 
+                          : "text-zinc-400 hover:text-white"
+                      }`}
+                    >
+                      <Settings2 className="w-4 h-4 mx-auto mb-1" />
+                      Действия
+                    </button>
+                  </div>
+
+                  {/* Image Upload - Show on desktop or when image tab active on mobile */}
+                  <div className={`bg-zinc-900/50 rounded-2xl border border-white/5 p-3 lg:p-4 ${
+                    activeControlTab !== "image" ? "hidden lg:block" : ""
+                  }`}>
+                    <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm lg:text-base">
                       <Upload className="w-4 h-4 text-primary" />
                       Фоновое изображение
                     </h3>
