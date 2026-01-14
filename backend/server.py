@@ -630,6 +630,9 @@ async def reset_password(data: ResetPasswordRequest):
 
 @api_router.get("/auth/me")
 async def get_me(user: dict = Depends(get_current_user)):
+    # Get plan config for user
+    plan_config = await get_plan_config(user.get("plan", "free"))
+    
     return {
         "id": user["id"],
         "email": user["email"],
@@ -637,6 +640,7 @@ async def get_me(user: dict = Depends(get_current_user)):
         "role": user["role"],
         "status": user["status"],
         "plan": user["plan"],
+        "plan_config": plan_config,
         "verified": user.get("verified", False),
         "verification_status": user.get("verification_status", "none"),
         "show_verification_badge": user.get("show_verification_badge", True),
