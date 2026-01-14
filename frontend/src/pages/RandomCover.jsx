@@ -532,15 +532,15 @@ export default function RandomCover() {
                   <div className="mt-3">
                     <Label className="text-xs">Фильтр</Label>
                     <Select
-                      value={FILTERS.findIndex((f) => f.filter === currentFilter).toString()}
-                      onValueChange={(val) => setCurrentFilter(FILTERS[parseInt(val)].filter)}
+                      value={currentFilter}
+                      onValueChange={(val) => setCurrentFilter(val)}
                     >
                       <SelectTrigger className="mt-1 bg-zinc-800">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {FILTERS.map((f, i) => (
-                          <SelectItem key={i} value={i.toString()}>
+                        {FILTERS.map((f) => (
+                          <SelectItem key={f.type} value={f.type}>
                             {f.name}
                           </SelectItem>
                         ))}
