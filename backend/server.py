@@ -2130,7 +2130,7 @@ async def create_subdomain(data: SubdomainCreate, user: dict = Depends(get_curre
     if max_limit != -1 and current_count >= max_limit:
         raise HTTPException(
             status_code=403, 
-            detail=f"Лимит поддоменов исчерпан ({max_limit}). Обновите тариф для добавления новых."
+            detail="Лимит достигнут, перейдите на PRO-подписку."
         )
     
     # Create subdomain
