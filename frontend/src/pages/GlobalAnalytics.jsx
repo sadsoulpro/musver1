@@ -225,9 +225,25 @@ export default function GlobalAnalytics() {
         </div>
         
         {/* Geography */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8 relative">
+          {/* PRO Overlay for geography */}
+          {!hasAdvancedAnalytics && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-zinc-900/60 backdrop-blur-md">
+              <div className="text-center p-6">
+                <Crown className="w-10 h-10 text-yellow-500 mx-auto mb-3" />
+                <h3 className="text-lg font-semibold text-white mb-2">Доступно в PRO подписке</h3>
+                <p className="text-sm text-muted-foreground mb-4">География кликов доступна в PRO версии</p>
+                <Link to="/pricing">
+                  <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600">
+                    Перейти на PRO
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
+          
           {/* Countries */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className={`p-4 sm:p-6 rounded-2xl bg-zinc-900/50 border border-white/5 ${!hasAdvancedAnalytics ? 'filter blur-sm' : ''}`}>
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <div>
                 <h3 className="text-base sm:text-lg font-semibold">По странам</h3>
