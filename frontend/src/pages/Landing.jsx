@@ -53,7 +53,8 @@ export default function Landing() {
       
       {/* Hero Section - Full Screen */}
       <section className="relative z-10 min-h-screen flex items-center px-4 sm:px-6 lg:px-10">
-        <div className="w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center pt-16 sm:pt-20 pb-8 lg:pt-0 lg:pb-0">
+        <div className="w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 lg:gap-12 xl:gap-16 items-center pt-16 sm:pt-20 pb-8 lg:pt-0 lg:pb-0">
+          {/* Text Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -67,24 +68,25 @@ export default function Landing() {
               <span className="text-primary">МУЛЬТИССЫЛКУ</span><br />
               ДЛЯ СВОЕЙ <span className="text-primary">МУЗЫКИ</span>
             </h1>
-            <p className="font-gilroy-300 text-muted-foreground mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0
-              text-sm sm:text-base lg:text-lg">
+            <p className="font-gilroy-300 text-muted-foreground max-w-md mx-auto lg:mx-0
+              text-sm sm:text-base lg:text-lg lg:mb-8">
               Стильные страницы для ваших релизов. Одна ссылка — все платформы.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-              <Link to={isAuthenticated ? "/page/new" : "/register"} className="w-full sm:w-auto">
+            {/* Desktop buttons - hidden on mobile/tablet */}
+            <div className="hidden lg:flex flex-row gap-3 justify-start">
+              <Link to={isAuthenticated ? "/page/new" : "/register"}>
                 <Button 
                   data-testid="hero-get-started-btn"
-                  className="w-full sm:w-auto bg-primary hover:bg-primary/90 rounded-full px-6 sm:px-8 py-4 sm:py-5 text-sm sm:text-base font-gilroy-600 shadow-lg shadow-primary/20 transition-all hover:scale-105"
+                  className="bg-primary hover:bg-primary/90 rounded-full px-8 py-5 text-base font-gilroy-600 shadow-lg shadow-primary/20 transition-all hover:scale-105"
                 >
                   Создать страницу
                 </Button>
               </Link>
-              <Link to="/demo" className="w-full sm:w-auto">
+              <Link to="/demo">
                 <Button 
                   variant="outline" 
                   data-testid="hero-demo-btn"
-                  className="w-full sm:w-auto rounded-full px-6 sm:px-8 py-4 sm:py-5 text-sm sm:text-base font-gilroy-600 border-white/10 hover:bg-white/5"
+                  className="rounded-full px-8 py-5 text-base font-gilroy-600 border-white/10 hover:bg-white/5"
                 >
                   Демо
                 </Button>
