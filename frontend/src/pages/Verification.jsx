@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { api, useAuth } from "@/App";
 import { toast } from "sonner";
-import { BadgeCheck, Clock, CheckCircle, XCircle, Send, Info, ToggleLeft, ToggleRight } from "lucide-react";
+import { BadgeCheck, Clock, CheckCircle, XCircle, Send, Info, ToggleLeft, ToggleRight, Crown, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 
@@ -15,6 +16,9 @@ export default function Verification() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [badgeLoading, setBadgeLoading] = useState(false);
+  
+  // Check if user can verify
+  const canVerify = user?.plan_config?.can_verify_profile || user?.plan === 'pro';
   
   const [form, setForm] = useState({ artist_name: "", social_links: "", description: "" });
 
