@@ -170,11 +170,12 @@ function DesktopSidebar({ user, onLogout }) {
     <aside className="fixed left-0 top-0 h-full w-64 bg-zinc-900/50 border-r border-white/5 p-6 hidden lg:flex flex-col z-40">
       {/* Logo */}
       <div className="flex items-center gap-2 mb-10">
-        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-          <Music className="w-5 h-5 text-white" />
-        </div>
         <Link to="/multilinks">
-          <span className="font-display text-xl">MYTRACK</span>
+          <img 
+            src="/MyTrack-logo-main.svg" 
+            alt="MyTrack" 
+            className="h-8 w-auto"
+          />
         </Link>
       </div>
       
