@@ -369,6 +369,10 @@ export default function RandomCover() {
   const [savingProject, setSavingProject] = useState(false);
   const [activeTab, setActiveTab] = useState("editor");
   
+  // AI Image Generation state
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [generatingAI, setGeneratingAI] = useState(false);
+  
   // Selected text settings (live preview)
   const selectedText = useMemo(() => {
     return textElements.find((el) => el.id === selectedId);
