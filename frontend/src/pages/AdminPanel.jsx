@@ -249,7 +249,7 @@ export default function AdminPanel() {
       toast.success(currentBanned ? "Пользователь разбанен" : "Пользователь забанен");
       fetchData();
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Ошибка");
+      toast.error(getErrorMessage(error));
     }
   };
 
@@ -259,7 +259,7 @@ export default function AdminPanel() {
       toast.success(`Роль изменена`);
       fetchData();
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Ошибка");
+      toast.error(getErrorMessage(error));
     }
   };
 
@@ -269,7 +269,7 @@ export default function AdminPanel() {
       toast.success(`План изменён`);
       fetchData();
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Ошибка");
+      toast.error(getErrorMessage(error));
     }
   };
 
@@ -279,7 +279,7 @@ export default function AdminPanel() {
       toast.success(currentVerified ? "Верификация снята" : "Верифицирован");
       fetchData();
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Ошибка");
+      toast.error(getErrorMessage(error));
     }
   };
 
@@ -290,7 +290,7 @@ export default function AdminPanel() {
       fetchPlanConfigs();
       setEditingPlan(null);
     } catch (error) {
-      toast.error(error.response?.data?.detail || "Ошибка");
+      toast.error(getErrorMessage(error));
     }
   };
 
