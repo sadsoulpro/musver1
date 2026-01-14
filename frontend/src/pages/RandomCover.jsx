@@ -214,7 +214,7 @@ export default function RandomCover() {
   const [bgImage, setBgImage] = useState(null);
   const [textElements, setTextElements] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
-  const [currentFilter, setCurrentFilter] = useState(null);
+  const [currentFilter, setCurrentFilter] = useState(FILTER_TYPES.NONE);
   const [filterValue, setFilterValue] = useState(0.5);
   const [saving, setSaving] = useState(false);
   const [containerSize, setContainerSize] = useState(CANVAS_SIZE);
