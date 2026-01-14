@@ -2317,7 +2317,9 @@ async def get_subdomain_page(request: Request, slug: Optional[str] = None):
             "subdomain": subdomain,
             "username": user.get("username"),
             "pages": pages,
-            "verified": user.get("verified", False) and user.get("show_verification_badge", True)
+            "verified": user.get("verified", False) and user.get("show_verification_badge", True),
+            "contact_email": user.get("contact_email", ""),
+            "social_links": user.get("social_links", {})
         }
     
     # Find specific page by slug
