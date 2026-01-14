@@ -324,9 +324,9 @@ export default function RandomCover() {
 
   // Random design generator
   const randomizeDesign = () => {
-    // Random filter for background
-    const randomFilterIndex = Math.floor(Math.random() * FILTERS.length);
-    setCurrentFilter(FILTERS[randomFilterIndex].filter);
+    // Random filter for background (skip NONE which is index 0)
+    const randomFilterIndex = Math.floor(Math.random() * (FILTERS.length - 1)) + 1;
+    setCurrentFilter(FILTERS[randomFilterIndex].type);
     setFilterValue(Math.random() * 0.5 + 0.3);
 
     // Randomize text elements
@@ -346,7 +346,7 @@ export default function RandomCover() {
 
   // Reset design
   const resetDesign = () => {
-    setCurrentFilter(null);
+    setCurrentFilter(FILTER_TYPES.NONE);
     setFilterValue(0.5);
     setTextElements([]);
     setBgImage(null);
