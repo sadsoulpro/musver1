@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/App";
 import { 
-  Music, BarChart3, Eye, Shield, Settings, LogOut, 
+  BarChart3, Eye, Shield, Settings, LogOut, 
   BadgeCheck, Menu, X, HelpCircle, Globe
 } from "lucide-react";
 import {
