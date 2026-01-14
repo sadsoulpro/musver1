@@ -2782,6 +2782,84 @@ async def delete_project(project_id: str, user: dict = Depends(get_current_user)
     
     return {"success": True, "message": "Проект удалён"}
 
+# ===================== AI IMAGE GENERATION =====================
+
+class AIGenerateRequest(BaseModel):
+    prompt: str = Field(..., min_length=1, max_length=500)
+
+@api_router.post("/generate-bg")
+async def generate_ai_background(request: AIGenerateRequest, user: dict = Depends(get_current_user)):
+    """Generate AI background image using Hugging Face Stable Diffusion XL"""
+    
+    huggingface_token = os.getenv("HUGGINGFACE_TOKEN")
+    if not huggingface_token:
+        raise HTTPException(status_code=500, detail="Hugging Face token not configured")
+    
+    # Hugging Face Inference API endpoint for SDXL
+    api_url = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+    
+    headers = {
+        "Authorization": f"Bearer {huggingface_token}",
+        "Content-Type": "application/json"
+    }
+    
+    # Add quality enhancers to the prompt
+    enhanced_prompt = f"{request.prompt}, high quality, detailed, 4k, professional"
+    
+    payload = {
+        "inputs": enhanced_prompt,
+        "parameters": {
+            "num_inference_steps": 30,
+            "guidance_scale": 7.5,
+            "width": 1024,
+            "height": 1024
+        }
+    }
+    
+    try:
+        async with httpx.AsyncClient(timeout=120.0) as client:
+            response = await client.post(api_url, headers=headers, json=payload)
+            
+            if response.status_code == 503:
+                # Model is loading, return loading status
+                return JSONResponse(
+                    status_code=503,
+                    content={"detail": "Модель загружается. Попробуйте через 20-30 секунд."}
+                )
+            
+            if response.status_code != 200:
+                error_detail = response.text[:200] if response.text else "Unknown error"
+                logging.error(f"HuggingFace API error: {response.status_code} - {error_detail}")
+                raise HTTPException(
+                    status_code=response.status_code, 
+                    detail=f"Ошибка генерации: {error_detail}"
+                )
+            
+            # Response is binary image data
+            image_bytes = response.content
+            
+            # Convert to base64
+            image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+            
+            # Also save to uploads folder
+            filename = f"ai_bg_{uuid.uuid4().hex[:8]}.png"
+            filepath = UPLOAD_DIR / filename
+            
+            async with aiofiles.open(filepath, 'wb') as f:
+                await f.write(image_bytes)
+            
+            return {
+                "success": True,
+                "image_base64": f"data:image/png;base64,{image_base64}",
+                "image_url": f"/api/uploads/{filename}"
+            }
+            
+    except httpx.TimeoutException:
+        raise HTTPException(status_code=504, detail="Время ожидания генерации истекло. Попробуйте ещё раз.")
+    except Exception as e:
+        logging.error(f"AI generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Ошибка генерации: {str(e)}")
+
 # ===================== STARTUP =====================
 
 @app.on_event("startup")
