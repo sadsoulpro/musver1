@@ -739,6 +739,53 @@ async def toggle_site_navigation(data: dict, user: dict = Depends(get_current_us
     
     return {"enabled": enabled, "message": "Настройка сохранена"}
 
+# ===================== CONTACT INFO ROUTES =====================
+
+class SocialLinksModel(BaseModel):
+    telegram: Optional[str] = ""
+    instagram: Optional[str] = ""
+    vk: Optional[str] = ""
+    tiktok: Optional[str] = ""
+    twitter: Optional[str] = ""
+    website: Optional[str] = ""
+
+class ContactInfoUpdate(BaseModel):
+    contact_email: Optional[str] = ""
+    social_links: Optional[SocialLinksModel] = None
+
+@api_router.get("/profile/contacts")
+async def get_contact_info(user: dict = Depends(get_current_user)):
+    """Get user's contact information"""
+    return {
+        "contact_email": user.get("contact_email", ""),
+        "social_links": user.get("social_links", {
+            "telegram": "",
+            "instagram": "",
+            "vk": "",
+            "tiktok": "",
+            "twitter": "",
+            "website": ""
+        })
+    }
+
+@api_router.put("/profile/contacts")
+async def update_contact_info(data: ContactInfoUpdate, user: dict = Depends(get_current_user)):
+    """Update user's contact information (email and social links)"""
+    update_data = {}
+    
+    if data.contact_email is not None:
+        update_data["contact_email"] = data.contact_email
+    
+    if data.social_links is not None:
+        update_data["social_links"] = data.social_links.model_dump()
+    
+    if not update_data:
+        raise HTTPException(status_code=400, detail="Нет данных для обновления")
+    
+    await db.users.update_one({"id": user["id"]}, {"$set": update_data})
+    
+    return {"message": "Контактная информация обновлена"}
+
 @api_router.get("/users/{user_id}/pages")
 async def get_user_pages_public(user_id: str):
     """Get all active pages for a user (for site navigation)"""
