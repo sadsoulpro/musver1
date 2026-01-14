@@ -293,10 +293,16 @@ function PagesListView({ data, subdomain }) {
               <BadgeCheck className="w-5 h-5 text-primary" />
             )}
           </div>
-          <p className="text-zinc-400 text-sm">
-            <Globe className="w-4 h-4 inline mr-1" />
-            {subdomain}.mytrack.cc
-          </p>
+          {data.profile_description ? (
+            <p className="text-zinc-400 text-sm max-w-md mx-auto">
+              {data.profile_description}
+            </p>
+          ) : (
+            <p className="text-zinc-500 text-sm">
+              <Globe className="w-4 h-4 inline mr-1" />
+              {subdomain}.mytrack.cc
+            </p>
+          )}
         </motion.div>
 
         {/* Pages Grid */}
