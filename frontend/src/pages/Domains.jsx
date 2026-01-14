@@ -336,15 +336,6 @@ export default function Domains() {
                 </div>
                 
                 {/* Social Links */}
-                    rows={3}
-                    maxLength={200}
-                  />
-                  <p className="text-[10px] text-muted-foreground mt-1">
-                    Отображается на главной странице поддомена под именем ({profileDescription.length}/200)
-                  </p>
-                </div>
-                
-                {/* Social Links */}
                 <div className="space-y-3">
                   <Label className="text-sm">Социальные сети</Label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
