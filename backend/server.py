@@ -2818,6 +2818,14 @@ class AIGenerateRequest(BaseModel):
 async def generate_ai_background(request: AIGenerateRequest, user: dict = Depends(get_current_user)):
     """Generate AI background image using Hugging Face Stable Diffusion XL"""
     
+    # Check if user has AI generation access
+    plan_config = await get_plan_config(user.get("plan", "free"))
+    if not plan_config.get("can_use_ai_generation", False):
+        raise HTTPException(
+            status_code=403, 
+            detail="Эта функция доступна только в PRO-версии."
+        )
+    
     huggingface_token = os.getenv("HUGGINGFACE_TOKEN")
     if not huggingface_token:
         raise HTTPException(status_code=500, detail="Hugging Face token not configured")
