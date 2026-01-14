@@ -3159,6 +3159,8 @@ async def startup_event():
     await db.subdomains.create_index("subdomain", unique=True)
     await db.subdomains.create_index("user_id")
     await db.cover_projects.create_index("user_id")
+    await db.tickets.create_index("user_id")
+    await db.tickets.create_index([("status", 1), ("is_read_by_staff", 1)])
     
     # Update existing plan configs with new fields
     for plan_name in ["free", "pro"]:
