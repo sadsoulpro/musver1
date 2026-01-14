@@ -114,7 +114,27 @@ export default function Verification() {
 
   return (
     <Sidebar>
-      <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-10">
+      <div className="max-w-2xl mx-auto p-4 sm:p-6 lg:p-10 relative">
+        {/* PRO Overlay for FREE users */}
+        {!canVerify && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-950/80 backdrop-blur-md rounded-2xl">
+            <div className="text-center p-8 max-w-md">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-yellow-500/10 flex items-center justify-center">
+                <Crown className="w-8 h-8 text-yellow-500" />
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-3">Верификация профиля доступна только в PRO подписке</h2>
+              <p className="text-muted-foreground mb-6">Получите галочку верификации и повысьте доверие к вашему профилю</p>
+              <Link to="/pricing">
+                <Button size="lg" className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600">
+                  <Crown className="w-4 h-4 mr-2" />
+                  Перейти на PRO
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+        
+        <div className={!canVerify ? 'filter blur-md pointer-events-none' : ''}>
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-xl sm:text-2xl font-display mb-2 flex items-center gap-2">
