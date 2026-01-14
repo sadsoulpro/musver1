@@ -290,6 +290,9 @@ function App() {
           <Route path="/pricing" element={
             <ProtectedRoute><Pricing /></ProtectedRoute>
           } />
+          <Route path="/support" element={
+            <ProtectedRoute><Support /></ProtectedRoute>
+          } />
           <Route path="/page/new" element={
             <ProtectedRoute><PageBuilder /></ProtectedRoute>
           } />
