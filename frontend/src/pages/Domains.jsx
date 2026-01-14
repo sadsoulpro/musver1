@@ -294,6 +294,25 @@ export default function Domains() {
                   </p>
                 </div>
                 
+                {/* Profile Description */}
+                <div className="mb-4">
+                  <Label htmlFor="profile_description" className="text-sm mb-2 block">
+                    Описание профиля
+                  </Label>
+                  <Textarea
+                    id="profile_description"
+                    value={profileDescription}
+                    onChange={(e) => setProfileDescription(e.target.value)}
+                    placeholder="Музыкант, продюсер, автор песен..."
+                    className="bg-zinc-800/50 resize-none"
+                    rows={3}
+                    maxLength={200}
+                  />
+                  <p className="text-[10px] text-muted-foreground mt-1">
+                    Отображается на главной странице поддомена под именем ({profileDescription.length}/200)
+                  </p>
+                </div>
+                
                 {/* Social Links */}
                 <div className="space-y-3">
                   <Label className="text-sm">Социальные сети</Label>
