@@ -17,6 +17,7 @@ import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, PieChart as RechartsPie, Pie, Cell, BarChart, Bar
 } from "recharts";
 import Sidebar from "@/components/Sidebar";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Role configuration
 const ROLE_CONFIG = {
