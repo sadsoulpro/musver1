@@ -734,7 +734,6 @@ export default function AdminPanel() {
                             >
                               <option value="free">Free</option>
                               <option value="pro">Pro</option>
-                              <option value="ultimate">Ultimate</option>
                             </select>
 
                             {isOwner && (
