@@ -777,7 +777,6 @@ export default function AdminPanel() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
                     className={`p-6 rounded-2xl border relative overflow-hidden ${
-                      config.plan_name === 'ultimate' ? 'bg-gradient-to-br from-purple-950/50 to-pink-950/50 border-purple-500/30' :
                       config.plan_name === 'pro' ? 'bg-gradient-to-br from-blue-950/30 to-cyan-950/30 border-blue-500/20' :
                       'bg-zinc-900/50 border-white/5'
                     }`}
