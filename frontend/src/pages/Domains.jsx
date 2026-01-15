@@ -16,8 +16,7 @@ import Sidebar from "@/components/Sidebar";
 
 const PLAN_LIMITS = {
   free: { limit: 1, label: "FREE" },
-  pro: { limit: 3, label: "PRO" },
-  ultimate: { limit: -1, label: "ULTIMATE" }
+  pro: { limit: 3, label: "PRO" }
 };
 
 const SOCIAL_PLATFORMS = [
