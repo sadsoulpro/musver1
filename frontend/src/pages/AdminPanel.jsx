@@ -1233,10 +1233,10 @@ export default function AdminPanel() {
                                         borderColor: statusConfig.color + '30',
                                         color: statusConfig.color
                                       }}>
-                                  {statusConfig.label}
+                                  {t('admin', statusConfig.labelKey)}
                                 </span>
                                 <span className="text-xs text-muted-foreground">
-                                  {new Date(ticket.created_at).toLocaleDateString('ru-RU')}
+                                  {new Date(ticket.created_at).toLocaleDateString()}
                                 </span>
                               </div>
                             </div>
