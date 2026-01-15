@@ -1171,18 +1171,18 @@ export default function AdminPanel() {
                     }}
                     className="px-4 py-2.5 rounded-xl bg-zinc-900/50 border border-white/10 focus:border-primary focus:outline-none text-sm"
                   >
-                    <option value="">Все статусы</option>
-                    <option value="open">Открытые</option>
-                    <option value="in_progress">В работе</option>
-                    <option value="resolved">Решённые</option>
-                    <option value="closed">Закрытые</option>
+                    <option value="">{t('admin', 'allStatuses')}</option>
+                    <option value="open">{t('admin', 'openTickets')}</option>
+                    <option value="in_progress">{t('admin', 'inProgressTickets')}</option>
+                    <option value="resolved">{t('admin', 'resolvedTickets')}</option>
+                    <option value="closed">{t('admin', 'closedTickets')}</option>
                   </select>
                   <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900/50 border border-white/5">
                     <MessageCircle className="w-4 h-4 text-blue-400" />
-                    <span className="text-sm">Всего: <span className="font-semibold">{ticketsTotal}</span></span>
+                    <span className="text-sm">{t('common', 'total')}: <span className="font-semibold">{ticketsTotal}</span></span>
                     {unreadTickets > 0 && (
                       <span className="ml-2 px-2 py-1 rounded-full bg-red-500 text-white text-xs">
-                        {unreadTickets} непрочитанных
+                        {unreadTickets} {t('admin', 'unreadCount')}
                       </span>
                     )}
                   </div>
