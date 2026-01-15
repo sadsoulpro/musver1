@@ -130,7 +130,7 @@ function NavContent({ currentPath, user, onLogout, onNavigate, unreadUserTickets
           data-testid="logout-btn"
         >
           <LogOut className="w-4 h-4 mr-2" />
-          Выйти
+          {t('common', 'logout')}
         </Button>
       </div>
     </>
