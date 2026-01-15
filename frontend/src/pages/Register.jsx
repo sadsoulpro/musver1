@@ -7,6 +7,8 @@ import { useAuth } from "@/App";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -15,12 +17,13 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (password.length < 6) {
-      toast.error("Пароль должен содержать минимум 6 символов");
+      toast.error(t('auth', 'passwordMinLength'));
       return;
     }
     
@@ -28,10 +31,10 @@ export default function Register() {
     
     try {
       await register(email, username, password);
-      toast.success("Аккаунт создан! Добро пожаловать в MyTrack!");
+      toast.success(t('auth', 'registrationSuccess'));
       navigate("/multilinks");
     } catch (error) {
-      toast.error(typeof (error.response?.data?.detail) === "string" ? error.response.data.detail : "Ошибка регистрации");
+      toast.error(typeof (error.response?.data?.detail) === "string" ? error.response.data.detail : t('errors', 'generic'));
     } finally {
       setLoading(false);
     }
@@ -39,12 +42,17 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-background flex">
+      {/* Language Switcher - Top Right */}
+      <div className="absolute top-4 right-4 z-10">
+        <LanguageSwitcher variant="compact" />
+      </div>
+      
       {/* Left Side - Form */}
       <div className="flex-1 flex flex-col justify-center px-4 sm:px-8 py-8 sm:py-12 lg:px-16">
         <div className="w-full max-w-md mx-auto">
           <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 sm:mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm sm:text-base">На главную</span>
+            <span className="text-sm sm:text-base">{t('common', 'back')}</span>
           </Link>
           
           <motion.div
@@ -62,18 +70,18 @@ export default function Register() {
               </Link>
             </div>
             
-            <h1 className="text-2xl sm:text-3xl font-semibold mb-2">Создайте аккаунт</h1>
+            <h1 className="text-2xl sm:text-3xl font-semibold mb-2">{t('auth', 'registerTitle')}</h1>
             <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8">
-              Начните делиться музыкой за считанные минуты
+              {t('auth', 'registerSubtitle')}
             </p>
             
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm">E-Mail</Label>
+                <Label htmlFor="email" className="text-sm">{t('common', 'email')}</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="mail@example.com"
+                  placeholder={t('auth', 'emailPlaceholder')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -83,11 +91,11 @@ export default function Register() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="username" className="text-sm">Имя пользователя</Label>
+                <Label htmlFor="username" className="text-sm">{t('common', 'username')}</Label>
                 <Input
                   id="username"
                   type="text"
-                  placeholder="username"
+                  placeholder={t('auth', 'usernamePlaceholder')}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
@@ -97,7 +105,7 @@ export default function Register() {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm">Пароль</Label>
+                <Label htmlFor="password" className="text-sm">{t('common', 'password')}</Label>
                 <Input
                   id="password"
                   type="password"
@@ -108,7 +116,7 @@ export default function Register() {
                   data-testid="register-password-input"
                   className="h-11 sm:h-12 bg-zinc-900 border-zinc-800 focus:border-primary"
                 />
-                <p className="text-xs text-muted-foreground">Минимум 6 символов</p>
+                <p className="text-xs text-muted-foreground">{t('auth', 'passwordMinLength')}</p>
               </div>
               
               <Button 
@@ -117,14 +125,14 @@ export default function Register() {
                 data-testid="register-submit-btn"
                 className="w-full h-11 sm:h-12 bg-primary hover:bg-primary/90 rounded-xl font-semibold"
               >
-                {loading ? "Создание аккаунта..." : "Создать аккаунт"}
+                {loading ? t('common', 'loading') : t('auth', 'registerButton')}
               </Button>
             </form>
             
             <p className="mt-6 sm:mt-8 text-center text-sm sm:text-base text-muted-foreground">
-              Уже есть аккаунт?{" "}
+              {t('auth', 'hasAccount')}{" "}
               <Link to="/login" className="text-primary hover:underline" data-testid="login-link">
-                Войти
+                {t('auth', 'signIn')}
               </Link>
             </p>
           </motion.div>
@@ -141,9 +149,9 @@ export default function Register() {
               className="h-20 xl:h-24 w-auto"
             />
           </div>
-          <h2 className="font-gilroy-600 text-2xl xl:text-3xl mb-4">ПРИСОЕДИНЯЙТЕСЬ К MYTRACK</h2>
+          <h2 className="font-gilroy-600 text-2xl xl:text-3xl mb-4">{t('landing', 'heroTitle2')}</h2>
           <p className="font-gilroy-300 text-muted-foreground max-w-sm">
-            Создавайте красивые страницы со смарт-ссылками для ваших релизов. Бесплатно.
+            {t('landing', 'heroSubtitle')}
           </p>
         </div>
       </div>
