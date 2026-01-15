@@ -736,7 +736,7 @@ export default function AdminPanel() {
                             <div className="flex items-center gap-2 flex-wrap">
                               <p className="font-semibold truncate">{user.username}</p>
                               {isVerified && <BadgeCheck className="w-4 h-4 text-primary flex-shrink-0" />}
-                              {isBanned && <span className="px-2 py-0.5 rounded-full text-[10px] bg-red-500/20 text-red-400">Бан</span>}
+                              {isBanned && <span className="px-2 py-0.5 rounded-full text-[10px] bg-red-500/20 text-red-400">{t('admin', 'ban')}</span>}
                             </div>
                             <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                           </div>
@@ -751,7 +751,7 @@ export default function AdminPanel() {
                             {PLAN_CONFIG[user.plan]?.label}
                           </span>
                           <span className="px-2 py-1 rounded-lg text-[11px] bg-zinc-800 text-zinc-400">
-                            {user.page_count || 0} стр.
+                            {user.page_count || 0} {t('admin', 'pagesCount')}
                           </span>
                         </div>
 
@@ -765,7 +765,7 @@ export default function AdminPanel() {
                               className="h-8 text-xs"
                             >
                               <BadgeCheck className="w-3.5 h-3.5 mr-1" />
-                              {isVerified ? "Снять" : "Выдать"}
+                              {isVerified ? t('admin', 'revoke') : t('admin', 'grant')}
                             </Button>
 
                             <select
