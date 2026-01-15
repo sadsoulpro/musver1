@@ -830,12 +830,12 @@ export default function AdminPanel() {
 
                     <h3 className="text-xl font-bold capitalize mb-1">{config.plan_name}</h3>
                     <p className="text-xs text-muted-foreground mb-4">
-                      {users.filter(u => u.plan === config.plan_name).length} пользователей
+                      {users.filter(u => u.plan === config.plan_name).length} {t('admin', 'usersCount')}
                     </p>
 
                     <div className="space-y-4">
                       <div>
-                        <label className="text-xs text-muted-foreground mb-1.5 block">Лимит страниц</label>
+                        <label className="text-xs text-muted-foreground mb-1.5 block">{t('admin', 'pagesLimit')}</label>
                         <input
                           type="number"
                           value={config.max_pages_limit}
@@ -848,11 +848,11 @@ export default function AdminPanel() {
                           className="w-full h-10 px-3 rounded-xl bg-zinc-800/50 border border-white/10 text-sm focus:border-primary focus:outline-none transition-colors"
                           min="-1"
                         />
-                        <p className="text-[10px] text-muted-foreground mt-1">-1 = безлимит</p>
+                        <p className="text-[10px] text-muted-foreground mt-1">{t('admin', 'unlimited')}</p>
                       </div>
 
                       <div>
-                        <label className="text-xs text-muted-foreground mb-1.5 block">Лимит поддоменов</label>
+                        <label className="text-xs text-muted-foreground mb-1.5 block">{t('admin', 'subdomainsLimit')}</label>
                         <input
                           type="number"
                           value={config.max_subdomains_limit ?? 0}
@@ -865,17 +865,17 @@ export default function AdminPanel() {
                           className="w-full h-10 px-3 rounded-xl bg-zinc-800/50 border border-white/10 text-sm focus:border-primary focus:outline-none transition-colors"
                           min="-1"
                         />
-                        <p className="text-[10px] text-muted-foreground mt-1">-1 = безлимит, 0 = запрещено</p>
+                        <p className="text-[10px] text-muted-foreground mt-1">{t('admin', 'unlimited')}, {t('admin', 'disabled')}</p>
                       </div>
 
                       <div className="space-y-2.5">
                         {[
-                          { key: 'has_analytics', label: 'Базовая аналитика' },
-                          { key: 'has_advanced_analytics', label: 'Расширенная аналитика' },
-                          { key: 'can_use_ai_generation', label: 'AI генерация обложек' },
-                          { key: 'can_verify_profile', label: 'Верификация профиля' },
-                          { key: 'can_remove_branding', label: 'Убрать брендинг' },
-                          { key: 'priority_support', label: 'Приоритетная поддержка' }
+                          { key: 'has_analytics', label: t('admin', 'basicAnalytics') },
+                          { key: 'has_advanced_analytics', label: t('admin', 'advancedAnalytics') },
+                          { key: 'can_use_ai_generation', label: t('admin', 'aiGeneration') },
+                          { key: 'can_verify_profile', label: t('admin', 'profileVerification') },
+                          { key: 'can_remove_branding', label: t('admin', 'removeBranding') },
+                          { key: 'priority_support', label: t('admin', 'prioritySupport') }
                         ].map(({ key, label }) => (
                           <label key={key} className="flex items-center justify-between cursor-pointer group">
                             <span className="text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">{label}</span>
