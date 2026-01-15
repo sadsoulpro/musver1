@@ -2376,6 +2376,10 @@ export const translations = {
       goToEditor: "Ir al Editor",
       open: "Abrir",
       photo: "Foto",
+      processingImage: "Procesando imagen...",
+      imageUploaded: "Imagen cargada",
+      imageLoadError: "Error al cargar imagen",
+      imageProcessError: "Error al procesar imagen",
     },
   },
 };
