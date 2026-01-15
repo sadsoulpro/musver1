@@ -503,12 +503,12 @@ export default function AdminPanel() {
                 {/* Main Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                   {[
-                    { icon: Users, label: "Пользователей", value: globalAnalytics?.total_users || users.length, color: "from-blue-500 to-cyan-500", bg: "bg-blue-500/10" },
-                    { icon: FileText, label: "Страниц", value: globalAnalytics?.total_pages || pages.length, color: "from-purple-500 to-pink-500", bg: "bg-purple-500/10" },
-                    { icon: Eye, label: "Просмотров", value: globalAnalytics?.total_views || 0, color: "from-emerald-500 to-teal-500", bg: "bg-emerald-500/10" },
-                    { icon: MousePointer, label: "Кликов", value: globalAnalytics?.total_clicks || 0, color: "from-orange-500 to-amber-500", bg: "bg-orange-500/10" },
-                    { icon: Share2, label: "Репостов", value: globalAnalytics?.total_shares || 0, color: "from-pink-500 to-rose-500", bg: "bg-pink-500/10" },
-                    { icon: QrCode, label: "QR сканов", value: globalAnalytics?.total_qr_scans || 0, color: "from-violet-500 to-purple-500", bg: "bg-violet-500/10" }
+                    { icon: Users, label: t('admin', 'totalUsers'), value: globalAnalytics?.total_users || users.length, color: "from-blue-500 to-cyan-500", bg: "bg-blue-500/10" },
+                    { icon: FileText, label: t('admin', 'totalPages'), value: globalAnalytics?.total_pages || pages.length, color: "from-purple-500 to-pink-500", bg: "bg-purple-500/10" },
+                    { icon: Eye, label: t('admin', 'totalViews'), value: globalAnalytics?.total_views || 0, color: "from-emerald-500 to-teal-500", bg: "bg-emerald-500/10" },
+                    { icon: MousePointer, label: t('admin', 'totalClicks'), value: globalAnalytics?.total_clicks || 0, color: "from-orange-500 to-amber-500", bg: "bg-orange-500/10" },
+                    { icon: Share2, label: t('admin', 'totalShares'), value: globalAnalytics?.total_shares || 0, color: "from-pink-500 to-rose-500", bg: "bg-pink-500/10" },
+                    { icon: QrCode, label: t('admin', 'totalQrScans'), value: globalAnalytics?.total_qr_scans || 0, color: "from-violet-500 to-purple-500", bg: "bg-violet-500/10" }
                   ].map((stat, idx) => (
                     <motion.div
                       key={stat.label}
