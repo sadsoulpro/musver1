@@ -248,7 +248,7 @@ export default function AdminPanel() {
   const toggleUserBan = async (userId, currentBanned) => {
     try {
       await api.put(`/admin/users/${userId}/ban`, { is_banned: !currentBanned });
-      toast.success(currentBanned ? "Пользователь разбанен" : "Пользователь забанен");
+      toast.success(currentBanned ? t('admin', 'userUnbanned') : t('admin', 'userBanned'));
       fetchData();
     } catch (error) {
       toast.error(getErrorMessage(error));
