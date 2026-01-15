@@ -3,21 +3,112 @@ import { useParams, Link } from "react-router-dom";
 import { api } from "@/App";
 import { motion } from "framer-motion";
 import { Music, ExternalLink, BadgeCheck, Globe, ArrowRight, Mail } from "lucide-react";
-import { FaTelegram, FaInstagram, FaVk, FaTiktok, FaTwitter, FaGlobe } from "react-icons/fa";
+import { FaTelegram, FaInstagram, FaVk, FaTiktok, FaTwitter, FaGlobe, FaSpotify, FaApple, FaYoutube, FaSoundcloud, FaLink, FaYandex, FaAmazon, FaItunes, FaGoogle, FaNapster, FaBandcamp } from "react-icons/fa";
+import { SiTidal, SiPandora, SiAudiomack } from "react-icons/si";
+
+// Custom SVG icons for platforms
+const DeezerIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M6.01 11.75H0V15h6.01v-3.25zM6.01 7.25H0v3.25h6.01V7.25zM6.01 16.25H0v3.25h6.01v-3.25zM12.005 11.75H6.01V15h5.995v-3.25zM12.005 16.25H6.01v3.25h5.995v-3.25zM17.995 11.75H12V15h5.995v-3.25zM17.995 16.25H12v3.25h5.995v-3.25zM17.995 7.25H12v3.25h5.995V7.25zM24 11.75h-6.005V15H24v-3.25zM24 16.25h-6.005v3.25H24v-3.25zM24 7.25h-6.005v3.25H24V7.25zM24 2.75h-6.005V6H24V2.75z"/>
+  </svg>
+);
+
+const YouTubeMusicIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <polygon points="10,8 16,12 10,16" fill="white"/>
+  </svg>
+);
+
+const GooglePlayIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+  </svg>
+);
+
+const PandoraIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15v-4H8v-2h2V9c0-1.71 1.39-3 3.1-3H16v2h-2.9c-.59 0-1.1.51-1.1 1v2h4v2h-4v4h-2z"/>
+  </svg>
+);
+
+const AudiusIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="M8 16V8l8 4-8 4z" fill="white"/>
+  </svg>
+);
+
+const AnghamiIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="white"/>
+  </svg>
+);
+
+const BoomplayIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="M10 8v8l6-4-6-4z" fill="white"/>
+  </svg>
+);
+
+const SpinrillaIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <circle cx="12" cy="12" r="4" fill="white"/>
+  </svg>
+);
+
+const ZvukIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M8 8l8 4-8 4V8z" fill="currentColor"/>
+  </svg>
+);
+
+const MtsIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <rect x="3" y="6" width="18" height="12" rx="2" fill="currentColor"/>
+    <text x="12" y="14" fontSize="6" fill="white" textAnchor="middle" fontWeight="bold">MTC</text>
+  </svg>
+);
 
 // Platform icons/colors (same as PublicPage)
 const PLATFORMS = {
-  spotify: { color: "#1DB954", name: "Spotify" },
-  apple_music: { color: "#FA243C", name: "Apple Music" },
-  youtube_music: { color: "#FF0000", name: "YouTube Music" },
-  youtube: { color: "#FF0000", name: "YouTube" },
-  soundcloud: { color: "#FF5500", name: "SoundCloud" },
-  deezer: { color: "#FEAA2D", name: "Deezer" },
-  tidal: { color: "#000000", name: "Tidal" },
-  amazon_music: { color: "#FF9900", name: "Amazon Music" },
-  yandex_music: { color: "#FFCC00", name: "Яндекс Музыка" },
-  vk_music: { color: "#0077FF", name: "VK Музыка" },
-  custom: { color: "#8B5CF6", name: "Ссылка" }
+  spotify: { color: "#1DB954", name: "Spotify", icon: FaSpotify },
+  appleMusic: { color: "#FA233B", name: "Apple Music", icon: FaApple },
+  itunes: { color: "#EA4CC0", name: "iTunes", icon: FaItunes },
+  youtube: { color: "#FF0000", name: "YouTube", icon: FaYoutube },
+  youtubeMusic: { color: "#FF0000", name: "YouTube Music", icon: YouTubeMusicIcon },
+  yandex: { color: "#FFCC00", name: "Яндекс Музыка", icon: FaYandex },
+  vk: { color: "#4C75A3", name: "VK Музыка", icon: FaVk },
+  deezer: { color: "#A238FF", name: "Deezer", icon: DeezerIcon },
+  tidal: { color: "#000000", name: "Tidal", icon: SiTidal },
+  amazonMusic: { color: "#FF9900", name: "Amazon Music", icon: FaAmazon },
+  amazonStore: { color: "#FF9900", name: "Amazon Store", icon: FaAmazon },
+  soundcloud: { color: "#FF5500", name: "SoundCloud", icon: FaSoundcloud },
+  pandora: { color: "#005483", name: "Pandora", icon: PandoraIcon },
+  napster: { color: "#000000", name: "Napster", icon: FaNapster },
+  audiomack: { color: "#FFA200", name: "Audiomack", icon: SiAudiomack },
+  audius: { color: "#CC0FE0", name: "Audius", icon: AudiusIcon },
+  anghami: { color: "#6C3694", name: "Anghami", icon: AnghamiIcon },
+  boomplay: { color: "#E11B22", name: "Boomplay", icon: BoomplayIcon },
+  spinrilla: { color: "#121212", name: "Spinrilla", icon: SpinrillaIcon },
+  bandcamp: { color: "#629AA9", name: "Bandcamp", icon: FaBandcamp },
+  google: { color: "#4285F4", name: "Google", icon: FaGoogle },
+  googleStore: { color: "#34A853", name: "Google Store", icon: GooglePlayIcon },
+  zvuk: { color: "#6B4EFF", name: "Звук", icon: ZvukIcon },
+  mts: { color: "#E30611", name: "МТС Музыка", icon: MtsIcon },
+  // Legacy mappings
+  apple: { color: "#FA233B", name: "Apple Music", icon: FaApple },
+  amazon: { color: "#FF9900", name: "Amazon Music", icon: FaAmazon },
+  apple_music: { color: "#FA243C", name: "Apple Music", icon: FaApple },
+  youtube_music: { color: "#FF0000", name: "YouTube Music", icon: YouTubeMusicIcon },
+  amazon_music: { color: "#FF9900", name: "Amazon Music", icon: FaAmazon },
+  yandex_music: { color: "#FFCC00", name: "Яндекс Музыка", icon: FaYandex },
+  vk_music: { color: "#0077FF", name: "VK Музыка", icon: FaVk },
+  custom: { color: "#8B5CF6", name: "Ссылка", icon: FaLink }
 };
 
 // Social platforms for contact info
