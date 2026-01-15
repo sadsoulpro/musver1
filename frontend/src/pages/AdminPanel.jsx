@@ -33,10 +33,10 @@ const PLAN_CONFIG = {
 };
 
 const TICKET_STATUS_CONFIG = {
-  open: { label: "Открыт", color: "bg-blue-500", icon: AlertCircle },
-  in_progress: { label: "В работе", color: "bg-yellow-500", icon: Clock },
-  resolved: { label: "Решён", color: "bg-green-500", icon: CheckCircle },
-  closed: { label: "Закрыт", color: "bg-zinc-500", icon: CheckCircle }
+  open: { labelKey: "ticketOpen", color: "bg-blue-500", icon: AlertCircle },
+  in_progress: { labelKey: "ticketInProgress", color: "bg-yellow-500", icon: Clock },
+  resolved: { labelKey: "ticketResolved", color: "bg-green-500", icon: CheckCircle },
+  closed: { labelKey: "ticketClosed", color: "bg-zinc-500", icon: CheckCircle }
 };
 
 const COLORS = ['#d946ef', '#8b5cf6', '#3b82f6', '#22c55e', '#eab308', '#ef4444'];
