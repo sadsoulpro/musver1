@@ -303,7 +303,7 @@ export const translations = {
       ctaTitle: "Ready to start?",
       ctaSubtitle: "Create your smart link page in minutes",
       ctaButton: "Get Started Free",
-      footer: "MyTrack — Smart links for musicians",
+      footer: "All rights reserved.",
     },
     ru: {
       heroTitle1: "СОЗДАЙ",
