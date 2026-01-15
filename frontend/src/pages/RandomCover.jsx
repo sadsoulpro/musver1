@@ -690,25 +690,73 @@ export default function RandomCover() {
   // ==================== IMAGE HANDLING ====================
   const loadImageFromData = (dataUrl) => {
     const img = new window.Image();
-    img.src = dataUrl;
+    img.crossOrigin = "anonymous";
     img.onload = () => {
       setBgImage(img);
       setBgImageData(dataUrl);
     };
+    img.onerror = (err) => {
+      console.error("Image load error:", err);
+      toast.error(t('randomCover', 'imageLoadError') || "Ошибка загрузки изображения");
+    };
+    img.src = dataUrl;
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result;
-      loadImageFromData(dataUrl);
-      saveToHistory();
-      toast.success("Изображение загружено");
-    };
-    reader.readAsDataURL(file);
+    // Show loading state
+    const loadingToast = toast.loading(t('randomCover', 'processingImage') || "Обработка изображения...");
+
+    try {
+      // Compression options - fixes EXIF orientation and reduces size
+      const options = {
+        maxSizeMB: 4, // Max 4MB
+        maxWidthOrHeight: 3000, // Max dimension
+        useWebWorker: true,
+        fileType: 'image/jpeg', // Convert HEIC to JPEG
+        initialQuality: 0.9,
+        exifOrientation: undefined, // Auto-fix EXIF orientation
+      };
+
+      // Compress and fix orientation
+      let processedFile = file;
+      
+      // Check if file needs processing (HEIC or large file)
+      const isHeic = file.type === 'image/heic' || file.type === 'image/heif' || file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif');
+      const isLarge = file.size > 4 * 1024 * 1024; // > 4MB
+      
+      if (isHeic || isLarge || file.type.startsWith('image/')) {
+        try {
+          processedFile = await imageCompression(file, options);
+        } catch (compressionError) {
+          console.warn("Compression failed, using original file:", compressionError);
+          // If compression fails, try with original file
+        }
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        loadImageFromData(dataUrl);
+        saveToHistory();
+        toast.dismiss(loadingToast);
+        toast.success(t('randomCover', 'imageUploaded') || "Изображение загружено");
+      };
+      reader.onerror = () => {
+        toast.dismiss(loadingToast);
+        toast.error(t('randomCover', 'imageLoadError') || "Ошибка загрузки изображения");
+      };
+      reader.readAsDataURL(processedFile);
+    } catch (error) {
+      console.error("Image processing error:", error);
+      toast.dismiss(loadingToast);
+      toast.error(t('randomCover', 'imageProcessError') || "Ошибка обработки изображения");
+    }
+    
+    // Reset input to allow re-uploading same file
+    e.target.value = '';
   };
 
   // ==================== AI IMAGE GENERATION ====================
