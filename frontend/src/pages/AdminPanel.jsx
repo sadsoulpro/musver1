@@ -677,24 +677,24 @@ export default function AdminPanel() {
                   >
                     <h3 className="font-semibold mb-4 flex items-center gap-2">
                       <Activity className="w-4 h-4 text-emerald-400" />
-                      Статус пользователей
+                      {t('admin', 'userStatus')}
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
                         <p className="text-3xl font-bold text-emerald-400">{users.filter(u => !u.is_banned && u.status === 'active').length}</p>
-                        <p className="text-xs text-muted-foreground mt-1">Активных</p>
+                        <p className="text-xs text-muted-foreground mt-1">{t('admin', 'active')}</p>
                       </div>
                       <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20">
                         <p className="text-3xl font-bold text-red-400">{users.filter(u => u.is_banned).length}</p>
-                        <p className="text-xs text-muted-foreground mt-1">Забанено</p>
+                        <p className="text-xs text-muted-foreground mt-1">{t('admin', 'bannedUsers')}</p>
                       </div>
                       <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
                         <p className="text-3xl font-bold text-primary">{users.filter(u => u.is_verified || u.verified).length}</p>
-                        <p className="text-xs text-muted-foreground mt-1">Верифицировано</p>
+                        <p className="text-xs text-muted-foreground mt-1">{t('admin', 'verifiedUsers')}</p>
                       </div>
                       <div className="p-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50">
                         <p className="text-3xl font-bold">{pages.filter(p => p.status === 'active').length}</p>
-                        <p className="text-xs text-muted-foreground mt-1">Активных страниц</p>
+                        <p className="text-xs text-muted-foreground mt-1">{t('admin', 'activePages')}</p>
                       </div>
                     </div>
                   </motion.div>
