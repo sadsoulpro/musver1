@@ -258,7 +258,7 @@ export default function AdminPanel() {
   const updateUserRole = async (userId, newRole) => {
     try {
       await api.put(`/admin/users/${userId}/role`, { role: newRole });
-      toast.success(`Роль изменена`);
+      toast.success(t('admin', 'roleChanged'));
       fetchData();
     } catch (error) {
       toast.error(getErrorMessage(error));
