@@ -641,11 +641,11 @@ export default function PageBuilder() {
                 <span className="text-xs sm:text-sm font-medium">Автозаполнение</span>
               </div>
               <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
-                Вставьте ссылку из Spotify, Apple Music, YouTube или другой платформы — данные заполнятся автоматически
+                Вставьте UPC код или ссылку — данные и платформы заполнятся автоматически
               </p>
               <div className="flex gap-2">
                 <Input
-                  placeholder="Вставьте ссылку..."
+                  placeholder="Вставьте UPC код или ссылку из Apple/Spotify"
                   value={scanInput}
                   onChange={(e) => setScanInput(e.target.value)}
                   data-testid="scan-source-input"
