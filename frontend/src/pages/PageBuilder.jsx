@@ -154,6 +154,7 @@ const PLATFORMS = [
 export default function PageBuilder() {
   const { pageId } = useParams();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const isEditing = Boolean(pageId);
   
   const [loading, setLoading] = useState(false);
