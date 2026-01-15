@@ -273,6 +273,16 @@ export default function AdminPanel() {
     }
   };
 
+  const updateOwnerPlan = async (newPlan) => {
+    try {
+      await api.put(`/owner/my-plan`, { plan: newPlan });
+      toast.success(`Ваш план изменён на ${newPlan} для тестирования`);
+      window.location.reload(); // Reload to update user context
+    } catch (error) {
+      toast.error(getErrorMessage(error));
+    }
+  };
+
   const toggleUserVerify = async (userId, currentVerified) => {
     try {
       await api.put(`/admin/users/${userId}/verify`, { is_verified: !currentVerified });
