@@ -1224,7 +1224,7 @@ export default function AdminPanel() {
                                 )}
                               </div>
                               <p className="text-sm text-muted-foreground mb-2">
-                                От: {ticket.user?.username || ticket.user?.email}
+                                {t('admin', 'ticketFrom')}: {ticket.user?.username || ticket.user?.email}
                               </p>
                               <div className="flex items-center justify-between">
                                 <span className="px-2 py-1 rounded-lg text-xs border"
