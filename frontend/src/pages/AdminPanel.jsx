@@ -991,7 +991,7 @@ export default function AdminPanel() {
                             onClick={() => togglePageStatus(page.id)}
                             className="h-9 rounded-xl"
                           >
-                            {page.status === "active" ? "Выкл" : "Вкл"}
+                            {page.status === "active" ? t('admin', 'disablePage') : t('admin', 'enablePage')}
                           </Button>
                         </div>
                       </div>
