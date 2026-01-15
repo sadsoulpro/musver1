@@ -2496,10 +2496,20 @@ async def lookup_spotify(url: str):
 
 @api_router.get("/lookup/odesli")
 async def lookup_odesli(url: str, country: Optional[str] = "RU"):
-    """Proxy endpoint for Odesli (song.link) API to get links for all platforms"""
+    """Proxy endpoint for Odesli (song.link) API to get links for all platforms.
+    Supports both URLs and UPC codes."""
     try:
         async with httpx.AsyncClient() as client:
-            odesli_url = f"https://api.song.link/v1-alpha.1/links?url={url}&userCountry={country}"
+            # Check if input is a UPC code (numeric, typically 12-14 digits)
+            clean_input = url.strip()
+            is_upc = clean_input.isdigit() and 10 <= len(clean_input) <= 14
+            
+            if is_upc:
+                # For UPC codes, use different API format
+                odesli_url = f"https://api.song.link/v1-alpha.1/links?platform=itunes&type=album&id={clean_input}&userCountry={country}"
+            else:
+                odesli_url = f"https://api.song.link/v1-alpha.1/links?url={clean_input}&userCountry={country}"
+            
             response = await client.get(odesli_url, timeout=15.0)
             
             if response.status_code != 200:
@@ -2511,25 +2521,37 @@ async def lookup_odesli(url: str, country: Optional[str] = "RU"):
             # Extract platform links
             links_by_platform = data.get("linksByPlatform", {})
             
-            # Map Odesli platform names to our platform IDs
+            # Map ALL Odesli platform names to our platform IDs
+            # Odesli returns: spotify, itunes, appleMusic, youtube, youtubeMusic, google, googleStore,
+            # pandora, deezer, tidal, amazonStore, amazonMusic, soundcloud, napster, yandex,
+            # spinrilla, audius, anghami, boomplay, audiomack
             platform_mapping = {
                 "spotify": "spotify",
-                "appleMusic": "apple",
                 "itunes": "itunes",
+                "appleMusic": "appleMusic",
                 "youtube": "youtube",
-                "youtubeMusic": "youtube",
-                "soundcloud": "soundcloud",
-                "tidal": "tidal",
+                "youtubeMusic": "youtubeMusic",
+                "google": "google",
+                "googleStore": "googleStore",
+                "pandora": "pandora",
                 "deezer": "deezer",
+                "tidal": "tidal",
+                "amazonStore": "amazonStore",
+                "amazonMusic": "amazonMusic",
+                "soundcloud": "soundcloud",
+                "napster": "napster",
                 "yandex": "yandex",
-                "amazonMusic": "amazon",
-                "amazonStore": "amazon",
+                "spinrilla": "spinrilla",
+                "audius": "audius",
+                "anghami": "anghami",
+                "boomplay": "boomplay",
+                "audiomack": "audiomack",
             }
             
             result_links = {}
             for odesli_platform, link_info in links_by_platform.items():
-                our_platform = platform_mapping.get(odesli_platform)
-                if our_platform and link_info.get("url"):
+                our_platform = platform_mapping.get(odesli_platform, odesli_platform)
+                if link_info.get("url"):
                     # Don't overwrite if we already have this platform
                     if our_platform not in result_links:
                         result_links[our_platform] = link_info["url"]
