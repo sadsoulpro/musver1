@@ -537,11 +537,11 @@ export default function AdminPanel() {
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-semibold flex items-center gap-2">
                         <TrendingUp className="w-4 h-4 text-primary" />
-                        Активность за 30 дней
+                        {t('admin', 'activity30Days')}
                       </h3>
                       <span className="text-xs text-muted-foreground px-2 py-1 rounded-full bg-zinc-800">
                         <Calendar className="w-3 h-3 inline mr-1" />
-                        30 дней
+                        {t('admin', 'days30')}
                       </span>
                     </div>
                     {globalAnalytics?.timeline?.length > 0 ? (
@@ -560,14 +560,14 @@ export default function AdminPanel() {
                             contentStyle={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '12px' }}
                             labelStyle={{ color: '#a1a1aa' }}
                           />
-                          <Area type="monotone" dataKey="clicks" stroke="#d946ef" strokeWidth={2} fillOpacity={1} fill="url(#colorClicks)" name="Клики" />
+                          <Area type="monotone" dataKey="clicks" stroke="#d946ef" strokeWidth={2} fillOpacity={1} fill="url(#colorClicks)" name={t('admin', 'clicks')} />
                         </AreaChart>
                       </ResponsiveContainer>
                     ) : (
                       <div className="h-[220px] flex items-center justify-center text-muted-foreground">
                         <div className="text-center">
                           <BarChart3 className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                          <p>Нет данных</p>
+                          <p>{t('admin', 'noData')}</p>
                         </div>
                       </div>
                     )}
@@ -583,7 +583,7 @@ export default function AdminPanel() {
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-semibold flex items-center gap-2">
                         <Globe className="w-4 h-4 text-blue-400" />
-                        География кликов
+                        {t('admin', 'geographyClicks')}
                       </h3>
                     </div>
                     {globalAnalytics?.by_country?.length > 0 ? (
@@ -597,7 +597,7 @@ export default function AdminPanel() {
                                 <span className="text-lg w-7">{getCountryFlag(item.country)}</span>
                                 <div className="flex-1">
                                   <div className="flex justify-between text-sm mb-1.5">
-                                    <span className="font-medium">{item.country || "Неизвестно"}</span>
+                                    <span className="font-medium">{item.country || t('admin', 'unknown')}</span>
                                     <span className="text-muted-foreground">{item.clicks}</span>
                                   </div>
                                   <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
