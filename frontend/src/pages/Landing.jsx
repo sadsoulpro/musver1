@@ -146,7 +146,7 @@ export default function Landing() {
                 data-testid="hero-get-started-btn-mobile"
                 className="w-full sm:w-auto bg-primary hover:bg-primary/90 rounded-full px-6 sm:px-8 py-4 sm:py-5 text-sm sm:text-base font-gilroy-600 shadow-lg shadow-primary/20 transition-all hover:scale-105"
               >
-                Создать страницу
+                {t('landing', 'createPage')}
               </Button>
             </Link>
             <Link to="/demo" className="w-full sm:w-auto">
@@ -155,7 +155,7 @@ export default function Landing() {
                 data-testid="hero-demo-btn-mobile"
                 className="w-full sm:w-auto rounded-full px-6 sm:px-8 py-4 sm:py-5 text-sm sm:text-base font-gilroy-600 border-white/10 hover:bg-white/5"
               >
-                Демо
+                {t('landing', 'demo')}
               </Button>
             </Link>
           </motion.div>
