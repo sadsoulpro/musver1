@@ -298,7 +298,7 @@ export default function AdminPanel() {
   const updatePlanConfig = async (planName, updates) => {
     try {
       await api.put(`/admin/plan-configs/${planName}`, updates);
-      toast.success(`План ${planName} обновлён`);
+      toast.success(t('common', 'success'));
       fetchPlanConfigs();
       setEditingPlan(null);
     } catch (error) {
@@ -309,32 +309,32 @@ export default function AdminPanel() {
   const approveVerification = async (userId) => {
     try {
       await api.put(`/admin/verification/${userId}/approve`);
-      toast.success("Одобрено");
+      toast.success(t('admin', 'approved'));
       fetchVerificationRequests();
       fetchData();
     } catch (error) {
-      toast.error("Ошибка");
+      toast.error(t('errors', 'generic'));
     }
   };
 
   const rejectVerification = async (userId) => {
     try {
       await api.put(`/admin/verification/${userId}/reject`);
-      toast.success("Отклонено");
+      toast.success(t('admin', 'rejected'));
       fetchVerificationRequests();
       fetchData();
     } catch (error) {
-      toast.error("Ошибка");
+      toast.error(t('errors', 'generic'));
     }
   };
 
   const togglePageStatus = async (pageId) => {
     try {
       await api.put(`/admin/pages/${pageId}/disable`);
-      toast.success("Статус изменён");
+      toast.success(t('common', 'success'));
       fetchData();
     } catch (error) {
-      toast.error("Ошибка");
+      toast.error(t('errors', 'generic'));
     }
   };
 
@@ -360,10 +360,10 @@ export default function AdminPanel() {
   ].filter(p => p.value > 0);
 
   const roleDistribution = [
-    { name: 'Пользователи', value: users.filter(u => u.role === 'user').length },
-    { name: 'Модераторы', value: users.filter(u => u.role === 'moderator').length },
-    { name: 'Админы', value: users.filter(u => u.role === 'admin').length },
-    { name: 'Владельцы', value: users.filter(u => u.role === 'owner').length }
+    { name: t('admin', 'users'), value: users.filter(u => u.role === 'user').length },
+    { name: t('admin', 'moderators'), value: users.filter(u => u.role === 'moderator').length },
+    { name: t('admin', 'admins'), value: users.filter(u => u.role === 'admin').length },
+    { name: t('admin', 'owners'), value: users.filter(u => u.role === 'owner').length }
   ].filter(r => r.value > 0);
 
   if (loading) {
@@ -375,7 +375,7 @@ export default function AdminPanel() {
               <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
               <Zap className="w-6 h-6 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             </div>
-            <p className="text-muted-foreground">Загрузка...</p>
+            <p className="text-muted-foreground">{t('common', 'loading')}</p>
           </div>
         </div>
       </Sidebar>
