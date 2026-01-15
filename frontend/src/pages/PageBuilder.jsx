@@ -540,12 +540,12 @@ export default function PageBuilder() {
         PLATFORMS.find(p => p.id === l.platform)?.name || l.platform
       ).join(", ");
       
-      const moreCount = detectedLinks.length > 5 ? ` и ещё ${detectedLinks.length - 5}` : "";
-      toast.success(`Добавлено ${linksAdded} ссылок: ${platformNames}${moreCount}`);
+      const moreCount = detectedLinks.length > 5 ? ` +${detectedLinks.length - 5}` : "";
+      toast.success(`${t('pageBuilder', 'linksAdded')}: ${linksAdded} (${platformNames}${moreCount})`);
       setScanInput("");
     } catch (error) {
       console.error("Scan error:", error);
-      toast.error("Не удалось получить ссылки. Проверьте URL и попробуйте снова.");
+      toast.error(t('pageBuilder', 'scanError'));
     } finally {
       setScanningSource(false);
     }
