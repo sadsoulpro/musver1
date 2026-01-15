@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 class RBACTester:
-    def __init__(self, base_url="https://musoconnect-2.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://mytrack-translator.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.admin_token = None
         self.owner_token = None
@@ -420,7 +420,7 @@ class RBACTester:
 
 def main():
     print("🚀 Starting RBAC + Dynamic Plan Limits Tests...")
-    print(f"Testing against: https://musoconnect-2.preview.emergentagent.com/api")
+    print(f"Testing against: https://mytrack-translator.preview.emergentagent.com/api")
     
     tester = RBACTester()
     
