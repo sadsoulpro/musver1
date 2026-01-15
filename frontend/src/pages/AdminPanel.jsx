@@ -1418,7 +1418,7 @@ export default function AdminPanel() {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
                           <Activity className="w-5 h-5 text-emerald-400" />
-                          <h3 className="font-semibold">Память</h3>
+                          <h3 className="font-semibold">{t('admin', 'memory')}</h3>
                         </div>
                       </div>
                       <p className="text-4xl font-bold mb-1">{systemMetrics.memory?.percent?.toFixed(1)}%</p>
@@ -1445,7 +1445,7 @@ export default function AdminPanel() {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
                           <HardDrive className="w-5 h-5 text-purple-400" />
-                          <h3 className="font-semibold">Диск</h3>
+                          <h3 className="font-semibold">{t('admin', 'disk')}</h3>
                         </div>
                       </div>
                       <p className="text-4xl font-bold mb-1">{systemMetrics.disk?.percent?.toFixed(1)}%</p>
@@ -1471,15 +1471,15 @@ export default function AdminPanel() {
                     >
                       <h3 className="font-semibold mb-4 flex items-center gap-2">
                         <Globe className="w-5 h-5 text-blue-400" />
-                        Сеть
+                        {t('admin', 'network')}
                       </h3>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <p className="text-xs text-muted-foreground mb-1">↑ Отправлено</p>
+                          <p className="text-xs text-muted-foreground mb-1">↑ {t('admin', 'sent')}</p>
                           <p className="text-2xl font-bold">{systemMetrics.network?.sent_mb?.toFixed(1) || '0'} MB</p>
                         </div>
                         <div>
-                          <p className="text-xs text-muted-foreground mb-1">↓ Получено</p>
+                          <p className="text-xs text-muted-foreground mb-1">↓ {t('admin', 'received')}</p>
                           <p className="text-2xl font-bold">{systemMetrics.network?.recv_mb?.toFixed(1) || '0'} MB</p>
                         </div>
                       </div>
@@ -1494,7 +1494,7 @@ export default function AdminPanel() {
                     >
                       <h3 className="font-semibold mb-4 flex items-center gap-2">
                         <Clock className="w-5 h-5 text-emerald-400" />
-                        Аптайм
+                        {t('admin', 'uptime')}
                       </h3>
                       <p className="text-2xl font-bold text-emerald-400">{systemMetrics.uptime || '—'}</p>
                     </motion.div>
@@ -1502,7 +1502,7 @@ export default function AdminPanel() {
                 ) : (
                   <div className="text-center py-20 text-muted-foreground">
                     <Server className="w-12 h-12 mx-auto mb-3 opacity-30 animate-pulse" />
-                    <p>Загрузка метрик...</p>
+                    <p>{t('admin', 'loadingMetrics')}</p>
                   </div>
                 )}
               </TabsContent>
