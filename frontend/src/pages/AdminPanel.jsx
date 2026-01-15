@@ -154,7 +154,7 @@ export default function AdminPanel() {
       setTickets(prev => prev.map(t => 
         t.id === selectedTicket.id ? response.data : t
       ));
-      toast.success("Ответ отправлен");
+      toast.success(t('admin', 'replySent'));
     } catch (error) {
       toast.error("Не удалось отправить ответ");
     }
