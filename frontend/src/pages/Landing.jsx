@@ -179,11 +179,11 @@ export default function Landing() {
           <div className="text-center mb-8 sm:mb-12 lg:mb-16">
             <h2 className="font-gilroy-600 mb-2 sm:mb-3 lg:mb-4
               text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-              ВСЁ ЧТО НУЖНО
+              {t('landing', 'featuresTitle')}
             </h2>
             <p className="font-gilroy-300 text-muted-foreground max-w-md mx-auto px-2
               text-xs sm:text-sm lg:text-base">
-              Простые инструменты для продвижения музыки и роста аудитории
+              {t('landing', 'heroSubtitle')}
             </p>
           </div>
           
@@ -191,22 +191,22 @@ export default function Landing() {
             {[
               {
                 icon: Link2,
-                title: "Умные ссылки",
-                description: "Одна ссылка для всех платформ. Spotify, Apple Music, YouTube и другие."
+                title: t('landing', 'feature1Title'),
+                description: t('landing', 'feature1Desc')
               },
               {
                 icon: BarChart3,
-                title: "Аналитика",
-                description: "Отслеживайте просмотры и клики. Узнайте откуда приходят ваши фанаты."
+                title: t('landing', 'feature2Title'),
+                description: t('landing', 'feature2Desc')
               },
               {
                 icon: Zap,
-                title: "Быстрый старт",
-                description: "Создайте страницу за минуты. Без программирования."
+                title: t('landing', 'feature3Title'),
+                description: t('landing', 'feature3Desc')
               }
             ].map((feature, i) => (
               <motion.div
-                key={feature.title}
+                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
