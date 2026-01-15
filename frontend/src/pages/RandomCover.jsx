@@ -931,17 +931,17 @@ export default function RandomCover() {
       <Dialog open={showRecoveryDialog} onOpenChange={setShowRecoveryDialog}>
         <DialogContent className="bg-zinc-900 border-zinc-800">
           <DialogHeader>
-            <DialogTitle>Восстановить проект?</DialogTitle>
+            <DialogTitle>{t('randomCover', 'history')}</DialogTitle>
             <DialogDescription>
-              Найден несохранённый проект. Хотите восстановить его?
+              {t('common', 'confirm')}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={discardRecovery}>
-              Отклонить
+              {t('common', 'cancel')}
             </Button>
             <Button onClick={recoverProject} className="bg-primary">
-              Восстановить
+              {t('common', 'confirm')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -951,16 +951,16 @@ export default function RandomCover() {
       <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
         <DialogContent className="bg-zinc-900 border-zinc-800">
           <DialogHeader>
-            <DialogTitle>Сохранить проект</DialogTitle>
+            <DialogTitle>{t('common', 'save')}</DialogTitle>
             <DialogDescription>
-              Введите название для вашего проекта
+              {t('common', 'title')}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <Input
               value={currentProjectName}
               onChange={(e) => setCurrentProjectName(e.target.value)}
-              placeholder="Название проекта"
+              placeholder={t('common', 'title')}
               className="bg-zinc-800"
               autoFocus
               onKeyDown={(e) => {
@@ -972,7 +972,7 @@ export default function RandomCover() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowSaveDialog(false)}>
-              Отмена
+              {t('common', 'cancel')}
             </Button>
             <Button 
               onClick={() => saveProject(currentProjectName)} 
@@ -984,7 +984,7 @@ export default function RandomCover() {
               ) : (
                 <Save className="w-4 h-4 mr-2" />
               )}
-              Сохранить
+              {t('common', 'save')}
             </Button>
           </DialogFooter>
         </DialogContent>
