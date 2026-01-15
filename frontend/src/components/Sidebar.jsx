@@ -13,21 +13,26 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const navItems = [
-  { path: "/multilinks", label: "Мультиссылки", icon: BarChart3 },
+// Navigation items with translation keys
+const getNavItems = (t) => [
+  { path: "/multilinks", label: t('sidebar', 'myPages'), icon: BarChart3 },
   { path: "/random-cover", label: "RandomCover", icon: Palette },
-  { path: "/analytics", label: "Аналитика", icon: Eye },
-  { path: "/domains", label: "Домены", icon: Globe },
-  { path: "/settings", label: "Настройки", icon: Settings },
-  { path: "/verification", label: "Верификация", icon: BadgeCheck },
-  { path: "/support", label: "Поддержка", icon: MessageCircle },
+  { path: "/analytics", label: t('sidebar', 'analytics'), icon: Eye },
+  { path: "/domains", label: t('sidebar', 'domains'), icon: Globe },
+  { path: "/settings", label: t('sidebar', 'settings'), icon: Settings },
+  { path: "/verification", label: t('common', 'verified'), icon: BadgeCheck },
+  { path: "/support", label: t('sidebar', 'support'), icon: MessageCircle },
   { path: "/faq", label: "FAQ", icon: HelpCircle },
 ];
 
 // Reusable navigation content
 function NavContent({ currentPath, user, onLogout, onNavigate, unreadUserTickets, unreadStaffTickets }) {
   const isAdminRole = user?.role === "admin" || user?.role === "owner" || user?.role === "moderator";
+  const { t } = useLanguage();
+  const navItems = getNavItems(t);
 
   return (
     <>
@@ -66,6 +71,11 @@ function NavContent({ currentPath, user, onLogout, onNavigate, unreadUserTickets
       </nav>
       
       <div className="pt-6 border-t border-white/5">
+        {/* Language Switcher */}
+        <div className="px-4 py-2 mb-2">
+          <LanguageSwitcher variant="compact" className="w-full justify-start" />
+        </div>
+        
         {/* Admin Panel link - at bottom before user info */}
         {isAdminRole && (
           <Link
@@ -79,7 +89,7 @@ function NavContent({ currentPath, user, onLogout, onNavigate, unreadUserTickets
             data-testid="nav-admin"
           >
             <Shield className="w-5 h-5" />
-            <span className="flex-1">Админ-панель</span>
+            <span className="flex-1">{t('sidebar', 'admin')}</span>
             {unreadStaffTickets > 0 && (
               <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500 text-white animate-pulse">
                 {unreadStaffTickets}
