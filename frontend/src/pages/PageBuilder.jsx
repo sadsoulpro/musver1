@@ -468,28 +468,6 @@ export default function PageBuilder() {
         }
       }
 
-      // Also add the source URL if it matches a platform we support
-      const sourcePlatformMap = {
-        "spotify": sourceUrl.includes("spotify.com"),
-        "apple": sourceUrl.includes("music.apple.com"),
-        "itunes": sourceUrl.includes("itunes.apple.com"),
-        "youtube": sourceUrl.includes("youtube.com") || sourceUrl.includes("youtu.be"),
-        "soundcloud": sourceUrl.includes("soundcloud.com"),
-        "tidal": sourceUrl.includes("tidal.com"),
-        "deezer": sourceUrl.includes("deezer.com") || sourceUrl.includes("deezer.page.link"),
-        "amazon": sourceUrl.includes("amazon.com/music") || sourceUrl.includes("music.amazon"),
-      };
-
-      for (const [platform, matches] of Object.entries(sourcePlatformMap)) {
-        if (matches) {
-          const existing = links.find(l => l.platform === platform);
-          const alreadyAdded = detectedLinks.find(l => l.platform === platform);
-          if (!existing && !alreadyAdded) {
-            detectedLinks.push({ platform, url: sourceUrl });
-          }
-        }
-      }
-
       if (detectedLinks.length === 0) {
         toast.info("Все доступные ссылки уже добавлены");
         setScanningSource(false);
