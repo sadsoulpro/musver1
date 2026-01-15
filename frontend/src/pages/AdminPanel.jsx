@@ -19,12 +19,12 @@ import {
 import Sidebar from "@/components/Sidebar";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Role configuration
+// Role configuration - labels are translation keys
 const ROLE_CONFIG = {
-  owner: { label: "Владелец", color: "bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-400 border-yellow-500/30", icon: Crown },
-  admin: { label: "Админ", color: "bg-purple-500/20 text-purple-400 border-purple-500/30", icon: Shield },
-  moderator: { label: "Модератор", color: "bg-blue-500/20 text-blue-400 border-blue-500/30", icon: UserCog },
-  user: { label: "Пользователь", color: "bg-zinc-500/20 text-zinc-400 border-zinc-500/30", icon: Users }
+  owner: { labelKey: "roleOwner", color: "bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-400 border-yellow-500/30", icon: Crown },
+  admin: { labelKey: "roleAdmin", color: "bg-purple-500/20 text-purple-400 border-purple-500/30", icon: Shield },
+  moderator: { labelKey: "roleModerator", color: "bg-blue-500/20 text-blue-400 border-blue-500/30", icon: UserCog },
+  user: { labelKey: "roleUser", color: "bg-zinc-500/20 text-zinc-400 border-zinc-500/30", icon: Users }
 };
 
 const PLAN_CONFIG = {
