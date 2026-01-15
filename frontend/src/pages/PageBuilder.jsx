@@ -12,8 +12,8 @@ import {
   GripVertical, ExternalLink, Save, ChevronUp, ChevronDown,
   QrCode, Download, Search, Loader2
 } from "lucide-react";
-import { FaSpotify, FaApple, FaYoutube, FaSoundcloud, FaLink, FaYandex, FaVk, FaAmazon, FaItunes } from "react-icons/fa";
-import { SiTidal } from "react-icons/si";
+import { FaSpotify, FaApple, FaYoutube, FaSoundcloud, FaLink, FaYandex, FaVk, FaAmazon, FaItunes, FaGoogle, FaNapster, FaBandcamp } from "react-icons/fa";
+import { SiTidal, SiPandora, SiAudiomack } from "react-icons/si";
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -39,36 +39,114 @@ const DeezerIcon = (props) => (
   </svg>
 );
 
+// YouTube Music icon
+const YouTubeMusicIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <polygon points="10,8 16,12 10,16" fill="white"/>
+  </svg>
+);
+
+// Google Play Music icon
+const GooglePlayIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+  </svg>
+);
+
+// Pandora icon (fallback)
+const PandoraIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15v-4H8v-2h2V9c0-1.71 1.39-3 3.1-3H16v2h-2.9c-.59 0-1.1.51-1.1 1v2h4v2h-4v4h-2z"/>
+  </svg>
+);
+
+// Audius icon
+const AudiusIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="M8 16V8l8 4-8 4z" fill="white"/>
+  </svg>
+);
+
+// Anghami icon
+const AnghamiIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="white"/>
+  </svg>
+);
+
+// Boomplay icon
+const BoomplayIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="M10 8v8l6-4-6-4z" fill="white"/>
+  </svg>
+);
+
+// Spinrilla icon
+const SpinrillaIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <circle cx="12" cy="12" r="4" fill="white"/>
+  </svg>
+);
+
 // Platform order for auto-fill sorting (lower index = higher priority)
 const PLATFORM_ORDER = [
-  "yandex",    // 1. Яндекс Музыка
-  "youtube",   // 2. YouTube
-  "apple",     // 3. Apple Music
-  "itunes",    // 4. iTunes
-  "spotify",   // 5. Spotify
-  "vk",        // 6. VK Music
-  "deezer",    // 7. Deezer
-  "zvuk",      // 8. Звук
-  "mts",       // 9. МТС Музыка
-  "amazon",    // 10. Amazon Music
-  "tidal",     // 11. Tidal
-  "soundcloud",// 12. SoundCloud
-  "custom",    // 13. Custom
+  "spotify",       // 1. Spotify
+  "appleMusic",    // 2. Apple Music
+  "itunes",        // 3. iTunes
+  "youtube",       // 4. YouTube
+  "youtubeMusic",  // 5. YouTube Music
+  "yandex",        // 6. Яндекс Музыка
+  "vk",            // 7. VK Music
+  "deezer",        // 8. Deezer
+  "tidal",         // 9. Tidal
+  "amazonMusic",   // 10. Amazon Music
+  "amazonStore",   // 11. Amazon Store
+  "soundcloud",    // 12. SoundCloud
+  "pandora",       // 13. Pandora
+  "napster",       // 14. Napster
+  "audiomack",     // 15. Audiomack
+  "audius",        // 16. Audius
+  "anghami",       // 17. Anghami
+  "boomplay",      // 18. Boomplay
+  "spinrilla",     // 19. Spinrilla
+  "bandcamp",      // 20. Bandcamp
+  "google",        // 21. Google
+  "googleStore",   // 22. Google Store
+  "zvuk",          // 23. Звук
+  "mts",           // 24. МТС Музыка
+  "custom",        // 25. Custom
 ];
 
 const PLATFORMS = [
-  { id: "yandex", name: "Яндекс Музыка", icon: FaYandex, color: "#FFCC00" },
-  { id: "youtube", name: "YouTube", icon: FaYoutube, color: "#FF0000" },
-  { id: "apple", name: "Apple Music", icon: FaApple, color: "#FA233B" },
-  { id: "itunes", name: "iTunes", icon: FaItunes, color: "#EA4CC0" },
   { id: "spotify", name: "Spotify", icon: FaSpotify, color: "#1DB954" },
+  { id: "appleMusic", name: "Apple Music", icon: FaApple, color: "#FA233B" },
+  { id: "itunes", name: "iTunes", icon: FaItunes, color: "#EA4CC0" },
+  { id: "youtube", name: "YouTube", icon: FaYoutube, color: "#FF0000" },
+  { id: "youtubeMusic", name: "YouTube Music", icon: YouTubeMusicIcon, color: "#FF0000" },
+  { id: "yandex", name: "Яндекс Музыка", icon: FaYandex, color: "#FFCC00" },
   { id: "vk", name: "VK Музыка", icon: FaVk, color: "#4C75A3" },
   { id: "deezer", name: "Deezer", icon: DeezerIcon, color: "#A238FF" },
+  { id: "tidal", name: "Tidal", icon: SiTidal, color: "#000000" },
+  { id: "amazonMusic", name: "Amazon Music", icon: FaAmazon, color: "#FF9900" },
+  { id: "amazonStore", name: "Amazon Store", icon: FaAmazon, color: "#FF9900" },
+  { id: "soundcloud", name: "SoundCloud", icon: FaSoundcloud, color: "#FF5500" },
+  { id: "pandora", name: "Pandora", icon: PandoraIcon, color: "#005483" },
+  { id: "napster", name: "Napster", icon: FaNapster, color: "#000000" },
+  { id: "audiomack", name: "Audiomack", icon: SiAudiomack, color: "#FFA200" },
+  { id: "audius", name: "Audius", icon: AudiusIcon, color: "#CC0FE0" },
+  { id: "anghami", name: "Anghami", icon: AnghamiIcon, color: "#6C3694" },
+  { id: "boomplay", name: "Boomplay", icon: BoomplayIcon, color: "#E11B22" },
+  { id: "spinrilla", name: "Spinrilla", icon: SpinrillaIcon, color: "#121212" },
+  { id: "bandcamp", name: "Bandcamp", icon: FaBandcamp, color: "#629AA9" },
+  { id: "google", name: "Google", icon: FaGoogle, color: "#4285F4" },
+  { id: "googleStore", name: "Google Store", icon: GooglePlayIcon, color: "#34A853" },
   { id: "zvuk", name: "Звук", icon: ZvukIcon, color: "#6B4EFF" },
   { id: "mts", name: "МТС Музыка", icon: MtsIcon, color: "#E30611" },
-  { id: "amazon", name: "Amazon Music", icon: FaAmazon, color: "#FF9900" },
-  { id: "tidal", name: "Tidal", icon: SiTidal, color: "#000000" },
-  { id: "soundcloud", name: "SoundCloud", icon: FaSoundcloud, color: "#FF5500" },
   { id: "custom", name: "Другая ссылка", icon: FaLink, color: "#888888" },
 ];
 
