@@ -625,7 +625,7 @@ export default function PageBuilder() {
               data-testid="save-page-btn"
             >
               <Save className="w-4 h-4 sm:mr-2" />
-              <span className="hidden sm:inline">{saving ? "Сохранение..." : "Сохранить"}</span>
+              <span className="hidden sm:inline">{saving ? t('pageBuilder', 'saving') : t('common', 'save')}</span>
             </Button>
           </div>
         </div>
@@ -640,14 +640,14 @@ export default function PageBuilder() {
             <div className="p-3 sm:p-4 rounded-xl bg-primary/5 border border-primary/20">
               <div className="flex items-center gap-2 mb-2 sm:mb-3">
                 <Search className="w-4 h-4 text-primary" />
-                <span className="text-xs sm:text-sm font-medium">Автозаполнение</span>
+                <span className="text-xs sm:text-sm font-medium">{t('pageBuilder', 'autofill')}</span>
               </div>
               <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
-                Вставьте UPC код или ссылку — данные и платформы заполнятся автоматически
+                {t('pageBuilder', 'autofillDesc')}
               </p>
               <div className="flex gap-2">
                 <Input
-                  placeholder="Вставьте UPC код или ссылку из Apple/Spotify"
+                  placeholder={t('pageBuilder', 'autofillPlaceholder')}
                   value={scanInput}
                   onChange={(e) => setScanInput(e.target.value)}
                   data-testid="scan-source-input"
@@ -671,15 +671,15 @@ export default function PageBuilder() {
           
           {/* 2. Основная информация */}
           <section>
-            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Основная информация</h2>
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('pageBuilder', 'basicInfo')}</h2>
             <div className="space-y-3 sm:space-y-4">
               {/* Имя артиста */}
               <div className="space-y-2">
-                <Label htmlFor="artist_name" className="text-sm">Имя артиста</Label>
+                <Label htmlFor="artist_name" className="text-sm">{t('pageBuilder', 'artistName')}</Label>
                 <Input
                   id="artist_name"
                   name="artist_name"
-                  placeholder="Ваше имя или псевдоним"
+                  placeholder={t('pageBuilder', 'artistPlaceholder')}
                   value={formData.artist_name}
                   onChange={handleChange}
                   required
@@ -690,11 +690,11 @@ export default function PageBuilder() {
               
               {/* Название релиза */}
               <div className="space-y-2">
-                <Label htmlFor="release_title" className="text-sm">Название релиза</Label>
+                <Label htmlFor="release_title" className="text-sm">{t('pageBuilder', 'releaseTitle')}</Label>
                 <Input
                   id="release_title"
                   name="release_title"
-                  placeholder="Название песни или альбома"
+                  placeholder={t('pageBuilder', 'releasePlaceholder')}
                   value={formData.release_title}
                   onChange={handleChange}
                   required
@@ -705,13 +705,13 @@ export default function PageBuilder() {
               
               {/* URL-адрес */}
               <div className="space-y-2">
-                <Label htmlFor="slug" className="text-sm">Вид ссылки</Label>
+                <Label htmlFor="slug" className="text-sm">{t('pageBuilder', 'linkUrl')}</Label>
                 <div className="flex items-center">
                   <span className="text-muted-foreground text-sm mr-2">/</span>
                   <Input
                     id="slug"
                     name="slug"
-                    placeholder="оставьте пустым для автогенерации"
+                    placeholder={t('pageBuilder', 'slugPlaceholder')}
                     value={formData.slug}
                     onChange={handleChange}
                     data-testid="page-slug-input"
