@@ -771,7 +771,7 @@ export default function AdminPanel() {
                         {/* Badges */}
                         <div className="flex items-center gap-2 flex-wrap pl-14 lg:pl-0">
                           <span className={`px-2 py-1 rounded-lg text-[11px] border ${ROLE_CONFIG[user.role]?.color}`}>
-                            {ROLE_CONFIG[user.role]?.label}
+                            {t('admin', ROLE_CONFIG[user.role]?.labelKey)}
                           </span>
                           <span className={`px-2 py-1 rounded-lg text-[11px] ${PLAN_CONFIG[user.plan]?.color}`}>
                             {PLAN_CONFIG[user.plan]?.label}
