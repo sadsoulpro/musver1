@@ -307,7 +307,12 @@ export default function PageBuilder() {
         return;
       }
     } catch (error) {
-      toast.error(typeof (error.response?.data?.detail) === "string" ? error.response.data.detail : t('errors', 'saveFailed'));
+      const errorDetail = error.response?.data?.detail;
+      if (errorDetail === "PAGE_LIMIT_REACHED") {
+        toast.error(t('proModal', 'limitReached'));
+      } else {
+        toast.error(typeof errorDetail === "string" ? errorDetail : t('errors', 'saveFailed'));
+      }
     } finally {
       setSaving(false);
     }
