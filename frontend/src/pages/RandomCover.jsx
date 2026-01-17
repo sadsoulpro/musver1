@@ -1383,6 +1383,7 @@ export default function RandomCover() {
                         className="bg-muted text-sm"
                         data-testid="ai-prompt-input"
                         disabled={!canUseAI}
+                        onClick={!canUseAI ? () => setProModalOpen(true) : undefined}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter' && !generatingAI && canUseAI) {
                             generateAIImage();
@@ -1397,9 +1398,9 @@ export default function RandomCover() {
                                 variant="secondary"
                                 className={`w-full mt-2 ${canUseAI 
                                   ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white' 
-                                  : 'bg-muted text-muted-foreground cursor-not-allowed'}`}
-                                onClick={canUseAI ? generateAIImage : undefined}
-                                disabled={!canUseAI || generatingAI || !aiPrompt.trim()}
+                                  : 'bg-muted text-muted-foreground cursor-pointer hover:bg-muted/80'}`}
+                                onClick={canUseAI ? generateAIImage : () => setProModalOpen(true)}
+                                disabled={canUseAI && (generatingAI || !aiPrompt.trim())}
                                 data-testid="generate-ai-btn"
                               >
                                 {!canUseAI ? (
