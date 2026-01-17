@@ -250,35 +250,36 @@ function App() {
   }
 
   return (
-    <LanguageProvider>
-      <AuthContext.Provider value={{ 
-        user, 
-        login, 
-        register, 
-        logout, 
-        loading, 
-        refreshUser,
-        isAuthenticated 
-      }}>
-        <BrowserRouter>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          
-          {/* Protected Routes */}
-          <Route path="/multilinks" element={
-            <ProtectedRoute><Dashboard /></ProtectedRoute>
-          } />
-          <Route path="/random-cover" element={
-            <ProtectedRoute><RandomCover /></ProtectedRoute>
-          } />
-          <Route path="/analytics" element={
-            <ProtectedRoute><GlobalAnalytics /></ProtectedRoute>
-          } />
+    <ThemeProvider>
+      <LanguageProvider>
+        <AuthContext.Provider value={{ 
+          user, 
+          login, 
+          register, 
+          logout, 
+          loading, 
+          refreshUser,
+          isAuthenticated 
+        }}>
+          <BrowserRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            
+            {/* Protected Routes */}
+            <Route path="/multilinks" element={
+              <ProtectedRoute><Dashboard /></ProtectedRoute>
+            } />
+            <Route path="/random-cover" element={
+              <ProtectedRoute><RandomCover /></ProtectedRoute>
+            } />
+            <Route path="/analytics" element={
+              <ProtectedRoute><GlobalAnalytics /></ProtectedRoute>
+            } />
           <Route path="/settings" element={
             <ProtectedRoute><Settings /></ProtectedRoute>
           } />
