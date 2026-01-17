@@ -202,12 +202,12 @@ export default function Dashboard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className="p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl bg-zinc-900/50 border border-white/5 hover:border-white/10 transition-colors w-full overflow-hidden"
+                  className={`p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl border transition-colors w-full overflow-hidden ${cardClass} ${theme === 'dark' ? 'hover:border-white/10' : 'hover:border-gray-300'}`}
                   data-testid={`page-card-${page.id}`}
                 >
                   <div className="flex items-start gap-3 sm:gap-4">
                     {/* Cover Image */}
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-lg sm:rounded-xl bg-zinc-800 overflow-hidden flex-shrink-0">
+                    <div className={`w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-100'}`}>
                       {page.cover_image ? (
                         <img 
                           src={page.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${page.cover_image}` : page.cover_image} 
