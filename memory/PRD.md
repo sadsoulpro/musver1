@@ -1,7 +1,7 @@
-# MyTrack - Link-in-Bio for Musicians
+# Muslink - Smart Links for Musicians
 
 ## Original Problem Statement
-Application cloned from GitHub repository `https://github.com/sadsoulpro/prefinal-final.git`. A link-in-bio service for musicians with smart link pages.
+Application cloned from GitHub repository `https://github.com/sadsoulpro/prefinal-final.git`. A smart link-in-bio service for musicians with multi-platform link pages.
 
 ## What's Been Implemented
 
@@ -19,81 +19,118 @@ Application cloned from GitHub repository `https://github.com/sadsoulpro/prefina
 - Verification badge system
 - RandomCover - AI-powered cover art editor
 
-### Session Updates (2025-01-15)
-1. **Subscription Plan Cleanup** - Removed "Ultimate" plan, keeping only FREE and PRO
-2. **Owner Test Feature** - API endpoint for owner to switch plans for testing
-3. **Odesli UPC Search** - Added UPC code search via iTunes API + Odesli
-4. **Platform Expansion** - Added 15+ music platforms with icons
-5. **API Keys** - Added RESEND_API_KEY and HUGGINGFACE_TOKEN to backend
-6. **Full Internationalization (i18n)** - Complete translation system for RU, EN, ES
-   - Admin Panel fully translated (completed 2025-01-15)
-   - All dashboard pages translated
-   - Landing, auth, settings pages translated
-   - Country names translated dynamically
-   - Role names translated dynamically
-   - Ticket statuses translated dynamically
-   - VPS monitoring section translated
+### Session Updates (2025-01-17) - Major Redesign
 
-### i18n Implementation
-- Custom React Context-based i18n system
-- Central translations file: `/app/frontend/src/i18n/translations.js`
-- Language switcher in sidebar
-- Browser language auto-detection with localStorage persistence
-- Translated pages:
-  - Landing page
-  - Login / Register
-  - Dashboard / Sidebar
-  - Settings
-  - PageBuilder
-  - RandomCover
-  - Analytics (GlobalAnalytics)
-  - Domains
-  - Verification
-  - Support (with FAQ merged)
-  - Admin Panel (fully translated)
+#### 1. Full Landing Page Redesign
+- **New Structure**:
+  - Hero section with title, subtitle, CTA buttons, phone mockup
+  - Features section (6 cards): All Platforms, One Link, Analytics (PRO), Custom Design (PRO), QR Codes, Fast & Free
+  - "How It Works" section (3 steps)
+  - Preview section with browser mockup
+  - FAQ section (accordion)
+  - Footer with logo and copyright
+- **New Logo**: Muslink SVG logo integrated as React component (`/app/frontend/src/components/MuslinkLogo.jsx`)
+- **Design**: Modern, minimalist, music-focused aesthetic with soft shadows, cards, good typography
+
+#### 2. Light/Dark Mode Support
+- **ThemeContext** (`/app/frontend/src/contexts/ThemeContext.jsx`): Full theme management
+- **ThemeToggle** component: Moon/Sun icon toggle
+- **Storage**: Theme persists in localStorage (`muslink_theme`)
+- **Default**: Respects `prefers-color-scheme` system preference
+- **Integration**: Works on Landing page, Dashboard/Sidebar, and all authenticated pages
+- **CSS Variables**: Updated `/app/frontend/src/index.css` with light theme variables
+
+#### 3. OG Tags for Social Sharing
+- **Backend endpoint**: `GET /api/og/{slug}?lang=en|ru|es`
+- **Dynamic OG meta**:
+  - `og:title`: "{Release Title} — Muslink"
+  - `og:description`: Localized ("Listen, download or stream..." in EN/RU/ES)
+  - `og:image`: Uses cover art from release, falls back to default
+- **Redirect**: After crawler reads OG tags, redirects to actual page
+
+#### 4. PRO Feature Modal + Waitlist
+- **ProFeatureModal** (`/app/frontend/src/components/ProFeatureModal.jsx`)
+- **Localized text** for EN, RU, ES:
+  - "This feature is not available yet. Leave your email..."
+- **Email collection**:
+  - Frontend validation
+  - Backend API: `POST /api/waitlist`
+  - Saves to MongoDB `waitlist` collection
+- **Spam protection**:
+  - Rate limiting (60s cooldown per IP)
+  - Frontend cooldown (30s)
+- **Email confirmation**: Sends localized email via Resend API
+
+### Previous Session Updates (2025-01-15)
+- Full internationalization (i18n) for RU, EN, ES
+- Admin Panel translation complete
+- RandomCover iPhone photo fix (HEIC support, EXIF orientation)
+- FAQ merged into Support page
+- Sidebar layout fixed
 
 ## Tech Stack
-- **Backend**: FastAPI, MongoDB (motor), Pydantic, JWT, bcrypt
+- **Backend**: FastAPI, MongoDB (motor), Pydantic, JWT, bcrypt, Resend
 - **Frontend**: React, React Router, Tailwind CSS, Shadcn UI, Axios, Framer Motion
 - **Database**: MongoDB (database name: smartlink)
 - **Services**: Managed by Supervisor
+
+## New Files Created This Session
+```
+/app/frontend/src/components/MuslinkLogo.jsx       - SVG logo component
+/app/frontend/src/components/ThemeToggle.jsx       - Theme switch button
+/app/frontend/src/components/ProFeatureModal.jsx   - PRO waitlist modal
+/app/frontend/src/contexts/ThemeContext.jsx        - Theme management
+```
+
+## Modified Files This Session
+```
+/app/frontend/src/pages/Landing.jsx       - Complete redesign
+/app/frontend/src/components/Sidebar.jsx  - Added ThemeToggle
+/app/frontend/src/App.js                  - Added ThemeProvider
+/app/frontend/src/index.css               - Added light theme CSS variables
+/app/frontend/src/i18n/translations.js    - Added proModal and newLanding sections
+/app/backend/server.py                    - Added /waitlist and /og/{slug} endpoints
+```
 
 ## Key API Endpoints
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `GET /api/users/me` - Current user profile
 - `GET /api/lookup/odesli?url=<url_or_upc>` - Music link lookup
-- `PUT /api/owner/my-plan` - Owner plan change (testing)
-- CRUD endpoints for pages, links, subdomains, tickets
+- `POST /api/waitlist` - Add email to PRO features waitlist
+- `GET /api/og/{slug}?lang=en` - Get HTML page with OG meta tags
 
 ## Database Schema
 - **users**: id, email, username, password_hash, role, plan, status, verified
 - **pages**: id, user_id, slug, title, cover_image, links, qr_enabled
 - **subdomains**: id, user_id, subdomain, is_active
 - **tickets**: id, user_id, subject, messages, status
+- **waitlist**: id, email, features[], language, created_at, ip (NEW)
 
 ## Test Credentials
 - **Owner**: `thedrumepic@gmail.com` / `password`
 
 ## Completed Tasks
-- [x] Remove "Ultimate" plan
-- [x] Add owner plan test functionality
-- [x] Add UPC code search
-- [x] Add new music platforms
-- [x] Full i18n implementation (RU, EN, ES)
-- [x] Admin Panel translation complete
+- [x] Full Landing page redesign
+- [x] Light/Dark mode with toggle
+- [x] OG tags endpoint for social sharing
+- [x] PRO feature modal with email collection
+- [x] Waitlist API with spam protection
+- [x] Email notification for waitlist
+- [x] Theme persists in localStorage
+- [x] System theme preference detection
 
 ## Pending/Future Tasks
 
 ### P2 - Minor Improvements
-- Fix mixed language in PageBuilder preview (Russian text in preview area)
+- Fix mixed language in PageBuilder preview
+- Add default OG image file to server
 
 ### P2 - Security Improvements
 - Remove hardcoded JWT_SECRET fallback
 - Make OWNER_EMAIL configurable via .env
 
 ### P3 - Cleanup
-- Delete obsolete /app/frontend/src/pages/FAQ.jsx file
 - Optimize N+1 database queries in admin panel
 
 ## File Structure
@@ -106,31 +143,23 @@ Application cloned from GitHub repository `https://github.com/sadsoulpro/prefina
 ├── frontend/
 │   ├── .env
 │   ├── package.json
-│   ├── src/
-│   │   ├── App.js
-│   │   ├── i18n/
-│   │   │   ├── index.js
-│   │   │   └── translations.js  (extended with admin translations)
-│   │   ├── contexts/
-│   │   │   ├── AuthContext.jsx
-│   │   │   └── LanguageContext.jsx
-│   │   ├── components/
-│   │   │   ├── Sidebar.jsx
-│   │   │   └── LanguageSwitcher.jsx
-│   │   └── pages/
-│   │       ├── Landing.jsx
-│   │       ├── Login.jsx
-│   │       ├── Register.jsx
-│   │       ├── Dashboard.jsx
-│   │       ├── PageBuilder.jsx
-│   │       ├── RandomCover.jsx
-│   │       ├── Analytics.jsx
-│   │       ├── GlobalAnalytics.jsx
-│   │       ├── Domains.jsx
-│   │       ├── Settings.jsx
-│   │       ├── Support.jsx
-│   │       ├── Verification.jsx
-│   │       └── AdminPanel.jsx  (fully translated)
+│   └── src/
+│       ├── App.js
+│       ├── index.css
+│       ├── components/
+│       │   ├── MuslinkLogo.jsx (NEW)
+│       │   ├── ThemeToggle.jsx (NEW)
+│       │   ├── ProFeatureModal.jsx (NEW)
+│       │   ├── Sidebar.jsx
+│       │   └── LanguageSwitcher.jsx
+│       ├── contexts/
+│       │   ├── LanguageContext.jsx
+│       │   └── ThemeContext.jsx (NEW)
+│       ├── i18n/
+│       │   └── translations.js
+│       └── pages/
+│           ├── Landing.jsx (REDESIGNED)
+│           └── ...
 └── memory/
     └── PRD.md
 ```
@@ -138,5 +167,5 @@ Application cloned from GitHub repository `https://github.com/sadsoulpro/prefina
 ## 3rd Party Integrations
 - **Odesli/Songlink API** - No key required
 - **iTunes Search API** - No key required  
-- **Resend** - Key in .env (not implemented yet)
-- **Hugging Face** - Key in .env (not implemented yet)
+- **Resend** - Key in .env, used for waitlist emails
+- **Hugging Face** - Key in .env, used for RandomCover AI
