@@ -82,6 +82,8 @@ export default function ProFeatureModal({ open, onOpenChange, featureName = "" }
 
       // Set cooldown
       localStorage.setItem(COOLDOWN_KEY, Date.now().toString());
+      // Save that user has submitted email
+      localStorage.setItem('waitlist_email_submitted', email.trim());
       
       setSuccess(true);
       toast.success(t('proModal', 'successToast'));
