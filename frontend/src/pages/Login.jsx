@@ -35,7 +35,13 @@ export default function Login() {
         navigate("/multilinks");
       }
     } catch (error) {
-      toast.error(typeof (error.response?.data?.detail) === "string" ? error.response.data.detail : t('auth', 'invalidCredentials'));
+      const errorDetail = error.response?.data?.detail;
+      // Show localized message for invalid credentials
+      if (errorDetail === "Invalid credentials") {
+        toast.error(t('auth', 'invalidCredentials'));
+      } else {
+        toast.error(typeof errorDetail === "string" ? errorDetail : t('auth', 'invalidCredentials'));
+      }
     } finally {
       setLoading(false);
     }
