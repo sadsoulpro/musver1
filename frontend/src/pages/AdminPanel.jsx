@@ -28,7 +28,7 @@ const ROLE_CONFIG = {
 };
 
 const PLAN_CONFIG = {
-  free: { label: "Free", color: "bg-zinc-700/50 text-zinc-300" },
+  free: { label: "Free", color: "bg-muted text-muted-foreground" },
   pro: { label: "Pro", color: "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-300" }
 };
 
@@ -718,7 +718,7 @@ export default function AdminPanel() {
                         <p className="text-3xl font-bold text-primary">{users.filter(u => u.is_verified || u.verified).length}</p>
                         <p className="text-xs text-muted-foreground mt-1">{t('admin', 'verifiedUsers')}</p>
                       </div>
-                      <div className="p-4 rounded-xl bg-muted/50 border border-zinc-700/50">
+                      <div className="p-4 rounded-xl bg-muted/50 border border-border">
                         <p className="text-3xl font-bold">{pages.filter(p => p.status === 'active').length}</p>
                         <p className="text-xs text-muted-foreground mt-1">{t('admin', 'activePages')}</p>
                       </div>
@@ -797,7 +797,7 @@ export default function AdminPanel() {
                             <select
                               value={user.plan}
                               onChange={(e) => updateUserPlan(user.id, e.target.value)}
-                              className="h-8 px-2 rounded-lg bg-muted border border-zinc-700 text-xs cursor-pointer hover:border-zinc-600 transition-colors"
+                              className="h-8 px-2 rounded-lg bg-muted border border-border text-xs cursor-pointer hover:border-primary/50 transition-colors"
                             >
                               <option value="free">Free</option>
                               <option value="pro">Pro</option>
@@ -807,7 +807,7 @@ export default function AdminPanel() {
                               <select
                                 value={user.role}
                                 onChange={(e) => updateUserRole(user.id, e.target.value)}
-                                className="h-8 px-2 rounded-lg bg-muted border border-zinc-700 text-xs cursor-pointer hover:border-zinc-600 transition-colors"
+                                className="h-8 px-2 rounded-lg bg-muted border border-border text-xs cursor-pointer hover:border-primary/50 transition-colors"
                               >
                                 <option value="user">User</option>
                                 <option value="moderator">Mod</option>
@@ -917,7 +917,7 @@ export default function AdminPanel() {
                                 }}
                                 className="sr-only peer"
                               />
-                              <div className="w-9 h-5 bg-zinc-700 rounded-full peer peer-checked:bg-primary transition-colors"></div>
+                              <div className="w-9 h-5 bg-muted rounded-full peer peer-checked:bg-primary transition-colors"></div>
                               <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-4"></div>
                             </div>
                           </label>
