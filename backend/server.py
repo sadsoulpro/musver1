@@ -3574,6 +3574,47 @@ async def shutdown_db_client():
 # Include router and configure CORS
 app.include_router(api_router)
 
+# ===================== PUBLIC PAGE ROUTE FOR BOTS =====================
+# This catch-all route handles bot requests to /{slug} with OG tags
+# Must be added AFTER api_router to not interfere with API routes
+
+@app.get("/{slug:path}")
+async def serve_public_page_or_spa(slug: str, request: Request):
+    """
+    Catch-all route for public pages.
+    - For bots: serve HTML with OG tags
+    - For regular users: let frontend SPA handle it (return 404 to trigger frontend routing)
+    """
+    # Skip certain paths that should go to frontend
+    if (slug.startswith('static/') or 
+        slug.startswith('assets/') or 
+        slug.startswith('api/') or
+        slug in ['login', 'register', 'forgot-password', 'reset-password', 'demo', 'pricing', 
+                 'multilinks', 'random-cover', 'analytics', 'domains', 'settings', 
+                 'verification', 'support', 'admin'] or
+        slug.startswith('page/') or
+        '.' in slug.split('/')[-1]):  # Files with extensions
+        raise HTTPException(status_code=404)
+    
+    # Check if this is a bot
+    user_agent = request.headers.get('user-agent', '')
+    
+    if is_bot(user_agent):
+        # Get page data
+        page_data = await get_page_for_og(slug)
+        if page_data:
+            html = generate_og_html(
+                slug=slug,
+                title=page_data['title'],
+                cover_image=page_data['cover_image'],
+                language=page_data['language']
+            )
+            logging.info(f"Serving OG for bot: {user_agent[:50]}... slug: {slug}")
+            return HTMLResponse(content=html)
+    
+    # For non-bots or pages not found, return 404 to let frontend handle
+    raise HTTPException(status_code=404)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
