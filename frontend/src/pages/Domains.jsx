@@ -338,11 +338,23 @@ export default function Domains() {
               >
                 <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="text-sm text-amber-200">
+                  <p className="text-sm text-amber-400">
                     {t('domains', 'proRequired')}
                   </p>
                 </div>
-                <Button size="sm" variant="outline" className="border-amber-500/30 text-amber-400 hover:bg-amber-500/10 flex-shrink-0">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="border-amber-500/30 text-amber-400 hover:bg-amber-500/10 flex-shrink-0"
+                  onClick={() => {
+                    const submittedEmail = localStorage.getItem('waitlist_email_submitted');
+                    if (submittedEmail) {
+                      toast.info(t('proModal', 'alreadySubmitted'));
+                    } else {
+                      setProModalOpen(true);
+                    }
+                  }}
+                >
                   <Crown className="w-3 h-3 mr-1" />
                   {t('common', 'upgrade')}
                 </Button>
