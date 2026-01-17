@@ -624,6 +624,10 @@ export const translations = {
       trackNotFound: "Track not found. Try another link.",
       upcNotFound: "Could not find release by UPC code. Check the code.",
       scanError: "Could not get links. Check the URL and try again.",
+      pageDesign: "Page Design",
+      darkTheme: "Dark",
+      lightTheme: "Light",
+      pageDesignHint: "Choose the theme for your public page",
     },
     ru: {
       title: "Конструктор страницы",
