@@ -1039,7 +1039,7 @@ export default function RandomCover() {
         </DialogContent>
       </Dialog>
 
-      <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950">
+      <div className="min-h-screen bg-background">
         <div className="p-4 sm:p-6 lg:p-8">
           {/* Header */}
           <motion.div

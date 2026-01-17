@@ -410,7 +410,7 @@ export default function AdminPanel() {
 
   return (
     <Sidebar>
-      <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950">
+      <div className="min-h-screen bg-background">
         <div className="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto">
           {/* Header */}
           <motion.div 
