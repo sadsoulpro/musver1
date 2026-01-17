@@ -245,7 +245,7 @@ export default function Domains() {
                 </div>
                 <div className={`px-2 py-1 rounded-lg text-xs ${
                   user?.plan === 'pro' ? 'bg-blue-500/20 text-blue-400' :
-                  'bg-zinc-700 text-zinc-400'
+                  'bg-muted text-muted-foreground'
                 }`}>
                   {user?.plan?.toUpperCase() || 'FREE'}
                 </div>
@@ -361,8 +361,8 @@ export default function Domains() {
             </h2>
             
             {subdomains.length === 0 ? (
-              <div className="text-center py-16 rounded-2xl border border-dashed border-zinc-800">
-                <Globe className="w-12 h-12 mx-auto mb-4 text-zinc-700" />
+              <div className="text-center py-16 rounded-2xl border border-dashed border-border">
+                <Globe className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                 <p className="text-muted-foreground mb-2">{t('analytics', 'noData')}</p>
               </div>
             ) : (
@@ -376,7 +376,7 @@ export default function Domains() {
                     className={`p-4 sm:p-5 rounded-2xl border transition-all ${
                       sub.is_active 
                         ? 'bg-card/50 border-border hover:border-border' 
-                        : 'bg-card/30 border-zinc-800/50'
+                        : 'bg-card/30 border-border'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -395,7 +395,7 @@ export default function Domains() {
                               {sub.subdomain}.mytrack.cc
                             </p>
                             {!sub.is_active && (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] bg-zinc-700 text-zinc-400">
+                              <span className="px-2 py-0.5 rounded-full text-[10px] bg-muted text-muted-foreground">
                                 {t('common', 'disabled')}
                               </span>
                             )}
@@ -443,7 +443,7 @@ export default function Domains() {
                           onClick={() => toggleSubdomain(sub.id, sub.is_active)}
                           disabled={sub.disabled_by_admin}
                           className={`relative w-12 h-6 rounded-full transition-colors ${
-                            sub.is_active ? 'bg-emerald-500' : 'bg-zinc-700'
+                            sub.is_active ? 'bg-emerald-500' : 'bg-muted'
                           } ${sub.disabled_by_admin ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
                         >
                           <div className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-transform ${
