@@ -7,6 +7,9 @@ import { toast } from "sonner";
 import { ArrowLeft, Mail, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import MuslinkLogo from "@/components/MuslinkLogo";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -14,6 +17,8 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { t } = useLanguage();
+  const { theme } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,9 +27,9 @@ export default function ForgotPassword() {
     try {
       await axios.post(`${API_URL}/api/auth/forgot-password`, { email });
       setSubmitted(true);
-      toast.success("Инструкции отправлены на вашу почту");
+      toast.success(t('forgotPassword', 'successToast'));
     } catch (error) {
-      toast.error(typeof (error.response?.data?.detail) === "string" ? error.response.data.detail : "Произошла ошибка");
+      toast.error(typeof (error.response?.data?.detail) === "string" ? error.response.data.detail : t('errors', 'generic'));
     } finally {
       setLoading(false);
     }
@@ -37,7 +42,7 @@ export default function ForgotPassword() {
         <div className="w-full max-w-md mx-auto">
           <Link to="/login" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4" />
-            Вернуться к входу
+            {t('forgotPassword', 'backToLogin')}
           </Link>
           
           <motion.div
@@ -47,19 +52,15 @@ export default function ForgotPassword() {
           >
             <div className="flex items-center gap-2 mb-8">
               <Link to="/">
-                <img 
-                  src="/MyTrack-logo-main.svg" 
-                  alt="MyTrack" 
-                  className="h-10 w-auto"
-                />
+                <MuslinkLogo height={32} theme={theme} />
               </Link>
             </div>
             
             {!submitted ? (
               <>
-                <h1 className="text-3xl font-semibold mb-2">Восстановление пароля</h1>
+                <h1 className="text-3xl font-semibold mb-2">{t('forgotPassword', 'title')}</h1>
                 <p className="text-muted-foreground mb-8">
-                  Введите почту, указанную при регистрации. Мы отправим вам ссылку для сброса пароля.
+                  {t('forgotPassword', 'description')}
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -73,7 +74,7 @@ export default function ForgotPassword() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       data-testid="forgot-email-input"
-                      className="h-12 bg-zinc-900 border-zinc-800 focus:border-primary"
+                      className="h-12 bg-muted border-border focus:border-primary"
                     />
                   </div>
                   
@@ -83,7 +84,7 @@ export default function ForgotPassword() {
                     data-testid="forgot-submit-btn"
                     className="w-full h-12 bg-primary hover:bg-primary/90 rounded-xl font-semibold"
                   >
-                    {loading ? "Отправка..." : "Восстановить пароль"}
+                    {loading ? t('forgotPassword', 'sending') : t('forgotPassword', 'submit')}
                   </Button>
                 </form>
               </>
@@ -96,12 +97,12 @@ export default function ForgotPassword() {
                 <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="w-8 h-8 text-green-500" />
                 </div>
-                <h1 className="text-3xl font-semibold mb-4">Проверьте почту</h1>
+                <h1 className="text-3xl font-semibold mb-4">{t('forgotPassword', 'checkEmail')}</h1>
                 <p className="text-muted-foreground mb-8">
-                  Мы отправили вам ссылку для сброса пароля на <span className="text-foreground font-medium">{email}</span>
+                  {t('forgotPassword', 'sentTo')} <span className="text-foreground font-medium">{email}</span>
                 </p>
                 <p className="text-sm text-muted-foreground mb-6">
-                  Не получили письмо? Проверьте папку «Спам» или попробуйте снова.
+                  {t('forgotPassword', 'checkSpam')}
                 </p>
                 <Button 
                   variant="outline"
@@ -109,15 +110,15 @@ export default function ForgotPassword() {
                   className="rounded-xl"
                   data-testid="try-again-btn"
                 >
-                  Отправить снова
+                  {t('forgotPassword', 'sendAgain')}
                 </Button>
               </motion.div>
             )}
             
             <p className="mt-8 text-center text-muted-foreground">
-              Вспомнили пароль?{" "}
+              {t('forgotPassword', 'rememberPassword')}{" "}
               <Link to="/login" className="text-primary hover:underline" data-testid="login-link">
-                Войти
+                {t('nav', 'login')}
               </Link>
             </p>
           </motion.div>
@@ -125,14 +126,20 @@ export default function ForgotPassword() {
       </div>
       
       {/* Right Side - Visual */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-primary/20 via-zinc-900 to-background items-center justify-center p-12">
+      <div className={`hidden lg:flex flex-1 ${
+        theme === 'dark' 
+          ? 'bg-gradient-to-br from-primary/20 via-zinc-900 to-background' 
+          : 'bg-gradient-to-br from-primary/10 via-gray-100 to-white'
+      } items-center justify-center p-12`}>
         <div className="text-center">
           <div className="w-32 h-32 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-6">
             <Mail className="w-16 h-16 text-primary" />
           </div>
-          <h2 className="font-display text-4xl mb-4">ВОССТАНОВИТЕ ДОСТУП</h2>
-          <p className="text-muted-foreground max-w-sm">
-            Забыли пароль?. Просто введите ваш email.
+          <h2 className={`font-display text-4xl mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+            {t('forgotPassword', 'rightTitle')}
+          </h2>
+          <p className={`max-w-sm ${theme === 'dark' ? 'text-zinc-400' : 'text-gray-600'}`}>
+            {t('forgotPassword', 'rightDesc')}
           </p>
         </div>
       </div>
