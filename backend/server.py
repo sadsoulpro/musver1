@@ -187,6 +187,190 @@ class SubdomainMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(SubdomainMiddleware)
 
+# ===================== OG BOT MIDDLEWARE =====================
+
+# List of bot User-Agents that need OG tags
+BOT_USER_AGENTS = [
+    'telegrambot',
+    'whatsapp',
+    'facebookexternalhit',
+    'facebookcatalog',
+    'twitterbot',
+    'discordbot',
+    'slackbot',
+    'linkedinbot',
+    'pinterest',
+    'googlebot',
+    'bingbot',
+    'yandex',
+    'baiduspider',
+    'duckduckbot',
+    'applebot',
+    'embedly',
+    'quora link preview',
+    'outbrain',
+    'vkshare',
+    'skypeuripreview',
+    'viber',
+]
+
+# OG descriptions by language
+OG_DESCRIPTIONS = {
+    "en": 'Listen, download or stream "{title}" on all available platforms.',
+    "ru": 'Слушайте, скачивайте "{title}" на всех доступных площадках.',
+    "es": 'Escucha, descarga o reproduce "{title}" en todas las plataformas disponibles.',
+}
+
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
+
+def is_bot(user_agent: str) -> bool:
+    """Check if the request is from a social media bot"""
+    if not user_agent:
+        return False
+    ua_lower = user_agent.lower()
+    return any(bot in ua_lower for bot in BOT_USER_AGENTS)
+
+async def get_page_for_og(slug: str) -> dict:
+    """Get page data for OG tags"""
+    page = await db.pages.find_one({"slug": slug}, {"_id": 0})
+    if not page:
+        return None
+    
+    # Get user's preferred language
+    user = await db.users.find_one(
+        {"id": page.get("user_id")}, 
+        {"_id": 0, "preferred_language": 1}
+    )
+    
+    return {
+        "title": page.get("title", "Music Release"),
+        "cover_image": page.get("cover_image", ""),
+        "language": user.get("preferred_language", "en") if user else "en"
+    }
+
+def generate_og_html(slug: str, title: str, cover_image: str, language: str) -> str:
+    """Generate HTML page with OG tags for social media crawlers"""
+    # Normalize language
+    lang = language.lower() if language.lower() in OG_DESCRIPTIONS else "en"
+    
+    # Generate description
+    description = OG_DESCRIPTIONS[lang].format(title=title)
+    
+    # Use cover image or default
+    og_image = cover_image if cover_image and (cover_image.startswith("http") or cover_image.startswith("/")) else f"{FRONTEND_URL}/og-default.png"
+    if og_image.startswith("/"):
+        og_image = f"{FRONTEND_URL}{og_image}"
+    
+    # Page URL
+    page_url = f"{FRONTEND_URL}/{slug}"
+    
+    # Escape HTML entities
+    title_escaped = title.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+    description_escaped = description.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+    
+    return f'''<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title_escaped} — Muslink</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="music.song">
+    <meta property="og:url" content="{page_url}">
+    <meta property="og:title" content="{title_escaped} — Muslink">
+    <meta property="og:description" content="{description_escaped}">
+    <meta property="og:image" content="{og_image}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Muslink">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{page_url}">
+    <meta name="twitter:title" content="{title_escaped} — Muslink">
+    <meta name="twitter:description" content="{description_escaped}">
+    <meta name="twitter:image" content="{og_image}">
+    
+    <!-- Standard Meta -->
+    <meta name="description" content="{description_escaped}">
+    
+    <!-- Theme -->
+    <meta name="theme-color" content="#d946ef">
+    
+    <!-- Redirect for non-bot visitors that somehow got here -->
+    <script>window.location.href = "{page_url}";</script>
+</head>
+<body style="background:#0a0a0a;color:#fff;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;">
+    <div style="text-align:center;padding:20px;">
+        <img src="{og_image}" alt="{title_escaped}" style="max-width:300px;border-radius:12px;margin-bottom:20px;">
+        <h1 style="margin:0 0 10px;">{title_escaped}</h1>
+        <p style="margin:0;opacity:0.7;">{description_escaped}</p>
+        <p style="margin-top:20px;"><a href="{page_url}" style="color:#d946ef;">Open in Muslink →</a></p>
+    </div>
+</body>
+</html>'''
+
+class OGBotMiddleware(BaseHTTPMiddleware):
+    """
+    Middleware to serve OG tags HTML to social media bots.
+    Regular users get the SPA (index.html).
+    """
+    async def dispatch(self, request: Request, call_next):
+        path = request.url.path
+        
+        # Skip API routes, static files, and special paths
+        if (path.startswith('/api') or 
+            path.startswith('/static') or 
+            path.startswith('/uploads') or
+            path.startswith('/assets') or
+            path in ['/', '/login', '/register', '/forgot-password', '/reset-password', '/demo', '/pricing'] or
+            path.startswith('/multilinks') or
+            path.startswith('/random-cover') or
+            path.startswith('/analytics') or
+            path.startswith('/domains') or
+            path.startswith('/settings') or
+            path.startswith('/verification') or
+            path.startswith('/support') or
+            path.startswith('/admin') or
+            path.startswith('/page/') or
+            '.' in path.split('/')[-1]):  # Skip files with extensions
+            return await call_next(request)
+        
+        # Extract potential slug (e.g., /artist-name)
+        slug = path.lstrip('/')
+        if not slug or '/' in slug:
+            return await call_next(request)
+        
+        # Check if this is a bot request
+        user_agent = request.headers.get('user-agent', '')
+        if not is_bot(user_agent):
+            return await call_next(request)
+        
+        # Get page data for OG tags
+        try:
+            page_data = await get_page_for_og(slug)
+            if not page_data:
+                return await call_next(request)
+            
+            # Generate OG HTML
+            html = generate_og_html(
+                slug=slug,
+                title=page_data['title'],
+                cover_image=page_data['cover_image'],
+                language=page_data['language']
+            )
+            
+            logging.info(f"Serving OG HTML for bot: {user_agent[:50]}... slug: {slug}")
+            return HTMLResponse(content=html, status_code=200)
+            
+        except Exception as e:
+            logging.error(f"OG middleware error: {e}")
+            return await call_next(request)
+
+# Add OG middleware BEFORE subdomain middleware
+app.add_middleware(OGBotMiddleware)
+
 # ===================== MODELS =====================
 
 class UserCreate(BaseModel):
