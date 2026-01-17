@@ -19,6 +19,15 @@ Application cloned from GitHub repository `https://github.com/sadsoulpro/prefina
 - Verification badge system
 - RandomCover - AI-powered cover art editor
 
+### Session Updates (2025-01-17) - Light Theme Fixes
+
+#### Light Mode UI Fixes for Panel Pages
+- **RandomCover.jsx**: Fixed background, dialogs, tooltips, tabs, and empty state colors
+- **Domains.jsx**: Fixed background, loading state, plan badge, toggle switch, and empty state
+- **AdminPanel.jsx**: Fixed background, loading state, plan config, select dropdowns, toggle switches, disabled states, and subdomains list
+
+All pages now use CSS variables (`bg-background`, `bg-muted`, `border-border`, `text-muted-foreground`) instead of hardcoded Zinc colors.
+
 ### Session Updates (2025-01-17) - Major Redesign
 
 #### 1. Full Landing Page Redesign
