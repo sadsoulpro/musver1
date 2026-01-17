@@ -525,12 +525,13 @@ export default function Analytics() {
                     <p className="text-sm text-muted-foreground mb-4 max-w-xs mx-auto">
                       {t('analytics', 'upgradeToSee')}
                     </p>
-                    <Link to="/settings">
-                      <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
-                        <Crown className="w-4 h-4 mr-2" />
-                        {t('common', 'upgrade')}
-                      </Button>
-                    </Link>
+                    <Button 
+                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                      onClick={handleUpgradeClick}
+                    >
+                      <Crown className="w-4 h-4 mr-2" />
+                      {t('common', 'upgrade')}
+                    </Button>
                   </div>
                 </div>
                 
