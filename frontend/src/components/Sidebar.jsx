@@ -173,7 +173,7 @@ function MobileMenu({ user, onLogout, unreadUserTickets, unreadStaffTickets }) {
         <div className="flex flex-col h-full">
           {/* Header - Fixed */}
           <div className="flex items-center gap-2 p-6 pb-4 flex-shrink-0">
-            <MuslinkLogo height={28} theme={theme} />
+            <MuslinkLogo height={22} theme={theme} />
           </div>
           
           {/* Scrollable Nav Content */}
