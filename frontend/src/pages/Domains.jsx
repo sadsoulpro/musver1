@@ -618,6 +618,13 @@ export default function Domains() {
           </motion.div>
         </div>
       </div>
+
+      {/* PRO Feature Modal */}
+      <ProFeatureModal
+        open={proModalOpen}
+        onOpenChange={setProModalOpen}
+        featureName="Custom Domains"
+      />
     </Sidebar>
   );
 }
