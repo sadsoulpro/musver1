@@ -71,9 +71,10 @@ function NavContent({ currentPath, user, onLogout, onNavigate, unreadUserTickets
       </nav>
       
       <div className="pt-6 border-t border-white/5">
-        {/* Language Switcher */}
-        <div className="px-4 py-2 mb-2">
-          <LanguageSwitcher variant="compact" className="w-full justify-start" />
+        {/* Theme and Language Switchers */}
+        <div className="px-4 py-2 mb-2 flex items-center gap-2">
+          <ThemeToggle className="flex-shrink-0" />
+          <LanguageSwitcher variant="compact" className="flex-1 justify-start" />
         </div>
         
         {/* Admin Panel link - at bottom before user info */}
