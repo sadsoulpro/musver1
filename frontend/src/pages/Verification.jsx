@@ -225,7 +225,7 @@ export default function Verification() {
         )}
         
         {/* Info */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-4 sm:mt-6 p-4 sm:p-6 rounded-2xl bg-zinc-900/30 border border-border">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-4 sm:mt-6 p-4 sm:p-6 rounded-2xl bg-card/30 border border-border">
           <h3 className="font-semibold text-sm sm:text-base mb-3">{t('verification', 'benefits')}</h3>
           <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><BadgeCheck className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />{t('verification', 'benefit1')}</li>

@@ -279,7 +279,7 @@ export default function Support() {
             {t('common', 'back')}
           </Button>
 
-          <div className="bg-zinc-900/50 rounded-2xl border border-border p-4 sm:p-6 mb-4">
+          <div className="bg-card/50 rounded-2xl border border-border p-4 sm:p-6 mb-4">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h1 className="text-xl font-semibold mb-1">{selectedTicket.subject}</h1>
@@ -327,7 +327,7 @@ export default function Support() {
 
           {/* Reply form - only if not closed */}
           {selectedTicket.status !== 'closed' && (
-            <div className="bg-zinc-900/50 rounded-2xl border border-border p-4">
+            <div className="bg-card/50 rounded-2xl border border-border p-4">
               <Textarea
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
@@ -471,7 +471,7 @@ export default function Support() {
                         className={`p-4 rounded-xl border cursor-pointer transition-colors hover:bg-muted/50 ${
                           hasUnread 
                             ? 'bg-primary/5 border-primary/30' 
-                            : 'bg-zinc-900/50 border-border'
+                            : 'bg-card/50 border-border'
                         }`}
                       >
                         <div className="flex items-start justify-between">

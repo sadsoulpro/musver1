@@ -230,7 +230,7 @@ export default function GlobalAnalytics() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8 relative">
           {/* PRO Overlay for geography */}
           {!hasAdvancedAnalytics && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-zinc-900/60 backdrop-blur-md">
+            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-card/60 backdrop-blur-md">
               <div className="text-center p-6">
                 <Crown className="w-10 h-10 text-yellow-500 mx-auto mb-3" />
                 <h3 className="text-lg font-semibold text-white mb-2">{t('analytics', 'proRequired')}</h3>
@@ -325,7 +325,7 @@ export default function GlobalAnalytics() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }} className="p-4 sm:p-6 rounded-2xl panel-card relative">
           {/* PRO Overlay for pages table */}
           {!hasAdvancedAnalytics && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-zinc-900/60 backdrop-blur-md">
+            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-card/60 backdrop-blur-md">
               <div className="text-center p-6">
                 <Crown className="w-10 h-10 text-yellow-500 mx-auto mb-3" />
                 <h3 className="text-lg font-semibold text-white mb-2">{t('analytics', 'proRequired')}</h3>

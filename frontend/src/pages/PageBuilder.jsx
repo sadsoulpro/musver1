@@ -599,7 +599,7 @@ export default function PageBuilder() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/5">
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             <Link to="/multilinks">
@@ -651,7 +651,7 @@ export default function PageBuilder() {
                   value={scanInput}
                   onChange={(e) => setScanInput(e.target.value)}
                   data-testid="scan-source-input"
-                  className="h-9 sm:h-10 bg-zinc-800 border-zinc-700 flex-1 text-xs sm:text-sm"
+                  className="h-9 sm:h-10 bg-muted border-zinc-700 flex-1 text-xs sm:text-sm"
                 />
                 <Button 
                   onClick={scanSource}
@@ -684,7 +684,7 @@ export default function PageBuilder() {
                   onChange={handleChange}
                   required
                   data-testid="artist-name-input"
-                  className="h-10 sm:h-12 bg-zinc-900 border-zinc-800"
+                  className="h-10 sm:h-12 bg-card border-zinc-800"
                 />
               </div>
               
@@ -699,7 +699,7 @@ export default function PageBuilder() {
                   onChange={handleChange}
                   required
                   data-testid="release-title-input"
-                  className="h-10 sm:h-12 bg-zinc-900 border-zinc-800"
+                  className="h-10 sm:h-12 bg-card border-zinc-800"
                 />
               </div>
               
@@ -715,7 +715,7 @@ export default function PageBuilder() {
                     value={formData.slug}
                     onChange={handleChange}
                     data-testid="page-slug-input"
-                    className="h-10 sm:h-12 bg-zinc-900 border-zinc-800"
+                    className="h-10 sm:h-12 bg-card border-zinc-800"
                   />
                 </div>
                 <p className="text-[10px] sm:text-xs text-muted-foreground">
@@ -733,7 +733,7 @@ export default function PageBuilder() {
                   value={formData.description}
                   onChange={handleChange}
                   data-testid="description-input"
-                  className="bg-zinc-900 border-zinc-800 min-h-[80px] sm:min-h-[100px]"
+                  className="bg-card border-zinc-800 min-h-[80px] sm:min-h-[100px]"
                 />
               </div>
             </div>
@@ -744,7 +744,7 @@ export default function PageBuilder() {
             <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('pageBuilder', 'coverImage')}</h2>
             <div className="space-y-3 sm:space-y-4">
               <div 
-                className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-zinc-800 overflow-hidden border-2 border-dashed border-zinc-700 hover:border-primary/50 transition-colors cursor-pointer group"
+                className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-muted overflow-hidden border-2 border-dashed border-zinc-700 hover:border-primary/50 transition-colors cursor-pointer group"
                 onClick={() => document.getElementById('cover-upload').click()}
               >
                 {formData.cover_image ? (
@@ -788,7 +788,7 @@ export default function PageBuilder() {
               <select
                 value={newLink.platform}
                 onChange={(e) => setNewLink(prev => ({ ...prev, platform: e.target.value }))}
-                className="h-10 sm:h-12 px-3 sm:px-4 rounded-xl bg-zinc-900 border border-zinc-800 text-foreground text-sm"
+                className="h-10 sm:h-12 px-3 sm:px-4 rounded-xl bg-card border border-zinc-800 text-foreground text-sm"
                 data-testid="platform-select"
               >
                 {PLATFORMS.map(p => (
@@ -801,7 +801,7 @@ export default function PageBuilder() {
                   value={newLink.url}
                   onChange={(e) => setNewLink(prev => ({ ...prev, url: e.target.value }))}
                   data-testid="link-url-input"
-                  className="h-10 sm:h-12 bg-zinc-900 border-zinc-800 flex-1"
+                  className="h-10 sm:h-12 bg-card border-zinc-800 flex-1"
                 />
                 <Button 
                   onClick={addLink}
@@ -967,7 +967,7 @@ export default function PageBuilder() {
           <h2 className="text-lg font-semibold mb-4">{t('common', 'preview')}</h2>
           <div className="relative mx-auto w-[300px]">
             {/* Phone Frame */}
-            <div className="rounded-[40px] border-4 border-zinc-800 bg-zinc-900 p-2 shadow-2xl">
+            <div className="rounded-[40px] border-4 border-zinc-800 bg-card p-2 shadow-2xl">
               <div className="rounded-[32px] overflow-hidden aspect-[9/16] relative">
                 {/* Background */}
                 <div 
@@ -985,7 +985,7 @@ export default function PageBuilder() {
                 {/* Content */}
                 <div className="relative p-6 pt-10 flex flex-col items-center text-center h-full">
                   {/* Cover */}
-                  <div className="w-24 h-24 rounded-xl bg-zinc-800 overflow-hidden mb-4 shadow-xl">
+                  <div className="w-24 h-24 rounded-xl bg-muted overflow-hidden mb-4 shadow-xl">
                     {formData.cover_image ? (
                       <img 
                         src={formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image}
@@ -1015,7 +1015,7 @@ export default function PageBuilder() {
                       return (
                         <div 
                           key={link.id}
-                          className="w-full py-3 px-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3"
+                          className="w-full py-3 px-4 rounded-xl bg-white/5 border border-border flex items-center gap-3"
                         >
                           <Icon className="w-5 h-5" style={{ color: platform.color }} />
                           <span className="text-sm font-medium">{platform.name}</span>
@@ -1024,7 +1024,7 @@ export default function PageBuilder() {
                     })}
                     
                     {links.filter(l => l.active).length === 0 && (
-                      <div className="py-3 px-4 rounded-xl border border-dashed border-white/10 text-xs text-muted-foreground">
+                      <div className="py-3 px-4 rounded-xl border border-dashed border-border text-xs text-muted-foreground">
                         Здесь появятся ссылки
                       </div>
                     )}

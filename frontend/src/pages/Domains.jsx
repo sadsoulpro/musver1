@@ -375,8 +375,8 @@ export default function Domains() {
                     transition={{ delay: 0.3 + idx * 0.05 }}
                     className={`p-4 sm:p-5 rounded-2xl border transition-all ${
                       sub.is_active 
-                        ? 'bg-zinc-900/50 border-border hover:border-border' 
-                        : 'bg-zinc-900/30 border-zinc-800/50'
+                        ? 'bg-card/50 border-border hover:border-border' 
+                        : 'bg-card/30 border-zinc-800/50'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">

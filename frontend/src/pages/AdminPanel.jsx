@@ -456,7 +456,7 @@ export default function AdminPanel() {
                     <select
                       value={currentUser?.plan || 'free'}
                       onChange={(e) => updateOwnerPlan(e.target.value)}
-                      className="h-8 px-3 rounded-lg bg-zinc-800 border border-yellow-500/30 text-sm cursor-pointer hover:border-yellow-500/50 transition-colors text-white"
+                      className="h-8 px-3 rounded-lg bg-muted border border-yellow-500/30 text-sm cursor-pointer hover:border-yellow-500/50 transition-colors text-white"
                     >
                       <option value="free">Free</option>
                       <option value="pro">Pro</option>
@@ -471,7 +471,7 @@ export default function AdminPanel() {
           {/* Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 mb-6">
-              <TabsList className="bg-zinc-900/80 backdrop-blur-sm border border-white/5 p-1 rounded-xl inline-flex min-w-max">
+              <TabsList className="bg-card/80 backdrop-blur-sm border border-border p-1 rounded-xl inline-flex min-w-max">
                 <TabsTrigger value="analytics" className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white text-xs sm:text-sm px-3 sm:px-4">
                   <BarChart3 className="w-4 h-4 mr-1.5" />
                   <span className="hidden sm:inline">{t('admin', 'globalAnalytics')}</span>
@@ -541,7 +541,7 @@ export default function AdminPanel() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
-                      className={`relative overflow-hidden p-4 sm:p-5 rounded-2xl ${stat.bg} border border-white/5 group hover:border-white/10 transition-all`}
+                      className={`relative overflow-hidden p-4 sm:p-5 rounded-2xl ${stat.bg} border border-border group hover:border-border transition-all`}
                     >
                       <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-opacity`} />
                       <stat.icon className={`w-5 h-5 mb-3 bg-gradient-to-r ${stat.color} bg-clip-text`} style={{ color: 'transparent', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} />
@@ -565,7 +565,7 @@ export default function AdminPanel() {
                         <TrendingUp className="w-4 h-4 text-primary" />
                         {t('admin', 'activity30Days')}
                       </h3>
-                      <span className="text-xs text-muted-foreground px-2 py-1 rounded-full bg-zinc-800">
+                      <span className="text-xs text-muted-foreground px-2 py-1 rounded-full bg-muted">
                         <Calendar className="w-3 h-3 inline mr-1" />
                         {t('admin', 'days30')}
                       </span>
@@ -626,7 +626,7 @@ export default function AdminPanel() {
                                     <span className="font-medium">{translateCountry(item.country)}</span>
                                     <span className="text-muted-foreground">{item.clicks}</span>
                                   </div>
-                                  <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                                  <div className="h-2 bg-muted rounded-full overflow-hidden">
                                     <motion.div
                                       initial={{ width: 0 }}
                                       animate={{ width: `${percentage}%` }}
@@ -718,7 +718,7 @@ export default function AdminPanel() {
                         <p className="text-3xl font-bold text-primary">{users.filter(u => u.is_verified || u.verified).length}</p>
                         <p className="text-xs text-muted-foreground mt-1">{t('admin', 'verifiedUsers')}</p>
                       </div>
-                      <div className="p-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50">
+                      <div className="p-4 rounded-xl bg-muted/50 border border-zinc-700/50">
                         <p className="text-3xl font-bold">{pages.filter(p => p.status === 'active').length}</p>
                         <p className="text-xs text-muted-foreground mt-1">{t('admin', 'activePages')}</p>
                       </div>
@@ -743,7 +743,7 @@ export default function AdminPanel() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.02 }}
                       className={`p-4 rounded-2xl border transition-all ${
-                        isBanned ? 'bg-red-950/20 border-red-500/20' : 'bg-zinc-900/50 border-white/5 hover:border-white/10'
+                        isBanned ? 'bg-red-950/20 border-red-500/20' : 'bg-card/50 border-border hover:border-border'
                       }`}
                     >
                       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
@@ -751,7 +751,7 @@ export default function AdminPanel() {
                         <div className="flex items-center gap-3 flex-1 min-w-0">
                           <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${
                             user.role === 'owner' ? 'bg-gradient-to-br from-yellow-500/20 to-amber-500/20' :
-                            user.role === 'admin' ? 'bg-purple-500/20' : 'bg-zinc-800'
+                            user.role === 'admin' ? 'bg-purple-500/20' : 'bg-muted'
                           }`}>
                             <RoleIcon className={`w-5 h-5 ${
                               user.role === 'owner' ? 'text-yellow-400' :
@@ -776,7 +776,7 @@ export default function AdminPanel() {
                           <span className={`px-2 py-1 rounded-lg text-[11px] ${PLAN_CONFIG[user.plan]?.color}`}>
                             {PLAN_CONFIG[user.plan]?.label}
                           </span>
-                          <span className="px-2 py-1 rounded-lg text-[11px] bg-zinc-800 text-zinc-400">
+                          <span className="px-2 py-1 rounded-lg text-[11px] bg-muted text-zinc-400">
                             {user.page_count || 0} {t('admin', 'pagesCount')}
                           </span>
                         </div>
@@ -797,7 +797,7 @@ export default function AdminPanel() {
                             <select
                               value={user.plan}
                               onChange={(e) => updateUserPlan(user.id, e.target.value)}
-                              className="h-8 px-2 rounded-lg bg-zinc-800 border border-zinc-700 text-xs cursor-pointer hover:border-zinc-600 transition-colors"
+                              className="h-8 px-2 rounded-lg bg-muted border border-zinc-700 text-xs cursor-pointer hover:border-zinc-600 transition-colors"
                             >
                               <option value="free">Free</option>
                               <option value="pro">Pro</option>
@@ -807,7 +807,7 @@ export default function AdminPanel() {
                               <select
                                 value={user.role}
                                 onChange={(e) => updateUserRole(user.id, e.target.value)}
-                                className="h-8 px-2 rounded-lg bg-zinc-800 border border-zinc-700 text-xs cursor-pointer hover:border-zinc-600 transition-colors"
+                                className="h-8 px-2 rounded-lg bg-muted border border-zinc-700 text-xs cursor-pointer hover:border-zinc-600 transition-colors"
                               >
                                 <option value="user">User</option>
                                 <option value="moderator">Mod</option>
@@ -845,7 +845,7 @@ export default function AdminPanel() {
                     transition={{ delay: idx * 0.1 }}
                     className={`p-6 rounded-2xl border relative overflow-hidden ${
                       config.plan_name === 'pro' ? 'bg-gradient-to-br from-blue-950/30 to-cyan-950/30 border-blue-500/20' :
-                      'bg-zinc-900/50 border-white/5'
+                      'bg-card/50 border-border'
                     }`}
                   >
                     {config.plan_name === 'pro' && (
@@ -871,7 +871,7 @@ export default function AdminPanel() {
                             ));
                             setEditingPlan(config.plan_name);
                           }}
-                          className="w-full h-10 px-3 rounded-xl bg-zinc-800/50 border border-white/10 text-sm focus:border-primary focus:outline-none transition-colors"
+                          className="w-full h-10 px-3 rounded-xl bg-muted/50 border border-border text-sm focus:border-primary focus:outline-none transition-colors"
                           min="-1"
                         />
                         <p className="text-[10px] text-muted-foreground mt-1">{t('admin', 'unlimited')}</p>
@@ -888,7 +888,7 @@ export default function AdminPanel() {
                             ));
                             setEditingPlan(config.plan_name);
                           }}
-                          className="w-full h-10 px-3 rounded-xl bg-zinc-800/50 border border-white/10 text-sm focus:border-primary focus:outline-none transition-colors"
+                          className="w-full h-10 px-3 rounded-xl bg-muted/50 border border-border text-sm focus:border-primary focus:outline-none transition-colors"
                           min="-1"
                         />
                         <p className="text-[10px] text-muted-foreground mt-1">{t('admin', 'unlimited')}, {t('admin', 'disabled')}</p>
@@ -968,11 +968,11 @@ export default function AdminPanel() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.02 }}
-                    className="p-4 rounded-2xl panel-card hover:border-white/10 transition-all"
+                    className="p-4 rounded-2xl panel-card hover:border-border transition-all"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                       <div className="flex items-center gap-4 flex-1 min-w-0">
-                        <div className="w-14 h-14 rounded-xl bg-zinc-800 overflow-hidden flex-shrink-0">
+                        <div className="w-14 h-14 rounded-xl bg-muted overflow-hidden flex-shrink-0">
                           {page.cover_image ? (
                             <img src={page.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${page.cover_image}` : page.cover_image}
                               alt={page.title} className="w-full h-full object-cover" />
@@ -1048,7 +1048,7 @@ export default function AdminPanel() {
                         setSubdomainSearch(e.target.value);
                         fetchSubdomains(e.target.value);
                       }}
-                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-zinc-900/50 border border-white/10 focus:border-primary focus:outline-none text-sm"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-card/50 border border-border focus:border-primary focus:outline-none text-sm"
                     />
                   </div>
                   <div className="flex items-center gap-2 px-4 py-2 rounded-xl panel-card">
@@ -1068,8 +1068,8 @@ export default function AdminPanel() {
                       sub.disabled_by_admin 
                         ? 'bg-red-950/20 border-red-500/20' 
                         : sub.is_active 
-                          ? 'bg-zinc-900/50 border-white/5 hover:border-white/10' 
-                          : 'bg-zinc-900/30 border-zinc-800/50'
+                          ? 'bg-card/50 border-border hover:border-border' 
+                          : 'bg-card/30 border-zinc-800/50'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -1079,7 +1079,7 @@ export default function AdminPanel() {
                             ? 'bg-red-500/20' 
                             : sub.is_active 
                               ? 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20' 
-                              : 'bg-zinc-800'
+                              : 'bg-muted'
                         }`}>
                           <Globe className={`w-5 h-5 ${
                             sub.disabled_by_admin ? 'text-red-400' : sub.is_active ? 'text-emerald-400' : 'text-zinc-500'
@@ -1169,7 +1169,7 @@ export default function AdminPanel() {
                       setTicketStatusFilter(e.target.value);
                       fetchTickets();
                     }}
-                    className="px-4 py-2.5 rounded-xl bg-zinc-900/50 border border-white/10 focus:border-primary focus:outline-none text-sm"
+                    className="px-4 py-2.5 rounded-xl bg-card/50 border border-border focus:border-primary focus:outline-none text-sm"
                   >
                     <option value="">{t('admin', 'allStatuses')}</option>
                     <option value="open">{t('admin', 'openTickets')}</option>
@@ -1207,7 +1207,7 @@ export default function AdminPanel() {
                               ? 'bg-primary/10 border-primary/30'
                               : !ticket.is_read_by_staff
                                 ? 'bg-blue-950/20 border-blue-500/20 hover:border-blue-500/40'
-                                : 'bg-zinc-900/50 border-white/5 hover:border-white/10'
+                                : 'bg-card/50 border-border hover:border-border'
                           }`}
                           onClick={() => openTicket(ticket.id)}
                         >
@@ -1271,7 +1271,7 @@ export default function AdminPanel() {
                           <select
                             value={selectedTicket.status}
                             onChange={(e) => updateTicketStatus(selectedTicket.id, e.target.value)}
-                            className="px-3 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-sm"
+                            className="px-3 py-1.5 rounded-lg bg-muted border border-zinc-700 text-sm"
                           >
                             <option value="open">{t('admin', 'ticketOpen')}</option>
                             <option value="in_progress">{t('admin', 'ticketInProgress')}</option>
@@ -1286,7 +1286,7 @@ export default function AdminPanel() {
                             <div key={idx} className={`p-4 rounded-xl ${
                               message.is_staff_reply 
                                 ? 'bg-primary/10 border border-primary/20 ml-4' 
-                                : 'bg-zinc-800/50 mr-4'
+                                : 'bg-muted/50 mr-4'
                             }`}>
                               <div className="flex items-center gap-2 mb-2">
                                 <User className="w-4 h-4" />
@@ -1308,7 +1308,7 @@ export default function AdminPanel() {
                             placeholder={t('admin', 'yourReply')}
                             value={ticketReply}
                             onChange={(e) => setTicketReply(e.target.value)}
-                            className="min-h-[100px] bg-zinc-800/50 border-white/10 focus:border-primary"
+                            className="min-h-[100px] bg-muted/50 border-border focus:border-primary"
                           />
                           <Button 
                             onClick={sendTicketReply}
@@ -1398,7 +1398,7 @@ export default function AdminPanel() {
                         <span className="text-xs text-muted-foreground">{systemMetrics.cpu?.count} cores</span>
                       </div>
                       <p className="text-4xl font-bold mb-3">{systemMetrics.cpu?.percent?.toFixed(1)}%</p>
-                      <div className="h-3 bg-zinc-800 rounded-full overflow-hidden">
+                      <div className="h-3 bg-muted rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${systemMetrics.cpu?.percent}%` }}
@@ -1425,7 +1425,7 @@ export default function AdminPanel() {
                       <p className="text-xs text-muted-foreground mb-3">
                         {systemMetrics.memory?.used_gb?.toFixed(1) || '0'} / {systemMetrics.memory?.total_gb?.toFixed(1) || '0'} GB
                       </p>
-                      <div className="h-3 bg-zinc-800 rounded-full overflow-hidden">
+                      <div className="h-3 bg-muted rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${systemMetrics.memory?.percent}%` }}
@@ -1452,7 +1452,7 @@ export default function AdminPanel() {
                       <p className="text-xs text-muted-foreground mb-3">
                         {systemMetrics.disk?.used_gb?.toFixed(1) || '0'} / {systemMetrics.disk?.total_gb?.toFixed(1) || '0'} GB
                       </p>
-                      <div className="h-3 bg-zinc-800 rounded-full overflow-hidden">
+                      <div className="h-3 bg-muted rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${systemMetrics.disk?.percent}%` }}

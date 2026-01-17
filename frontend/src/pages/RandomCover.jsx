@@ -978,7 +978,7 @@ export default function RandomCover() {
     <Sidebar>
       {/* Recovery Dialog */}
       <Dialog open={showRecoveryDialog} onOpenChange={setShowRecoveryDialog}>
-        <DialogContent className="bg-zinc-900 border-zinc-800">
+        <DialogContent className="bg-card border-zinc-800">
           <DialogHeader>
             <DialogTitle>{t('randomCover', 'history')}</DialogTitle>
             <DialogDescription>
@@ -998,7 +998,7 @@ export default function RandomCover() {
 
       {/* Save Project Dialog */}
       <Dialog open={showSaveDialog} onOpenChange={setShowSaveDialog}>
-        <DialogContent className="bg-zinc-900 border-zinc-800">
+        <DialogContent className="bg-card border-zinc-800">
           <DialogHeader>
             <DialogTitle>{t('common', 'save')}</DialogTitle>
             <DialogDescription>
@@ -1160,7 +1160,7 @@ export default function RandomCover() {
                 >
                   <div 
                     ref={containerRef}
-                    className="bg-zinc-900/50 rounded-2xl border border-border p-3 sm:p-4 lg:p-6"
+                    className="bg-card/50 rounded-2xl border border-border p-3 sm:p-4 lg:p-6"
                   >
                     <div 
                       className="mx-auto bg-muted rounded-xl overflow-hidden relative"
@@ -1301,7 +1301,7 @@ export default function RandomCover() {
                   className={`order-2 space-y-3 lg:space-y-4 ${mobileControlsOpen ? 'block' : 'hidden lg:block'}`}
                 >
                   {/* Mobile Tab Navigation */}
-                  <div className="lg:hidden flex gap-1 bg-zinc-900/50 rounded-xl p-1 border border-border">
+                  <div className="lg:hidden flex gap-1 bg-card/50 rounded-xl p-1 border border-border">
                     <button
                       onClick={() => setActiveControlTab("image")}
                       className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-colors ${
@@ -1338,7 +1338,7 @@ export default function RandomCover() {
                   </div>
 
                   {/* Image Upload - Show on desktop or when image tab active on mobile */}
-                  <div className={`bg-zinc-900/50 rounded-2xl border border-border p-3 lg:p-4 ${
+                  <div className={`bg-card/50 rounded-2xl border border-border p-3 lg:p-4 ${
                     activeControlTab !== "image" ? "hidden lg:block" : ""
                   }`}>
                     <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm lg:text-base">
@@ -1452,7 +1452,7 @@ export default function RandomCover() {
                   </div>
 
                   {/* Text Controls - Live Preview */}
-                  <div className={`bg-zinc-900/50 rounded-2xl border border-border p-3 lg:p-4 ${
+                  <div className={`bg-card/50 rounded-2xl border border-border p-3 lg:p-4 ${
                     activeControlTab !== "text" ? "hidden lg:block" : ""
                   }`}>
                     <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm lg:text-base">
@@ -1553,7 +1553,7 @@ export default function RandomCover() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className={`bg-zinc-900/50 rounded-2xl border border-border p-3 lg:p-4 space-y-2 lg:space-y-3 ${
+                  <div className={`bg-card/50 rounded-2xl border border-border p-3 lg:p-4 space-y-2 lg:space-y-3 ${
                     activeControlTab !== "actions" ? "hidden lg:block" : ""
                   }`}>
                     <Button
@@ -1613,7 +1613,7 @@ export default function RandomCover() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-zinc-900/50 rounded-2xl border border-border p-6"
+                className="bg-card/50 rounded-2xl border border-border p-6"
               >
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-lg font-semibold">{t('randomCover', 'myProjects')}</h2>
@@ -1654,7 +1654,7 @@ export default function RandomCover() {
                         data-testid={`project-card-${project.id}`}
                       >
                         {/* Preview */}
-                        <div className="aspect-square bg-zinc-900">
+                        <div className="aspect-square bg-card">
                           {project.preview_url ? (
                             <img
                               src={project.preview_url}
