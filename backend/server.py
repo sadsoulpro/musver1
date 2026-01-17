@@ -1378,6 +1378,36 @@ async def add_to_waitlist(data: WaitlistRequest, request: Request):
     logging.info(f"New waitlist entry: {data.email} for feature: {data.feature}")
     return {"success": True, "message": "Added to waitlist"}
 
+# ===================== OG ENDPOINT FOR BOTS =====================
+
+@api_router.get("/og-check/{slug}")
+async def check_og_for_bots(slug: str, request: Request):
+    """
+    Endpoint that checks User-Agent and returns either:
+    - OG HTML for bots
+    - JSON redirect instruction for regular users
+    """
+    user_agent = request.headers.get('user-agent', '')
+    
+    if is_bot(user_agent):
+        # Get page data for OG tags
+        page_data = await get_page_for_og(slug)
+        if not page_data:
+            return JSONResponse({"is_bot": True, "page_found": False})
+        
+        # Generate OG HTML
+        html = generate_og_html(
+            slug=slug,
+            title=page_data['title'],
+            cover_image=page_data['cover_image'],
+            language=page_data['language']
+        )
+        
+        logging.info(f"Serving OG HTML for bot: {user_agent[:50]}... slug: {slug}")
+        return HTMLResponse(content=html, status_code=200)
+    
+    return JSONResponse({"is_bot": False, "redirect": f"/{slug}"})
+
 # ===================== PUBLIC ROUTES =====================
 
 @api_router.get("/artist/{slug}")
