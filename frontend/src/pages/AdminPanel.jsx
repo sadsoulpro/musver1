@@ -1271,7 +1271,7 @@ export default function AdminPanel() {
                           <select
                             value={selectedTicket.status}
                             onChange={(e) => updateTicketStatus(selectedTicket.id, e.target.value)}
-                            className="px-3 py-1.5 rounded-lg bg-muted border border-zinc-700 text-sm"
+                            className="px-3 py-1.5 rounded-lg bg-muted border border-border text-sm"
                           >
                             <option value="open">{t('admin', 'ticketOpen')}</option>
                             <option value="in_progress">{t('admin', 'ticketInProgress')}</option>
