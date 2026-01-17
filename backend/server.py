@@ -1194,6 +1194,84 @@ async def add_to_waitlist(data: WaitlistRequest, request: Request):
     logging.info(f"New waitlist entry: {data.email} for feature: {data.feature}")
     return {"success": True, "message": "Added to waitlist"}
 
+# ===================== OG TAGS FOR SOCIAL SHARING =====================
+
+OG_DESCRIPTIONS = {
+    "en": 'Listen, download or stream "{title}" on all available platforms.',
+    "ru": 'Слушайте, скачивайте "{title}" на всех доступных площадках.',
+    "es": 'Escucha, descarga o reproduce "{title}" en todas las plataformas disponibles.',
+}
+
+DEFAULT_OG_IMAGE = "https://mus.link/og-default.png"
+
+@api_router.get("/og/{slug}", response_class=HTMLResponse)
+async def get_og_page(slug: str, lang: str = "en"):
+    """Generate HTML page with OG tags for social media crawlers"""
+    page = await db.pages.find_one({"slug": slug}, {"_id": 0})
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    
+    # Get page info
+    title = page.get("title", "Music Release")
+    cover_image = page.get("cover_image", "")
+    
+    # Determine language
+    lang = lang.lower() if lang.lower() in OG_DESCRIPTIONS else "en"
+    
+    # Get user's preferred language if available
+    user = await db.users.find_one({"id": page.get("user_id")}, {"_id": 0, "preferred_language": 1})
+    if user and user.get("preferred_language"):
+        user_lang = user["preferred_language"].lower()
+        if user_lang in OG_DESCRIPTIONS:
+            lang = user_lang
+    
+    # Generate description
+    description = OG_DESCRIPTIONS[lang].format(title=title)
+    
+    # Use cover image or default
+    og_image = cover_image if cover_image and cover_image.startswith("http") else DEFAULT_OG_IMAGE
+    
+    # Generate full page URL
+    page_url = f"https://mus.link/{slug}"
+    
+    # Generate HTML with OG tags
+    html = f'''<!DOCTYPE html>
+<html lang="{lang}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} — Muslink</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="music.song">
+    <meta property="og:url" content="{page_url}">
+    <meta property="og:title" content="{title} — Muslink">
+    <meta property="og:description" content="{description}">
+    <meta property="og:image" content="{og_image}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{page_url}">
+    <meta name="twitter:title" content="{title} — Muslink">
+    <meta name="twitter:description" content="{description}">
+    <meta name="twitter:image" content="{og_image}">
+    
+    <!-- Standard Meta -->
+    <meta name="description" content="{description}">
+    
+    <!-- Redirect to actual page -->
+    <meta http-equiv="refresh" content="0;url=/{slug}">
+    <script>window.location.href = "/{slug}";</script>
+</head>
+<body>
+    <p>Redirecting to <a href="/{slug}">{title}</a>...</p>
+</body>
+</html>'''
+    
+    return HTMLResponse(content=html)
+
 # ===================== PUBLIC ROUTES =====================
 
 @api_router.get("/artist/{slug}")
