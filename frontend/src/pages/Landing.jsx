@@ -475,7 +475,7 @@ export default function Landing() {
           <p className="text-sm text-muted-foreground">
             © 2026 Muslink.
           </p>
-          <MuslinkLogo height={24} theme={theme} />
+          <MuslinkLogo height={18} theme={theme} />
           <p className="text-sm text-muted-foreground">
             {t('newLanding', 'footerRights')}
           </p>
