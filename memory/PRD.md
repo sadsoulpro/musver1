@@ -21,6 +21,12 @@ Application cloned from GitHub repository `https://github.com/sadsoulpro/prefina
 
 ### Session Updates (2025-01-17) - Light Theme Fixes
 
+#### Public Page Theme Selector
+- Added page_theme field to pages collection (dark/light)
+- Added "Page Design" section in PageBuilder between Cover and Platform Links
+- PublicPage.jsx now respects the selected theme independently of user's panel theme
+- Fixed visibility of artist name, release title, and share buttons in light mode
+
 #### Light Mode UI Fixes for Panel Pages
 - **RandomCover.jsx**: Fixed background, dialogs, tooltips, tabs, and empty state colors
 - **Domains.jsx**: Fixed background, loading state, plan badge, toggle switch, and empty state
