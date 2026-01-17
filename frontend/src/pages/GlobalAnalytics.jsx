@@ -403,6 +403,13 @@ export default function GlobalAnalytics() {
           </div>
         </motion.div>
       </div>
+
+      {/* PRO Feature Modal */}
+      <ProFeatureModal
+        open={proModalOpen}
+        onOpenChange={setProModalOpen}
+        featureName="Advanced Analytics"
+      />
     </Sidebar>
   );
 }
