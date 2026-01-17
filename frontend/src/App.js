@@ -317,6 +317,7 @@ function App() {
       <Toaster position="top-right" richColors />
     </AuthContext.Provider>
   </LanguageProvider>
+  </ThemeProvider>
   );
 }
 
