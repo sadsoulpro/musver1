@@ -355,14 +355,22 @@ export default function PublicPage() {
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-zinc-900/80 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
-                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 group-hover:text-primary transition-colors" />
+                <div className={`relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full ${
+                  isLightTheme 
+                    ? 'bg-white/80 border-gray-200' 
+                    : 'bg-zinc-900/80 border-white/10'
+                } border backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 transition-all group-active:scale-95`}>
+                  <ChevronLeft className={`w-5 h-5 sm:w-6 sm:h-6 ${
+                    isLightTheme ? 'text-gray-600' : 'text-white/70'
+                  } group-hover:text-primary transition-colors`} />
                 </div>
               </div>
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden sm:block">
-                <div className="bg-zinc-900/90 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 whitespace-nowrap">
-                  <p className="text-xs text-muted-foreground">Предыдущий</p>
-                  <p className="text-sm font-medium truncate max-w-[120px]">
+                <div className={`${
+                  isLightTheme ? 'bg-white/90 border-gray-200' : 'bg-zinc-900/90 border-white/10'
+                } backdrop-blur-sm border rounded-lg px-3 py-2 whitespace-nowrap`}>
+                  <p className={`text-xs ${isLightTheme ? 'text-gray-500' : 'text-muted-foreground'}`}>Предыдущий</p>
+                  <p className={`text-sm font-medium truncate max-w-[120px] ${isLightTheme ? 'text-gray-900' : ''}`}>
                     {userPages[(currentPageIndex <= 0 ? userPages.length : currentPageIndex) - 1]?.release_title}
                   </p>
                 </div>
@@ -380,14 +388,22 @@ export default function PublicPage() {
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-zinc-900/80 border border-white/10 backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 group-hover:bg-zinc-800/80 transition-all group-active:scale-95">
-                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white/70 group-hover:text-primary transition-colors" />
+                <div className={`relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full ${
+                  isLightTheme 
+                    ? 'bg-white/80 border-gray-200' 
+                    : 'bg-zinc-900/80 border-white/10'
+                } border backdrop-blur-sm flex items-center justify-center group-hover:border-primary/50 transition-all group-active:scale-95`}>
+                  <ChevronRight className={`w-5 h-5 sm:w-6 sm:h-6 ${
+                    isLightTheme ? 'text-gray-600' : 'text-white/70'
+                  } group-hover:text-primary transition-colors`} />
                 </div>
               </div>
               <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden sm:block">
-                <div className="bg-zinc-900/90 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-2 whitespace-nowrap text-right">
-                  <p className="text-xs text-muted-foreground">Следующий</p>
-                  <p className="text-sm font-medium truncate max-w-[120px]">
+                <div className={`${
+                  isLightTheme ? 'bg-white/90 border-gray-200' : 'bg-zinc-900/90 border-white/10'
+                } backdrop-blur-sm border rounded-lg px-3 py-2 whitespace-nowrap text-right`}>
+                  <p className={`text-xs ${isLightTheme ? 'text-gray-500' : 'text-muted-foreground'}`}>Следующий</p>
+                  <p className={`text-sm font-medium truncate max-w-[120px] ${isLightTheme ? 'text-gray-900' : ''}`}>
                     {userPages[(currentPageIndex >= userPages.length - 1 ? -1 : currentPageIndex) + 1]?.release_title}
                   </p>
                 </div>
