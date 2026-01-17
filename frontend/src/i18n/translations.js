@@ -1557,6 +1557,13 @@ export const translations = {
       countryHongKong: "Hong Kong",
       countrySingapore: "Singapore",
       countryUnknown: "Unknown",
+      // E-Mails (Waitlist)
+      waitlistEmails: "Waitlist E-Mails",
+      waitlistDesc: "Users interested in PRO features",
+      noWaitlistEmails: "No waitlist emails yet",
+      deleteEmailConfirm: "Delete this email from waitlist?",
+      emailDeleted: "Email deleted",
+      total: "Total",
     },
     ru: {
       title: "Админ панель",
