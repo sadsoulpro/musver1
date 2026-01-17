@@ -246,11 +246,12 @@ export default function GlobalAnalytics() {
                 <Crown className="w-10 h-10 text-yellow-500 mx-auto mb-3" />
                 <h3 className="text-lg font-semibold text-white mb-2">{t('analytics', 'proRequired')}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{t('analytics', 'geographyPro')}</p>
-                <Link to="/pricing">
-                  <Button className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600">
-                    {t('common', 'upgrade')}
-                  </Button>
-                </Link>
+                <Button 
+                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600"
+                  onClick={handleUpgradeClick}
+                >
+                  {t('common', 'upgrade')}
+                </Button>
               </div>
             </div>
           )}
