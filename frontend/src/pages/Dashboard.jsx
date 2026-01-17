@@ -159,7 +159,7 @@ export default function Dashboard() {
             
             {/* Site Mode Switch */}
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-zinc-900/50 border border-white/5">
+              <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border ${cardClass}`}>
                 <Globe className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium">{t('common', 'page')}</span>
                 <Switch
@@ -180,9 +180,9 @@ export default function Dashboard() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20 rounded-2xl border border-dashed border-white/10"
+              className={`text-center py-20 rounded-2xl border border-dashed ${theme === 'dark' ? 'border-white/10' : 'border-gray-300'}`}
             >
-              <div className="w-16 h-16 rounded-2xl bg-zinc-800 flex items-center justify-center mx-auto mb-4">
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-100'}`}>
                 <Music className="w-8 h-8 text-muted-foreground" />
               </div>
               <h3 className="font-semibold mb-2">{t('dashboard', 'noPages')}</h3>
