@@ -421,13 +421,19 @@ export default function PublicPage() {
         className="relative z-10 w-full max-w-md"
       >
         {/* Glass Card */}
-        <div className="glass rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center">
+        <div className={`rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-center ${
+          isLightTheme 
+            ? 'bg-white/80 backdrop-blur-xl border border-gray-200 shadow-xl' 
+            : 'glass'
+        }`}>
           {/* Cover Image */}
           <motion.div 
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-xl sm:rounded-2xl mx-auto mb-4 sm:mb-6 overflow-hidden shadow-2xl neon-glow"
+            className={`w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-xl sm:rounded-2xl mx-auto mb-4 sm:mb-6 overflow-hidden shadow-2xl ${
+              isLightTheme ? '' : 'neon-glow'
+            }`}
           >
             {coverUrl ? (
               <img 
@@ -437,8 +443,8 @@ export default function PublicPage() {
                 data-testid="cover-image"
               />
             ) : (
-              <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
-                <Music className="w-12 h-12 sm:w-16 sm:h-16 text-muted-foreground" />
+              <div className={`w-full h-full ${isLightTheme ? 'bg-gray-100' : 'bg-zinc-800'} flex items-center justify-center`}>
+                <Music className={`w-12 h-12 sm:w-16 sm:h-16 ${isLightTheme ? 'text-gray-400' : 'text-muted-foreground'}`} />
               </div>
             )}
           </motion.div>
@@ -449,22 +455,26 @@ export default function PublicPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <h1 className="font-display text-xl sm:text-2xl md:text-3xl uppercase tracking-tight mb-1 flex items-center justify-center gap-1 sm:gap-2" data-testid="artist-name">
+            <h1 className={`font-display text-xl sm:text-2xl md:text-3xl uppercase tracking-tight mb-1 flex items-center justify-center gap-1 sm:gap-2 ${
+              isLightTheme ? 'text-gray-900' : 'text-white'
+            }`} data-testid="artist-name">
               {page.artist_name}
               {page.user_verified && (
                 <span className="relative group">
                   <BadgeCheck className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-zinc-800 text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                  <span className={`absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 ${
+                    isLightTheme ? 'bg-white border border-gray-200' : 'bg-zinc-800'
+                  } text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none`}>
                     Артист подтвержден
                   </span>
                 </span>
               )}
             </h1>
-            <p className="text-base sm:text-lg text-zinc-400 mb-1 sm:mb-2" data-testid="release-title">
+            <p className={`text-base sm:text-lg ${isLightTheme ? 'text-gray-600' : 'text-zinc-400'} mb-1 sm:mb-2`} data-testid="release-title">
               {page.release_title}
             </p>
             {page.description && (
-              <p className="text-xs sm:text-sm text-zinc-500 mb-4 sm:mb-6 max-w-xs mx-auto" data-testid="description">
+              <p className={`text-xs sm:text-sm ${isLightTheme ? 'text-gray-500' : 'text-zinc-500'} mb-4 sm:mb-6 max-w-xs mx-auto`} data-testid="description">
                 {page.description}
               </p>
             )}
@@ -483,7 +493,11 @@ export default function PublicPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.1 }}
                   onClick={() => handleClick(link)}
-                  className="w-full flex items-center justify-between bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-primary/50 text-white p-3 sm:p-4 rounded-lg sm:rounded-xl transition-all group link-hover"
+                  className={`w-full flex items-center justify-between ${
+                    isLightTheme 
+                      ? 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-900' 
+                      : 'bg-zinc-900/80 hover:bg-zinc-800 border-white/10 text-white'
+                  } border hover:border-primary/50 p-3 sm:p-4 rounded-lg sm:rounded-xl transition-all group link-hover`}
                   data-testid={`link-${link.platform}`}
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
@@ -503,7 +517,7 @@ export default function PublicPage() {
             })}
             
             {(!page.links || page.links.length === 0) && (
-              <p className="text-muted-foreground py-8">No links available</p>
+              <p className={`${isLightTheme ? 'text-gray-500' : 'text-muted-foreground'} py-8`}>No links available</p>
             )}
           </div>
           
@@ -516,7 +530,11 @@ export default function PublicPage() {
           >
             <button
               onClick={() => handleShare("link")}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-zinc-800/80 hover:bg-zinc-700 border border-white/10 rounded-lg text-xs sm:text-sm transition-all"
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 ${
+                isLightTheme 
+                  ? 'bg-gray-100 hover:bg-gray-200 border-gray-200 text-gray-700' 
+                  : 'bg-zinc-800/80 hover:bg-zinc-700 border-white/10 text-white'
+              } border rounded-lg text-xs sm:text-sm transition-all`}
             >
               {copied ? (
                 <>
