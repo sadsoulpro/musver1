@@ -165,6 +165,10 @@ All pages now use CSS variables (`bg-background`, `bg-muted`, `border-border`, `
 - [x] Forgot Password page SVG logo
 - [x] Security: JWT_SECRET moved to required .env variable
 - [x] Security: OWNER_EMAIL moved to required .env variable
+- [x] Login page: SVG logo, language switcher, new side text
+- [x] Register page: SVG logo, language switcher, new side text
+- [x] Forgot Password page: language switcher added
+- [x] Auth pages side text localized (EN, RU, ES)
 
 ## Pending/Future Tasks
 
