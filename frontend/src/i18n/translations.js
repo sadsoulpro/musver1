@@ -1749,6 +1749,13 @@ export const translations = {
       countryHongKong: "Гонконг",
       countrySingapore: "Сингапур",
       countryUnknown: "Неизвестно",
+      // E-Mails (Waitlist)
+      waitlistEmails: "E-Mails (Waitlist)",
+      waitlistDesc: "Пользователи, заинтересованные в PRO функциях",
+      noWaitlistEmails: "Нет email в списке ожидания",
+      deleteEmailConfirm: "Удалить этот email из списка ожидания?",
+      emailDeleted: "Email удалён",
+      total: "Всего",
     },
     es: {
       title: "Panel de Admin",
