@@ -86,6 +86,7 @@ export default function AdminPanel() {
     fetchPlanConfigs();
     fetchSubdomains();
     fetchTickets();
+    fetchWaitlistEmails();
     
     const metricsInterval = setInterval(() => {
       if (canViewVPS) fetchSystemMetrics();
