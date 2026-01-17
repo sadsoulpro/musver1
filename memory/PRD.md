@@ -140,6 +140,10 @@ All pages now use CSS variables (`bg-background`, `bg-muted`, `border-border`, `
 - [x] Light mode fixes for Analytics page and Dashboard dropdown
 - [x] Public page theme selector (Dark/Light in PageBuilder)
 - [x] Fixed visibility of text and buttons on public pages in light mode
+- [x] Fixed "Copy" button visibility in dark theme on public pages
+- [x] Removed /pricing page
+- [x] Added E-Mails tab in Admin Panel for waitlist management
+- [x] PRO feature modal in RandomCover (AI Generation)
 
 ## Pending/Future Tasks
 
