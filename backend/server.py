@@ -3574,40 +3574,6 @@ async def shutdown_db_client():
 # Include router and configure CORS
 app.include_router(api_router)
 
-# ===================== SHARE LINK ROUTE FOR SOCIAL MEDIA =====================
-# Use /s/{slug} for sharing links that bots will crawl correctly
-# Example: https://mus.link/s/artist-name
-
-@app.get("/s/{slug}")
-async def share_link_with_og(slug: str, request: Request):
-    """
-    Share link route with OG tags for social media bots.
-    - For bots: serve HTML with OG tags, then redirect via JS
-    - For regular users: redirect to the actual page immediately
-    """
-    user_agent = request.headers.get('user-agent', '')
-    
-    # Get page data
-    page_data = await get_page_for_og(slug)
-    
-    if not page_data:
-        # Page not found, redirect to home
-        return RedirectResponse(url="/", status_code=302)
-    
-    if is_bot(user_agent):
-        # Generate OG HTML for bots
-        html = generate_og_html(
-            slug=slug,
-            title=page_data['title'],
-            cover_image=page_data['cover_image'],
-            language=page_data['language']
-        )
-        logging.info(f"Serving OG for bot via /s/: {user_agent[:50]}... slug: {slug}")
-        return HTMLResponse(content=html)
-    
-    # For regular users, redirect to the actual page
-    return RedirectResponse(url=f"/{slug}", status_code=302)
-
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
