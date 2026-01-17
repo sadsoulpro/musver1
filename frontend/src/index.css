@@ -75,7 +75,7 @@
 .light {
     --background: 0 0% 100%;
     --foreground: 240 10% 10%;
-    --card: 0 0% 98%;
+    --card: 0 0% 100%;
     --card-foreground: 240 10% 10%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 10%;
@@ -92,6 +92,29 @@
     --border: 240 6% 90%;
     --input: 240 6% 90%;
     --ring: 292 84% 50%;
+}
+
+/* Panel card - adapts to theme */
+.panel-card {
+    @apply bg-card border border-border rounded-2xl;
+}
+
+/* Panel card hover */
+.panel-card-hover {
+    @apply bg-card border border-border rounded-2xl transition-colors;
+}
+.panel-card-hover:hover {
+    @apply border-primary/30;
+}
+
+/* Panel section */
+.panel-section {
+    @apply bg-card/50 border border-border rounded-xl;
+}
+
+/* Input field that adapts to theme */
+.panel-input {
+    @apply bg-background border border-border rounded-xl focus:border-primary focus:outline-none;
 }
 
 * {
