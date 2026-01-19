@@ -186,7 +186,64 @@ export default function PageBuilder() {
   const [pageTheme, setPageTheme] = useState("dark"); // Тема публичной страницы
   const [scanningSource, setScanningSource] = useState(false);
   const [scanInput, setScanInput] = useState("");
+  const [autoSaving, setAutoSaving] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const autoSaveTimerRef = useRef(null);
   const qrRef = useRef(null);
+
+  // Auto-save function
+  const autoSave = async () => {
+    if (!isEditing || !hasUnsavedChanges) return;
+    
+    setAutoSaving(true);
+    try {
+      let finalSlug = formData.slug?.trim();
+      if (!finalSlug) {
+        finalSlug = generateRandomSlug();
+      }
+      
+      let finalTitle = formData.title?.trim();
+      if (!finalTitle) {
+        const parts = [formData.artist_name, formData.release_title].filter(Boolean);
+        finalTitle = parts.length > 0 ? parts.join(" - ") : t('pageBuilder', 'newPage');
+      }
+      
+      const pageData = { 
+        ...formData, 
+        slug: finalSlug,
+        title: finalTitle,
+        qr_enabled: qrEnabled,
+        page_theme: pageTheme
+      };
+      
+      await api.put(`/pages/${pageId}`, pageData);
+      setHasUnsavedChanges(false);
+      toast.success(t('pageBuilder', 'autoSaved'), { duration: 2000 });
+    } catch (error) {
+      // Silently fail for auto-save, user can manually save
+      console.error('Auto-save failed:', error);
+    } finally {
+      setAutoSaving(false);
+    }
+  };
+
+  // Trigger auto-save after 3 seconds of inactivity
+  useEffect(() => {
+    if (isEditing && hasUnsavedChanges) {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+      autoSaveTimerRef.current = setTimeout(() => {
+        autoSave();
+      }, 3000);
+    }
+    
+    return () => {
+      if (autoSaveTimerRef.current) {
+        clearTimeout(autoSaveTimerRef.current);
+      }
+    };
+  }, [formData, qrEnabled, pageTheme, hasUnsavedChanges, isEditing]);
 
   useEffect(() => {
     if (isEditing) {
