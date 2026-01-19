@@ -169,13 +169,17 @@ All pages now use CSS variables (`bg-background`, `bg-muted`, `border-border`, `
 - [x] Register page: SVG logo, language switcher, new side text
 - [x] Forgot Password page: language switcher added
 - [x] Auth pages side text localized (EN, RU, ES)
+- [x] Landing page: removed "Create" button for logged-in users
+- [x] PageBuilder: auto-save with notification (3 sec debounce)
+- [x] Subdomains: changed domain from mytrack.cc to mus.link
+- [x] Subdomains: updated translations from "Custom Domains" to "Subdomains"
+- [x] Subdomains: added instructions about subdomain functionality
 
 ## Pending/Future Tasks
 
 ### P2 - Minor Improvements
 - Add CSV export for waitlist emails in Admin Panel
 - Add default OG image file to server
-- Create NGINX_DEPLOY.md documentation
 
 ### P3 - Cleanup
 - Optimize N+1 database queries in admin panel
