@@ -516,16 +516,40 @@ export default function PageBuilder() {
       let linksAdded = 0;
 
       // Update cover image if available
+      let updatedFormData = { ...formData };
       if (odesliData.thumbnailUrl) {
+        updatedFormData.cover_image = odesliData.thumbnailUrl;
         setFormData(prev => ({ ...prev, cover_image: odesliData.thumbnailUrl }));
       }
 
       // Update artist and release title if available and empty
       if (odesliData.artistName && !formData.artist_name) {
+        updatedFormData.artist_name = odesliData.artistName;
         setFormData(prev => ({ ...prev, artist_name: odesliData.artistName }));
       }
       if (odesliData.title && !formData.release_title) {
+        updatedFormData.release_title = odesliData.title;
         setFormData(prev => ({ ...prev, release_title: odesliData.title }));
+      }
+      
+      // Auto-generate title and slug if updated
+      if (updatedFormData.artist_name || updatedFormData.release_title) {
+        const artist = updatedFormData.artist_name || '';
+        const release = updatedFormData.release_title || '';
+        if (artist || release) {
+          const title = [artist, release].filter(Boolean).join(" - ");
+          const slug = title.toLowerCase()
+            .replace(/[^a-z0-9а-яё]+/gi, "-")
+            .replace(/(^-|-$)/g, "")
+            .substring(0, 50);
+          if (!formData.title) updatedFormData.title = title;
+          if (!formData.slug) updatedFormData.slug = slug;
+          setFormData(prev => ({ 
+            ...prev, 
+            title: prev.title || title,
+            slug: prev.slug || slug 
+          }));
+        }
       }
 
       // Add all platform links from Odesli
