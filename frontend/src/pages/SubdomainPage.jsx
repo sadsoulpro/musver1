@@ -274,7 +274,7 @@ function PageView({ page, subdomain }) {
           <div className="text-center mb-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-xs text-zinc-300">
               <Globe className="w-3 h-3" />
-              {subdomain}.mytrack.cc
+              {subdomain}.mus.link
             </span>
           </div>
 
@@ -339,12 +339,12 @@ function PageView({ page, subdomain }) {
           {!page.can_remove_branding && (
             <div className="text-center mt-8">
               <a 
-                href="https://mytrack.cc" 
+                href="https://mus.link" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-xs text-zinc-500 hover:text-zinc-400 transition-colors"
               >
-                Создано на MyTrack
+                Создано на Mus.Link
               </a>
             </div>
           )}
