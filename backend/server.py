@@ -2417,10 +2417,14 @@ async def admin_verify_user(user_id: str, data: UserVerifyUpdate, user: dict = D
 @api_router.get("/admin/users/{user_id}")
 async def admin_get_user(user_id: str, user: dict = Depends(get_admin_user)):
     """Get user details - Admin panel"""
-    target_user = await db.users.find_one({"id": user_id}, {"_id": 0, "password_hash": 0})
+    target_user = await db.users.find_one(
+        {"id": user_id}, 
+        {"_id": 0, "password_hash": 0, "reset_token": 0, "reset_token_expiry": 0}
+    )
     if not target_user:
         raise HTTPException(status_code=404, detail="User not found")
     
+    # Add page count
     target_user["page_count"] = await db.pages.count_documents({"user_id": user_id})
     target_user["total_clicks"] = 0
     
