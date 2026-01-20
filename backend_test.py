@@ -1493,6 +1493,15 @@ def main():
         ("Update Contact Info", tester.test_update_contact_info),
         ("Artist Page Contact Info", tester.test_artist_page_contact_info),
         
+        # Admin Panel - View User Profile and Pages tests (NEW FEATURE)
+        ("Admin Get User Profile", tester.test_admin_get_user_profile),
+        ("Admin Get User Pages", tester.test_admin_get_user_pages),
+        ("Admin Get Audit Logs", tester.test_admin_get_audit_logs),
+        ("RBAC - Regular User 403", tester.test_rbac_regular_user_403),
+        ("RBAC - Moderator Access", tester.test_rbac_moderator_access),
+        ("RBAC - Owner Access", tester.test_rbac_owner_access),
+        ("Admin User Not Found", tester.test_admin_user_not_found),
+        
         # API Integration tests (high priority)
         ("Odesli API Integration", tester.test_odesli_integration),
         
