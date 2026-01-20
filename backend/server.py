@@ -1197,9 +1197,8 @@ async def create_page(data: PageCreate, user: dict = Depends(get_current_user)):
 
 @api_router.get("/pages/{page_id}")
 async def get_page(page_id: str, user: dict = Depends(get_current_user)):
-    page = await db.pages.find_one({"id": page_id, "user_id": user["id"]}, {"_id": 0})
-    if not page:
-        raise HTTPException(status_code=404, detail="Page not found")
+    # Use admin access check - owner/admin/moder can access any page
+    page = await get_page_with_admin_access(page_id, user)
     
     links = await db.links.find({"page_id": page_id}, {"_id": 0}).sort("order", 1).to_list(100)
     page["links"] = links
@@ -1207,9 +1206,8 @@ async def get_page(page_id: str, user: dict = Depends(get_current_user)):
 
 @api_router.put("/pages/{page_id}")
 async def update_page(page_id: str, data: PageUpdate, user: dict = Depends(get_current_user)):
-    page = await db.pages.find_one({"id": page_id, "user_id": user["id"]})
-    if not page:
-        raise HTTPException(status_code=404, detail="Page not found")
+    # Use admin access check - owner/admin/moder can edit any page
+    page = await get_page_with_admin_access(page_id, user)
     
     update_data = {k: v for k, v in data.model_dump().items() if v is not None}
     
