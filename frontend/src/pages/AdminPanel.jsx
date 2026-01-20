@@ -8,7 +8,7 @@ import {
   HardDrive, Activity, TrendingUp, Server, Music,
   BadgeCheck, X, Crown, ChevronDown, UserCog, Sliders, 
   Save, BarChart3, PieChart, Calendar, Clock, Zap, Link2, Trash2, Search,
-  MessageCircle, AlertCircle, CheckCircle, Send, User, Mail
+  MessageCircle, AlertCircle, CheckCircle, Send, User, Mail, Edit, ArrowLeft
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
