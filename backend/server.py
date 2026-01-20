@@ -1225,9 +1225,10 @@ async def update_page(page_id: str, data: PageUpdate, user: dict = Depends(get_c
 
 @api_router.delete("/pages/{page_id}")
 async def delete_page(page_id: str, user: dict = Depends(get_current_user)):
-    result = await db.pages.delete_one({"id": page_id, "user_id": user["id"]})
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Page not found")
+    # Use admin access check - owner/admin/moder can delete any page
+    page = await get_page_with_admin_access(page_id, user)
+    
+    await db.pages.delete_one({"id": page_id})
     
     # Delete associated links and clicks
     await db.links.delete_many({"page_id": page_id})
