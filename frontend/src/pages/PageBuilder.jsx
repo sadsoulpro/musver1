@@ -188,6 +188,7 @@ export default function PageBuilder() {
   const [scanInput, setScanInput] = useState("");
   const [autoSaving, setAutoSaving] = useState(false);
   const [pageCreated, setPageCreated] = useState(false); // Track if page was created
+  const [createdPageId, setCreatedPageId] = useState(null); // Store created page ID for new pages
   const [isTypingUrl, setIsTypingUrl] = useState(false); // Track if user is typing URL
   const qrRef = useRef(null);
   const formDataRef = useRef(formData);
