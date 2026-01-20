@@ -188,10 +188,13 @@ export default function PageBuilder() {
   const [scanInput, setScanInput] = useState("");
   const [autoSaving, setAutoSaving] = useState(false);
   const [pageCreated, setPageCreated] = useState(false); // Track if page was created
+  const [isTypingUrl, setIsTypingUrl] = useState(false); // Track if user is typing URL
   const qrRef = useRef(null);
   const formDataRef = useRef(formData);
   const pageThemeRef = useRef(pageTheme);
   const qrEnabledRef = useRef(qrEnabled);
+  const linksRef = useRef(links);
+  const scanInputTimeoutRef = useRef(null); // Debounce timeout for URL input
 
   // Keep refs in sync
   useEffect(() => {
