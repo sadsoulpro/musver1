@@ -818,6 +818,9 @@ export const translations = {
       darkTheme: "Oscuro",
       lightTheme: "Claro",
       pageDesignHint: "Elige el tema para tu página pública",
+      deletePage: "Eliminar Página",
+      confirmDelete: "¿Estás seguro de que quieres eliminar esta página?",
+      pageDeleted: "Página eliminada exitosamente",
     },
   },
 
