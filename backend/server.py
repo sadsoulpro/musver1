@@ -625,6 +625,28 @@ async def get_owner_user(authorization: str = Header(None)):
         raise HTTPException(status_code=403, detail="Доступ запрещён. Требуется роль владельца.")
     return user
 
+async def get_page_with_admin_access(page_id: str, user: dict) -> dict:
+    """
+    Get page with admin access check.
+    Owner/Admin/Moderator can access any page.
+    Regular users can only access their own pages.
+    Returns the page if access is granted, raises 404 if not found/not authorized.
+    """
+    user_role = user.get("role", "user")
+    is_admin = user_role in ["owner", "admin", "moderator"]
+    
+    if is_admin:
+        # Admin can access any page
+        page = await db.pages.find_one({"id": page_id}, {"_id": 0})
+    else:
+        # Regular user can only access own pages
+        page = await db.pages.find_one({"id": page_id, "user_id": user["id"]}, {"_id": 0})
+    
+    if not page:
+        raise HTTPException(status_code=404, detail="Page not found")
+    
+    return page
+
 def generate_blurred_background(input_path: str, output_path: str):
     """Generate blurred background from cover image"""
     try:
