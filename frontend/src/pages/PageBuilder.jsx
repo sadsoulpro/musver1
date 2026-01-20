@@ -759,12 +759,18 @@ export default function PageBuilder() {
       toast.success(`${t('pageBuilder', 'linksAdded')}: ${linksAdded} (${platformNames}${moreCount})`);
       setScanInput("");
       
-      // Instant save after auto-fill
+      // Wait 2 seconds for links to be fully added, then save
+      toast.info(t('pageBuilder', 'preparingSave') || 'Подготовка к сохранению...');
+      
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Save after delay
       if (isEditing) {
-        instantSave(updatedFormData);
+        await instantSave(updatedFormData);
+        toast.success(t('pageBuilder', 'savedSuccessfully') || 'Успешно сохранено!');
       } else {
-        // For new pages, create page with all data
-        createPageFirst(updatedFormData);
+        // For new pages, create page with all data AND links
+        await createPageFirst(updatedFormData, detectedLinks);
       }
     } catch (error) {
       console.error("Scan error:", error);
