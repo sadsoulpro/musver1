@@ -264,9 +264,9 @@ export default function PageBuilder() {
     }
   };
 
-  // Create page first for new pages
-  const createPageFirst = async (overrideData = {}) => {
-    if (pageCreated) return;
+  // Create page first for new pages (returns page ID, doesn't navigate)
+  const createPageFirst = async (overrideData = {}, linksToAdd = []) => {
+    if (pageCreated) return null;
     
     const currentFormData = { ...formDataRef.current, ...overrideData };
     
@@ -292,10 +292,39 @@ export default function PageBuilder() {
       };
       
       const response = await api.post("/pages", pageData);
+      const newPageId = response.data.id;
+      
+      // Add links to the created page
+      if (linksToAdd.length > 0) {
+        for (const linkData of linksToAdd) {
+          try {
+            await api.post(`/pages/${newPageId}/links`, {
+              platform: linkData.platform,
+              url: linkData.url,
+              active: true
+            });
+          } catch (error) {
+            console.error(`Failed to add ${linkData.platform} link to new page`);
+          }
+        }
+      }
+      
       setPageCreated(true);
-      // Navigate to edit mode
-      navigate(`/page/${response.data.id}`, { replace: true });
+      // Update form data with final values
+      setFormData(prev => ({
+        ...prev,
+        slug: finalSlug,
+        title: finalTitle
+      }));
+      
       toast.success(t('pageBuilder', 'pageCreated'), { duration: 1500 });
+      
+      // Navigate to edit mode AFTER everything is saved
+      setTimeout(() => {
+        navigate(`/page/${newPageId}`, { replace: true });
+      }, 500);
+      
+      return newPageId;
     } catch (error) {
       console.error('Create page failed:', error);
       if (error.response?.data?.detail === "PAGE_LIMIT_REACHED") {
@@ -303,6 +332,7 @@ export default function PageBuilder() {
       } else {
         toast.error(t('errors', 'saveFailed'), { duration: 2000 });
       }
+      return null;
     } finally {
       setAutoSaving(false);
     }
