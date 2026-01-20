@@ -83,8 +83,7 @@
 
 #### 11. **Планы подписки**
 - **Free** — до 3 страниц, базовая аналитика
-- **Pro** — до 10 страниц, расширенная аналитика, AI-функции
-- **Ultimate** — безлимит, приоритетная поддержка
+- **Pro** — безлимит страниц, расширенная аналитика, AI-функции
 
 ### 🔧 Админ-панель
 
@@ -144,6 +143,7 @@
 | Backend | FastAPI (Python 3.11+) |
 | Frontend | React 18 + Tailwind CSS |
 | Database | MongoDB |
+| Web Server | **Caddy** (reverse proxy + TLS) |
 | Auth | JWT (JSON Web Tokens) |
 | Email | Resend API |
 | AI Images | Hugging Face API (Stable Diffusion) |
@@ -151,6 +151,7 @@
 | Charts | Recharts |
 | Animations | Framer Motion |
 | Icons | Lucide React, React Icons |
+| DNS/CDN | Cloudflare |
 
 ---
 
@@ -221,11 +222,32 @@ sudo systemctl enable mongod
 sudo systemctl status mongod
 ```
 
-### 6. Установка Nginx
+### 6. Установка Caddy с Cloudflare DNS
+
+> ⚠️ **Важно**: Мы используем Caddy с модулем cloudflare для DNS-01 challenge, что позволяет получать wildcard сертификаты для *.mus.link
 
 ```bash
-sudo apt install -y nginx
-sudo systemctl enable nginx
+# Установить зависимости
+sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl golang-go
+
+# Установить xcaddy
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/xcaddy-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/xcaddy.list
+sudo apt update
+sudo apt install -y xcaddy
+
+# Собрать Caddy с модулем Cloudflare
+cd /tmp
+xcaddy build --with github.com/caddy-dns/cloudflare
+
+# Установить бинарник
+sudo mv caddy /usr/bin/caddy
+sudo chmod +x /usr/bin/caddy
+sudo setcap cap_net_bind_service=+ep /usr/bin/caddy
+
+# Проверить установку
+caddy version
+caddy list-modules | grep cloudflare
 ```
 
 ### 7. Установка PM2 (менеджер процессов)
@@ -238,7 +260,7 @@ sudo npm install -g pm2
 
 ```bash
 cd /var/www
-sudo git clone <YOUR_REPO_URL> mus-link
+sudo git clone https://github.com/sadsoulpro/mu-mu.git mus-link
 cd mus-link
 sudo chown -R $USER:$USER /var/www/mus-link
 ```
@@ -344,118 +366,108 @@ pm2 save
 pm2 startup
 ```
 
-### 14. Настройка Nginx
+---
 
-Создайте файл `/etc/nginx/sites-available/mus-link`:
+## 🌐 Настройка Caddy
 
-```nginx
-server {
-    listen 80;
-    server_name mus.link www.mus.link;
-    
-    # Redirect to HTTPS
-    return 301 https://$server_name$request_uri;
-}
+### 14. Получение Cloudflare API Token
 
-server {
-    listen 443 ssl http2;
-    server_name mus.link www.mus.link;
+1. Перейдите на https://dash.cloudflare.com/profile/api-tokens
+2. Нажмите **Create Token**
+3. Выберите **Edit zone DNS** template или создайте custom:
+   - **Permissions**: Zone → DNS → Edit
+   - **Zone Resources**: Include → Specific zone → mus.link
+4. Скопируйте токен
 
-    # SSL certificates (Let's Encrypt)
-    ssl_certificate /etc/letsencrypt/live/mus.link/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/mus.link/privkey.pem;
-
-    # SSL settings
-    ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256;
-    ssl_prefer_server_ciphers off;
-
-    # Gzip
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
-
-    # Backend API
-    location /api/ {
-        proxy_pass http://127.0.0.1:8001/api/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-        
-        # Увеличенные таймауты для AI генерации
-        proxy_connect_timeout 120s;
-        proxy_send_timeout 120s;
-        proxy_read_timeout 120s;
-    }
-
-    # Uploads
-    location /api/uploads/ {
-        proxy_pass http://127.0.0.1:8001/api/uploads/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
-
-    # Frontend (React build)
-    location / {
-        root /var/www/mus-link/frontend/build;
-        index index.html;
-        try_files $uri $uri/ /index.html;
-        
-        # Cache static files
-        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
-            expires 1y;
-            add_header Cache-Control "public, immutable";
-        }
-    }
-
-    # File upload size
-    client_max_body_size 50M;
-}
-
-# Wildcard subdomains (*.mus.link)
-server {
-    listen 443 ssl http2;
-    server_name *.mus.link;
-
-    ssl_certificate /etc/letsencrypt/live/mus.link/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/mus.link/privkey.pem;
-
-    location /api/ {
-        proxy_pass http://127.0.0.1:8001/api/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location / {
-        root /var/www/mus-link/frontend/build;
-        index index.html;
-        try_files $uri $uri/ /index.html;
-    }
-}
-```
-
-Активация:
+### 15. Настройка Cloudflare Token
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/mus-link /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
+# Создать директорию конфигурации
+sudo mkdir -p /etc/caddy
+
+# Создать файл с токеном
+sudo nano /etc/caddy/cloudflare.env
 ```
 
-### 15. SSL сертификат (Let's Encrypt)
+Содержимое:
+```
+CLOUDFLARE_API_TOKEN=your_cloudflare_api_token_here
+```
 
 ```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d mus.link -d www.mus.link -d "*.mus.link"
+# Защитить файл
+sudo chmod 600 /etc/caddy/cloudflare.env
 ```
 
-### 16. Настройка Firewall
+### 16. Копирование Caddyfile
+
+```bash
+sudo cp /var/www/mus-link/deploy/caddy/Caddyfile /etc/caddy/Caddyfile
+```
+
+### 17. Создание systemd сервиса
+
+```bash
+sudo nano /etc/systemd/system/caddy.service
+```
+
+```ini
+[Unit]
+Description=Caddy Web Server
+Documentation=https://caddyserver.com/docs/
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=notify
+User=caddy
+Group=caddy
+EnvironmentFile=/etc/caddy/cloudflare.env
+ExecStart=/usr/bin/caddy run --environ --config /etc/caddy/Caddyfile
+ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile --force
+TimeoutStopSec=5s
+LimitNOFILE=1048576
+LimitNPROC=512
+PrivateTmp=true
+ProtectSystem=full
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### 18. Создание пользователя и директорий
+
+```bash
+# Создать пользователя caddy
+sudo useradd --system --home /var/lib/caddy --shell /usr/sbin/nologin caddy
+
+# Создать директории
+sudo mkdir -p /var/log/caddy
+sudo mkdir -p /var/lib/caddy
+sudo chown -R caddy:caddy /var/log/caddy
+sudo chown -R caddy:caddy /var/lib/caddy
+sudo chown caddy:caddy /etc/caddy/cloudflare.env
+```
+
+### 19. Запуск Caddy
+
+```bash
+# Перезагрузить systemd
+sudo systemctl daemon-reload
+
+# Проверить конфигурацию
+sudo caddy validate --config /etc/caddy/Caddyfile
+
+# Запустить и включить автозагрузку
+sudo systemctl enable caddy
+sudo systemctl start caddy
+
+# Проверить статус
+sudo systemctl status caddy
+```
+
+### 20. Настройка Firewall
 
 ```bash
 sudo ufw allow 22/tcp
@@ -463,6 +475,40 @@ sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw enable
 ```
+
+---
+
+## ✅ Проверка работы
+
+### Чек-лист команд
+
+```bash
+# 1. Проверить что Caddy слушает порты
+sudo ss -tlnp | grep caddy
+
+# 2. Проверить главную страницу
+curl -I https://mus.link
+
+# 3. Проверить API
+curl https://mus.link/api/health
+
+# 4. Проверить DEV (если настроен)
+curl -I https://dev.mus.link
+
+# 5. Проверить TLS сертификат
+echo | openssl s_client -connect mus.link:443 -servername mus.link 2>/dev/null | openssl x509 -noout -dates
+
+# 6. Проверить wildcard сертификат
+echo | openssl s_client -connect test.mus.link:443 -servername test.mus.link 2>/dev/null | openssl x509 -noout -text | grep DNS
+```
+
+### Ожидаемые результаты
+
+- ✅ Caddy слушает :80 и :443
+- ✅ https://mus.link возвращает 200
+- ✅ https://mus.link/api/health возвращает JSON
+- ✅ https://dev.mus.link проксирует на :3001
+- ✅ TLS сертификат валиден для mus.link и *.mus.link
 
 ---
 
@@ -501,6 +547,7 @@ sudo ufw enable
 | `ticket_replies` | Ответы в тикетах |
 | `waitlist` | Список ожидания |
 | `audit_logs` | Журнал аудита |
+| `plan_configs` | Конфигурации планов |
 
 ---
 
@@ -516,6 +563,20 @@ pm2 stop mus-link-backend     # Остановка
 pm2 delete mus-link-backend   # Удаление
 ```
 
+### Управление Caddy
+
+```bash
+sudo systemctl status caddy   # Статус
+sudo systemctl restart caddy  # Перезапуск
+sudo systemctl stop caddy     # Остановка
+
+# Перезагрузка конфига без downtime
+sudo caddy reload --config /etc/caddy/Caddyfile
+
+# Валидация конфига
+sudo caddy validate --config /etc/caddy/Caddyfile
+```
+
 ### MongoDB
 
 ```bash
@@ -528,8 +589,9 @@ db.pages.countDocuments()    # Количество страниц
 ### Логи
 
 ```bash
-pm2 logs --lines 100         # Последние 100 строк логов
-sudo tail -f /var/log/nginx/error.log  # Логи Nginx
+pm2 logs --lines 100                      # Логи backend
+sudo journalctl -u caddy -f               # Логи Caddy (systemd)
+sudo tail -f /var/log/caddy/mus-link-access.log  # Access логи
 ```
 
 ### Обновление проекта
@@ -548,6 +610,10 @@ pm2 restart mus-link-backend
 cd ../frontend
 yarn install
 yarn build
+
+# Caddy (если изменился Caddyfile)
+sudo cp deploy/caddy/Caddyfile /etc/caddy/Caddyfile
+sudo caddy reload --config /etc/caddy/Caddyfile
 ```
 
 ---
@@ -569,17 +635,57 @@ sudo systemctl status mongod
 sudo journalctl -u mongod -n 50
 ```
 
-### Nginx ошибки
+### Caddy ошибки
 
 ```bash
-sudo nginx -t
-sudo tail -f /var/log/nginx/error.log
+# Проверить конфигурацию
+sudo caddy validate --config /etc/caddy/Caddyfile
+
+# Логи
+sudo journalctl -u caddy -f
+
+# Проверить что порты свободны
+sudo lsof -i :80
+sudo lsof -i :443
+```
+
+### DNS Challenge не работает
+
+```bash
+# Проверить Cloudflare токен
+curl -X GET "https://api.cloudflare.com/client/v4/zones" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json"
+
+# Проверить что токен загружен
+sudo systemctl show caddy --property=Environment
 ```
 
 ### Проверка портов
 
 ```bash
-sudo netstat -tlnp | grep -E '80|443|8001|27017'
+sudo ss -tlnp | grep -E '80|443|8001|27017'
+```
+
+---
+
+## 🔄 Миграция с Nginx на Caddy
+
+Если у вас уже установлен Nginx:
+
+```bash
+# 1. Остановить и отключить Nginx
+sudo systemctl stop nginx
+sudo systemctl disable nginx
+
+# 2. Проверить что Nginx не запустится
+sudo systemctl is-enabled nginx  # должно быть disabled
+
+# 3. Установить Caddy (см. раздел 6)
+
+# 4. Запустить Caddy
+sudo systemctl enable caddy
+sudo systemctl start caddy
 ```
 
 ---
