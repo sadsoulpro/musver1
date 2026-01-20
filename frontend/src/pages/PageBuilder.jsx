@@ -209,6 +209,19 @@ export default function PageBuilder() {
     qrEnabledRef.current = qrEnabled;
   }, [qrEnabled]);
 
+  useEffect(() => {
+    linksRef.current = links;
+  }, [links]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scanInputTimeoutRef.current) {
+        clearTimeout(scanInputTimeoutRef.current);
+      }
+    };
+  }, []);
+
   // Instant auto-save function
   const instantSave = async (overrideData = {}) => {
     // For new pages, create it first if not created yet
