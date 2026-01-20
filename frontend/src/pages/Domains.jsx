@@ -599,33 +599,6 @@ export default function Domains() {
               </>
             )}
           </motion.div>
-
-          {/* Info Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mt-8 p-5 rounded-2xl bg-blue-500/5 border border-blue-500/10"
-          >
-            <h3 className="font-semibold mb-3 flex items-center gap-2 text-blue-400">
-              <AlertCircle className="w-4 h-4" />
-              {t('domains', 'instructions')}
-            </h3>
-            <ul className="space-y-2 text-sm text-zinc-400">
-              <li className="flex items-start gap-2">
-                <span className="text-blue-400 mt-1">•</span>
-                <span>{t('domains', 'step1')} <code className="text-blue-300 bg-blue-500/10 px-1 rounded">mytrack.cc</code></span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-400 mt-1">•</span>
-                <span>{t('domains', 'step2')}</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-400 mt-1">•</span>
-                <span>{t('domains', 'step3')}</span>
-              </li>
-            </ul>
-          </motion.div>
         </div>
       </div>
 
