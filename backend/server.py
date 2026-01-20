@@ -1152,7 +1152,8 @@ async def mark_all_notifications_read(user: dict = Depends(get_current_user)):
 
 @api_router.get("/pages")
 async def get_user_pages(user: dict = Depends(get_current_user)):
-    pages = await db.pages.find({"user_id": user["id"]}, {"_id": 0}).to_list(100)
+    # Sort by created_at descending - newest first
+    pages = await db.pages.find({"user_id": user["id"]}, {"_id": 0}).sort("created_at", -1).to_list(100)
     
     # Get click counts for each page
     for page in pages:
