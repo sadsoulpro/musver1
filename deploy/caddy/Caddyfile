@@ -1,0 +1,181 @@
+# ============================================
+# Mus.Link Caddyfile
+# Caddy reverse proxy + static server config
+# ============================================
+
+# Global options
+{
+	# Email for ACME account (Let's Encrypt notifications)
+	email admin@mus.link
+
+	# Use Cloudflare DNS challenge for wildcard certs
+	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+
+	# Alternatively, use staging for testing:
+	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+# ============================================
+# PRODUCTION: mus.link + www.mus.link
+# ============================================
+mus.link, www.mus.link {
+	# Compression
+	encode zstd gzip
+
+	# Security headers
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		# Remove server header
+		-Server
+	}
+
+	# API proxy - must be before static files
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8001 {
+			# Headers for backend
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+
+			# Timeouts for AI generation endpoints
+			transport http {
+				read_timeout 120s
+				write_timeout 120s
+			}
+		}
+	}
+
+	# Uploads - serve from data directory
+	handle /api/uploads/* {
+		uri strip_prefix /api
+		root * /var/www/mus-link/backend
+		file_server
+	}
+
+	# Covers uploads
+	handle /api/uploads/covers/* {
+		uri strip_prefix /api
+		root * /var/www/mus-link/backend
+		file_server
+	}
+
+	# Static frontend files (SPA)
+	handle {
+		root * /var/www/mus-link/frontend/build
+
+		# Cache static assets
+		@static {
+			path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg *.woff *.woff2 *.ttf *.eot
+		}
+		header @static Cache-Control "public, max-age=31536000, immutable"
+
+		# SPA fallback - try file, then index.html
+		try_files {path} /index.html
+		file_server
+	}
+
+	# Logging
+	log {
+		output file /var/log/caddy/mus-link-access.log {
+			roll_size 10mb
+			roll_keep 5
+		}
+		format json
+	}
+}
+
+# ============================================
+# DEVELOPMENT: dev.mus.link
+# ============================================
+dev.mus.link {
+	# Compression
+	encode zstd gzip
+
+	# Proxy everything to dev server
+	reverse_proxy 127.0.0.1:3001 {
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
+
+	log {
+		output file /var/log/caddy/dev-access.log {
+			roll_size 10mb
+			roll_keep 3
+		}
+	}
+}
+
+# ============================================
+# WILDCARD: *.mus.link (subdomains)
+# ============================================
+*.mus.link {
+	# TLS with Cloudflare DNS challenge for wildcard
+	tls {
+		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+	}
+
+	# Compression
+	encode zstd gzip
+
+	# Security headers
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# Pass subdomain to backend via header
+	@subdomain {
+		header_regexp subdomain Host ^([a-zA-Z0-9-]+)\.mus\.link$
+	}
+
+	# API proxy
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8001 {
+			header_up Host {host}
+			header_up X-Real-IP {remote_host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+			header_up X-Subdomain {re.subdomain.1}
+
+			transport http {
+				read_timeout 120s
+				write_timeout 120s
+			}
+		}
+	}
+
+	# Uploads
+	handle /api/uploads/* {
+		uri strip_prefix /api
+		root * /var/www/mus-link/backend
+		file_server
+	}
+
+	# Static frontend
+	handle {
+		root * /var/www/mus-link/frontend/build
+
+		@static {
+			path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg *.woff *.woff2 *.ttf *.eot
+		}
+		header @static Cache-Control "public, max-age=31536000, immutable"
+
+		try_files {path} /index.html
+		file_server
+	}
+
+	log {
+		output file /var/log/caddy/subdomain-access.log {
+			roll_size 10mb
+			roll_keep 5
+		}
+		format json
+	}
+}
