@@ -668,6 +668,7 @@ async def register(data: UserCreate):
     
     # Auto-assign owner role and pro plan for specific email
     is_owner = data.email.lower() == OWNER_EMAIL.lower()
+    user_plan = "pro" if is_owner else "free"
     
     user = {
         "id": str(uuid.uuid4()),
@@ -676,7 +677,7 @@ async def register(data: UserCreate):
         "password_hash": hash_password(data.password),
         "role": "owner" if is_owner else "user",
         "status": "active",
-        "plan": "pro" if is_owner else "free",
+        "plan": user_plan,
         "is_verified": is_owner,  # Owner is auto-verified
         "is_banned": False,
         "verified": is_owner,  # Legacy field
@@ -689,6 +690,9 @@ async def register(data: UserCreate):
     if is_owner:
         logging.info(f"Owner account created: {data.email}")
     
+    # Get plan config
+    plan_config = await get_plan_config(user_plan)
+    
     token = create_token(user["id"], user["role"])
     return {
         "token": token,
@@ -699,6 +703,7 @@ async def register(data: UserCreate):
             "role": user["role"],
             "status": user["status"],
             "plan": user["plan"],
+            "plan_config": plan_config,
             "is_verified": user["is_verified"],
             "is_banned": user["is_banned"],
             "verified": user["verified"],
