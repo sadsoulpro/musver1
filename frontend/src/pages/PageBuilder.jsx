@@ -767,16 +767,14 @@ export default function PageBuilder() {
       setScanInput("");
       
       // Wait 2 seconds for links to be fully added, then save
-      toast.info(t('pageBuilder', 'preparingSave') || 'Подготовка к сохранению...');
-      
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Save after delay
+      // Save after delay - NO navigation, stay on same page
       if (isEditing) {
         await instantSave(updatedFormData);
-        toast.success(t('pageBuilder', 'savedSuccessfully') || 'Успешно сохранено!');
+        toast.success(t('pageBuilder', 'autoSaved'), { duration: 1500 });
       } else {
-        // For new pages, create page with all data AND links
+        // For new pages, create page with all data AND links - NO redirect
         await createPageFirst(updatedFormData, detectedLinks);
       }
     } catch (error) {
