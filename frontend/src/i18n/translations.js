@@ -1327,7 +1327,7 @@ export const translations = {
       title: "Поддомены",
       subtitle: "Создайте свой персональный поддомен",
       addDomain: "Добавить поддомен",
-      domainPlaceholder: "вашеимя",
+      domainPlaceholder: "sub",
       verifyDomain: "Проверить",
       removeDomain: "Удалить",
       domainStatus: "Статус",
