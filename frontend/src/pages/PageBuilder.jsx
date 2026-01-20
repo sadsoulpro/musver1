@@ -467,6 +467,8 @@ export default function PageBuilder() {
         setLinks(prev => [...prev, response.data]);
         setNewLink({ platform: "spotify", url: "" });
         toast.success(t('pageBuilder', 'linkAdded'));
+        // Instant save after adding link
+        instantSave();
       } catch (error) {
         toast.error(t('errors', 'generic'));
       }
@@ -487,6 +489,8 @@ export default function PageBuilder() {
       try {
         await api.put(`/pages/${pageId}/links/${linkId}`, { active: !active });
         setLinks(prev => prev.map(l => l.id === linkId ? { ...l, active: !active } : l));
+        // Instant save after toggle
+        toast.success(t('pageBuilder', 'autoSaved'), { duration: 1500 });
       } catch (error) {
         toast.error(t('errors', 'generic'));
       }
