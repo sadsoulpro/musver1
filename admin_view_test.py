@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 
 class AdminViewTester:
-    def __init__(self, base_url="https://pending-task-3.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://app-gateway-17.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.owner_token = None
         self.admin_token = None
@@ -603,7 +603,7 @@ class AdminViewTester:
 
 def main():
     print("🚀 Starting Admin View User Profile and Pages Tests...")
-    print(f"Testing against: https://pending-task-3.preview.emergentagent.com/api")
+    print(f"Testing against: https://app-gateway-17.preview.emergentagent.com/api")
     
     tester = AdminViewTester()
     

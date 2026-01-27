@@ -5,7 +5,7 @@ from datetime import datetime
 import time
 
 class BandLinkAPITester:
-    def __init__(self, base_url="https://pending-task-3.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://app-gateway-17.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.token = None
         self.admin_token = None
@@ -1468,7 +1468,7 @@ class BandLinkAPITester:
 
 def main():
     print("🚀 Starting BandLink API Tests...")
-    print(f"Testing against: https://pending-task-3.preview.emergentagent.com/api")
+    print(f"Testing against: https://app-gateway-17.preview.emergentagent.com/api")
     
     tester = BandLinkAPITester()
     

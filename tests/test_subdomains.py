@@ -7,7 +7,7 @@ import requests
 import os
 import uuid
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://pending-task-3.preview.emergentagent.com')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://app-gateway-17.preview.emergentagent.com')
 
 # Test credentials
 TEST_USER = {"email": "test@test.com", "password": "testpass123"}

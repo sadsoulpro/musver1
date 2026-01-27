@@ -10,7 +10,7 @@ from datetime import datetime
 import time
 
 class ModeratorRBACTester:
-    def __init__(self, base_url="https://pending-task-3.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://app-gateway-17.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.owner_token = None
         self.moderator_token = None
@@ -270,7 +270,7 @@ class ModeratorRBACTester:
 
 def main():
     print("🚀 Starting Moderator RBAC Tests...")
-    print(f"Testing against: https://pending-task-3.preview.emergentagent.com/api")
+    print(f"Testing against: https://app-gateway-17.preview.emergentagent.com/api")
     
     tester = ModeratorRBACTester()
     
