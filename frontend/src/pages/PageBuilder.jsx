@@ -147,6 +147,7 @@ const detectPlatformFromUrl = (url) => {
     { platform: "deezer", patterns: ["deezer.com", "deezer.page.link"] },
     { platform: "tidal", patterns: ["tidal.com", "listen.tidal.com"] },
     { platform: "amazonMusic", patterns: ["music.amazon", "amazon.com/music"] },
+    { platform: "amazonStore", patterns: ["amazon.com/dp", "amazon.com/gp", "amzn.to"] },
     { platform: "soundcloud", patterns: ["soundcloud.com"] },
     { platform: "pandora", patterns: ["pandora.com"] },
     { platform: "napster", patterns: ["napster.com"] },
