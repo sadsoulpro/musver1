@@ -39,6 +39,11 @@ const CustomLinkIcon = (props) => (
   <img src="/icons/link.svg" alt="Ссылка" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
 );
 
+// YouTube Music icon using uploaded SVG
+const YouTubeMusicIcon = (props) => (
+  <img src="/icons/youtube-music.svg" alt="YouTube Music" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+);
+
 // Custom SVG icons for platforms without react-icons support
 const ZvukIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -58,14 +63,6 @@ const MtsIcon = (props) => (
 const DeezerIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
     <path d="M6.01 11.75H0V15h6.01v-3.25zM6.01 7.25H0v3.25h6.01V7.25zM6.01 16.25H0v3.25h6.01v-3.25zM12.005 11.75H6.01V15h5.995v-3.25zM12.005 16.25H6.01v3.25h5.995v-3.25zM17.995 11.75H12V15h5.995v-3.25zM17.995 16.25H12v3.25h5.995v-3.25zM17.995 7.25H12v3.25h5.995V7.25zM24 11.75h-6.005V15H24v-3.25zM24 16.25h-6.005v3.25H24v-3.25zM24 7.25h-6.005v3.25H24V7.25zM24 2.75h-6.005V6H24V2.75z"/>
-  </svg>
-);
-
-// YouTube Music icon
-const YouTubeMusicIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <polygon points="10,8 16,12 10,16" fill="white"/>
   </svg>
 );
 
