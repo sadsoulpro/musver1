@@ -127,7 +127,7 @@ const PLATFORMS = {
   boomplay: { name: "Boomplay", icon: BoomplayIcon, color: "#E11B22", bgClass: "platform-boomplay" },
   spinrilla: { name: "Spinrilla", icon: SpinrillaIcon, color: "#121212", bgClass: "platform-spinrilla" },
   bandcamp: { name: "Bandcamp", icon: FaBandcamp, color: "#629AA9", bgClass: "platform-bandcamp" },
-  google: { name: "Google", icon: FaGoogle, color: "#4285F4", bgClass: "platform-google" },
+  google: { name: "Google Music", icon: FaGoogle, color: "#4285F4", bgClass: "platform-google" },
   googleStore: { name: "Google Store", icon: GooglePlayIcon, color: "#34A853", bgClass: "platform-google" },
   zvuk: { name: "Звук", icon: ZvukIcon, color: "#6B4EFF", bgClass: "platform-zvuk" },
   mts: { name: "МТС Музыка", icon: MtsIcon, color: "#E30611", bgClass: "platform-mts" },
