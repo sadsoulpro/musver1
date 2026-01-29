@@ -90,16 +90,6 @@ const BoomplayIcon = (props) => (
     <path d="M10 8v8l6-4-6-4z" fill="white"/>
   </svg>
 );
-  </svg>
-);
-
-// Audius icon
-const AudiusIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <path d="M8 16V8l8 4-8 4z" fill="white"/>
-  </svg>
-);
 
 // Platform definitions (names come from translations)
 const PLATFORMS = {
