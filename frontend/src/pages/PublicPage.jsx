@@ -6,6 +6,7 @@ import { SiTidal, SiPandora, SiAudiomack } from "react-icons/si";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { QRCodeSVG } from "qrcode.react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
