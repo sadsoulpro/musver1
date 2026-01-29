@@ -118,18 +118,15 @@ const PLATFORMS = {
   pandora: { icon: PandoraIcon, color: "#005483", bgClass: "platform-pandora" },
   napster: { icon: FaNapster, color: "#000000", bgClass: "platform-napster" },
   audiomack: { icon: SiAudiomack, color: "#FFA200", bgClass: "platform-audiomack" },
-  audius: { icon: AudiusIcon, color: "#CC0FE0", bgClass: "platform-audius" },
-  anghami: { icon: AnghamiIcon, color: "#6C3694", bgClass: "platform-anghami" },
+  audius: { icon: AudiusIcon, color: "#000000", bgClass: "platform-audius", isImage: true },
+  anghami: { icon: AnghamiIcon, color: "#000000", bgClass: "platform-anghami", isImage: true },
   boomplay: { icon: BoomplayIcon, color: "#E11B22", bgClass: "platform-boomplay" },
-  spinrilla: { icon: SpinrillaIcon, color: "#121212", bgClass: "platform-spinrilla" },
-  bandcamp: { icon: FaBandcamp, color: "#629AA9", bgClass: "platform-bandcamp" },
-  google: { icon: FaGoogle, color: "#4285F4", bgClass: "platform-google" },
-  googleStore: { icon: GooglePlayIcon, color: "#34A853", bgClass: "platform-google" },
-  zvuk: { icon: ZvukIcon, color: "#6B4EFF", bgClass: "platform-zvuk" },
+  bandcamp: { icon: BandcampIcon, color: "#000000", bgClass: "platform-bandcamp", isImage: true },
+  zvuk: { icon: ZvukIcon, color: "#000000", bgClass: "platform-zvuk", isImage: true },
   mts: { icon: MtsIcon, color: "#E30611", bgClass: "platform-mts" },
   // Legacy mappings for backward compatibility
   apple: { icon: FaApple, color: "#FA233B", bgClass: "platform-apple" },
-  amazon: { icon: FaAmazon, color: "#FF9900", bgClass: "platform-amazon" },
+  amazon: { icon: AmazonMusicIcon, color: "#000000", bgClass: "platform-amazon", isImage: true },
   custom: { icon: CustomLinkIcon, color: "#888888", bgClass: "", isImage: true },
 };
 
