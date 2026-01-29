@@ -8,7 +8,7 @@ import json
 import time
 
 def test_rbac_system():
-    base_url = "https://app-gateway-17.preview.emergentagent.com/api"
+    base_url = "https://medialinker-4.preview.emergentagent.com/api"
     
     print("🚀 Testing RBAC + Dynamic Plan Limits System")
     print("=" * 60)

@@ -10,7 +10,7 @@ from datetime import datetime
 import time
 
 class AdminPanelTester:
-    def __init__(self, base_url="https://app-gateway-17.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://medialinker-4.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.admin_token = None
         self.owner_token = None
@@ -390,7 +390,7 @@ class AdminPanelTester:
 
 def main():
     print("🚀 Starting Admin Panel - View User Profile and Pages Tests...")
-    print(f"Testing against: https://app-gateway-17.preview.emergentagent.com/api")
+    print(f"Testing against: https://medialinker-4.preview.emergentagent.com/api")
     
     tester = AdminPanelTester()
     

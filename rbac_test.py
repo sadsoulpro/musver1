@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 class RBACTester:
-    def __init__(self, base_url="https://app-gateway-17.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://medialinker-4.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.admin_token = None
         self.owner_token = None
@@ -420,7 +420,7 @@ class RBACTester:
 
 def main():
     print("🚀 Starting RBAC + Dynamic Plan Limits Tests...")
-    print(f"Testing against: https://app-gateway-17.preview.emergentagent.com/api")
+    print(f"Testing against: https://medialinker-4.preview.emergentagent.com/api")
     
     tester = RBACTester()
     

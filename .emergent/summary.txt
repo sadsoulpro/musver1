@@ -1,198 +1,132 @@
 <analysis>**original_problem_statement:**
-Initial Request: загрузи данное приложение из гитхаба (Load this application from GitHub).
-The user then provided a GitHub URL: 
+Пользователь начал с просьбы загрузить и запустить приложение. В ходе работы были выдвинуты следующие требования:
+1.  **Управление платформами:**
+    *   Заменить логотипы для SoundCloud, TikTok, VK Музыка, Яндекс Музыка, Другая ссылка, YouTube Music, Amazon Music, Zvuk, Anghami, Audius, Bandcamp, Boomplay, MTS Music, Pandora, используя предоставленные файлы.
+    *   Добавить новую платформу TikTok.
+    *   Удалить платформы: spinrilla, google, google store, amazon store.
+    *   Изменить цвет фона для Звук на белый и для Другая ссылка на черный.
+2.  **Функционал:**
+    *   Реализовать автоопределение платформы по вставленной URL-ссылке.
+    *   Исправить автоопределение для домена  (Яндекс Музыка) и для ссылок iTunes.
+3.  **Интернационализация (i18n):**
+    *   Добавить переводы названий платформ (Яндекс Музыка, VK Музыка и т.д.) на английский и испанский языки.
+    *   Добавить перевод для слова Слушать (Listen/Escuchar) на публичной странице и обеспечить синхронизацию языка с настройками пользователя.
+    *   Устранить жестко закодированный русский текст на публичной странице.
+4.  **UI/UX:**
+    *   Заменить все шрифты в приложении на Manrope с определенными начертаниями для заголовков, кнопок и основного текста.
+    *   На странице  реализовать задержку (debounce) 800-1000 мс для автосохранения при вводе слага и описания.
+    *   Реализовать автоматический редирект на страницу редактирования () после создания новой мультиссылки.
+    *   Исправить отображение логотипов на публичной странице, чтобы они были пропорциональными и читаемыми.
+    *   Привести кнопки платформ на главной странице () в секциях Phone Mockup и Preview content в соответствие с дизайном и анимацией на публичной странице.
+    *   **Текущая задача:** Перестроить макет , разделив экран на две части (50/50): слева — сайдбар с основными настройками, справа — предпросмотр страницы.
 
-After successfully loading and setting up the application, the user provided a series of feature requests:
-
-1.  **Admin Panel Subscription Management**:
-    *   Remove Ultimate plan from the app.
-    *   Add a function for the Owner to change their own subscription for testing.
-
-2.  **Odesli/Autofill Enhancement**:
-    *   Add search by UPC code to the Autofill field.
-    *   Update placeholders and user notifications to reflect the UPC/link search capability.
-    *   Add a list of new music platforms.
-
-3.  **API Key Integration**:
-    *   Add provided API keys for Resend and Hugging Face.
-
-4.  **Multi-language Support (Internationalization)**:
-    *   Add a language selector (RU, EN, ES) in the header.
-    *   Auto-detect browser language, with EN as the fallback.
-    *   Translate the entire site (landing, auth, dashboard, page builder, public pages, system messages).
-
-5.  **Follow-up on Translation**:
-    *   The user specified several pages inside the authenticated dashboard that were missed during the initial translation: , , , , , , , and .
-    *   The user then provided further feedback with screenshots, noting that the  page was still untranslated, the sidebar link  needed a proper translation, and the  link was pushing the  button off-screen.
-    *   After these were fixed, the user's final request was to finish translating the  to English and Spanish.
-
-**User's preferred language**: русский (Russian)
+**User's preferred language**: Русский
 
 **what currently exists?**
-The project is a full-stack MyTrack application (FastAPI backend, React frontend, MongoDB) for musicians. It has user authentication (JWT), role-based access (Owner, Admin, User), and Odesli/Songlink integration for autofilling music links via URL or UPC code.
-
-A custom internationalization (i18n) system has been implemented, supporting Russian (RU), English (EN), and Spanish (ES). The vast majority of the application, including the landing page, auth pages, and most of the authenticated user dashboard, has been successfully translated. API keys for Resend and Hugging Face are stored in the backend environment.
+- Полностековое приложение Muslink (React/FastAPI/MongoDB) для создания смарт-ссылок для музыкантов.
+- Приложение полностью функционально и запущено.
+- Реализовано множество UI/UX улучшений, включая кастомные иконки, интернационализацию (ru, en, es), новый шрифт Manrope, и обновленную логику автосохранения и редиректа.
 
 **Last working item**:
-- **Last item agent was working:** Translating the  component. The user pointed out that while it worked in Russian, it was not translated for English and Spanish. The agent was in the middle of a large-scale refactor of the file, adding translation keys to  and systematically replacing hardcoded Russian text with the  function.
-- **Status:** IN PROGRESS
-- **Agent Testing Done:** N
+- **Last item agent was working**: Рефакторинг компонента  для создания нового макета 50/50 с сайдбаром слева и предпросмотром справа, согласно запросу пользователя. Агент начал изменять JSX-структуру, добавив flex-контейнеры и новый сайдбар.
+- **Status**: IN PROGRESS
+- **Agent Testing Done**: N
 - **Which testing method agent to use?** screenshot tool
-- **User Testing Done:** N
+- **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1: Complete translation of the Admin Panel (P0)**
-    -   **Description**: The  component contains a large amount of hardcoded Russian text, which prevents it from being displayed correctly in English or Spanish.
-    -   **Attempted fixes**: The agent has already added a significant number of translation keys to the  section of  and has performed multiple  operations to update . However, the process was not complete.
-    -   **Next debug checklist**:
-        1.  Review  to find any remaining hardcoded Russian text.
-        2.  For any remaining text, add corresponding keys to the  section in  for EN, RU, and ES.
-        3.  Replace the hardcoded text in  with the  function call.
-        4.  Restart the frontend service: frontend: ERROR (not running)
-frontend: started.
-        5.  Log in as the owner ( / ).
-        6.  Navigate to the Admin Panel.
-        7.  Use the  tool to verify the panel displays correctly in English (default), then switch the language to Spanish and take another screenshot to confirm the translation.
-    -   **Why fix this issue and what will be achieved with the fix?**: Fulfills the user's explicit request to make the entire application, including administrative sections, fully multilingual.
-    -   **Status**: IN PROGRESS
-    -   **Is recurring issue?** Y (The overall i18n task required multiple follow-ups)
-    -   **Should Test frontend/backend/both after fix?**: frontend
-    -   **Blocked on other issue**: None
+- **Issue 1: Незавершенный рефакторинг макета  (P0)**
+  - Агент остановился в середине процесса изменения JSX-структуры файла . Код в настоящее время синтаксически некорректен и вызывает ошибку компиляции.
 
--   **Issue 2: Mixed language in PageBuilder preview (P2)**
-    -   **Description**: The agent noted that while testing PageBuilder, the preview area showed some text in Russian (Здесь появятся ссылки) even when the main UI was in English.
-    -   **Next debug checklist**:
-        1.  Inspect .
-        2.  Locate the code responsible for rendering the preview section.
-        3.  Identify why that specific text is not being translated with the rest of the page. It might be a static component or have its text derived from a different, non-reactive source.
-        4.  Refactor the code to use the  function from the  hook.
-    -   **Why fix this issue and what will be achieved with the fix?**: Ensures a consistent and professional user experience by eliminating language mixing.
-    -   **Status**: NOT STARTED
-    -   **Is recurring issue?** N
-    -   **Should Test frontend/backend/both after fix?**: frontend
-    -   **Blocked on other issue**: None
+  - **Issues Detail:**
+    - **Issue 1: Незавершенный рефакторинг макета **
+      - **Attempted fixes:** Агент начал добавлять  контейнеры с flex-классами для разделения экрана, но не завершил перемещение всех элементов и закрытие тегов.
+      - **Next debug checklist:**
+        1.  Откройте .
+        2.  Проанализируйте последние изменения, чтобы понять текущую структуру.
+        3.  Завершите реструктуризацию JSX, чтобы создать основной -контейнер.
+        4.  Внутри него разместите сайдбар (левая часть) и основной контент.
+        5.  Основной контент разделите на две колонки по 50%: левая — форма редактирования, правая — блок предпросмотра.
+        6.  Убедитесь, что все -теги правильно закрыты.
+        7.  После исправления кода перезапустите frontend и сделайте скриншот для проверки соответствия макету пользователя.
+      - **Why fix this issue and what will be achieved with the fix?** Это выполнит текущий запрос пользователя по изменению дизайна ключевой страницы приложения и сделает приложение снова компилируемым.
+      - **Status:** IN PROGRESS
+      - **Is recurring issue?** N
+      - **Should Test frontend/backend/both after fix?** frontend
 
 **In progress Task List**:
-- **Task 1: Complete the internationalization (i18n) of the Admin Panel (P0)**
-    - **Where to resume**: The agent was performing a series of  operations on . The next step is to continue this process until all visible text is sourced from the  file.
-    - **What will be achieved with this?**: The Admin Panel will be fully functional and usable for English, Russian, and Spanish-speaking administrators.
-    - **Status**: IN PROGRESS
-    - **Should Test frontend/backend/both after fix?**: frontend
-    - **Blocked on something**: None
+  - **Task 1: Завершить редизайн макета  (P0)**
+     - **Where to resume**: . Необходимо завершить начатый рефакторинг JSX.
+     - **What will be achieved with this?** Экран  будет соответствовать новому дизайну, запрошенному пользователем.
+     - **Status:** IN PROGRESS
+     - **Should Test frontend/backend/both after fix?** frontend
 
 **Upcoming and Future Tasks**
-*   **Future Task (P2)**: Refactor the backend to load  strictly from environment variables, removing the hardcoded fallback.
-*   **Future Task (P2)**: Refactor the backend to make the  configurable via an environment variable instead of being hardcoded.
-*   **Future Task (P3)**: Investigate and optimize potential N+1 database queries in the admin panel for better performance at scale.
+- **Task 1 (P1): Проверить и исправить пропорциональность иконок на публичной странице.**
+  - **Reference:** .
+  - **Description:** Ранее была попытка исправить размеры иконок, но некоторые (например, YouTube Music, Yandex Music) остались слишком маленькими. Необходимо провести повторную проверку и окончательно исправить их размеры, чтобы все логотипы выглядели гармонично.
 
 **Completed work in this session**
-- **Completed Dashboard Translations**: Fully translated the following pages that were previously missed: , , and .
-- **Fixed User-Reported Issues**:
-    - **Analytics Page Translated**: Correctly identified that  used a separate  component, which was then fully translated.
-    - **Sidebar UI Fixed**:
-        - Merged the content of  into  as a new tabbed section.
-        - Removed the  link from .
-        - Correctly translated the  link to Верификация (and its EN/ES equivalents).
-        - These changes resolved a layout bug, making the Выйти (Logout) button visible again.
-- **Fixed Code Error**: Corrected a JSX parsing error in  that was preventing the frontend from compiling.
-- **Testing and Verification**: Successfully reset the owner's password and used the  tool to log in and visually confirm all fixes and new translations across multiple pages and languages (RU, EN, ES).
-- **PRD Update**: Updated  with the latest progress.
+- **Управление платформами:** Успешно интегрированы новые логотипы, добавлены и удалены платформы согласно запросам.
+- **Логика автоопределения:** Реализована и исправлена функция автоматического определения платформы по URL.
+- **Интернационализация (i18n):** Добавлены переводы для RU/EN/ES, рефакторинг компонентов для их использования.
+- **UI/UX Улучшения:**
+  - Глобально изменен шрифт на Manrope.
+  - Реализован debounce (900ms) для автосохранения и редирект после создания страницы в .
+  - Обновлен дизайн кнопок на главной странице () для соответствия .
+  - Исправлено отображение SVG-иконок на публичной странице.
 
 **Earlier issues found/mentioned but not fixed**
-- **Issue 1: Hardcoded JWT Secret Fallback**
-    - **Debug checklist**: Locate the  usage in  and remove the fallback value, ensuring it relies solely on .
-    - **Why to solve this issue and what will be achieved with this?**: Improves security by preventing the application from running with a predictable secret.
-    - **Should Test frontend/backend/both after fix**: backend
-    - **Is recurring issue?**: N
-
-- **Issue 2: Hardcoded Owner Email**
-    - **Debug checklist**: Find the hardcoded email thedrumepic@gmail.com in  and replace it with a value from an environment variable like .
-    - **Why to solve this issue and what will be achieved with this?**: Increases flexibility and makes the application easier to configure.
-    - **Should Test frontend/backend/both after fix**: backend
-    - **Is recurring issue?**: N
-
-**Known issue recurrence from previous fork**
-- None.
+   - **Issue 1: Непропорциональные размеры иконок на **
+     - **Debug checklist:**
+        - Проверить логику рендеринга для иконок с флагом  в .
+        - Проанализировать атрибуты  в самих SVG-файлах проблемных иконок (например, ).
+        - Попробовать применить классы Tailwind для задания явной ширины и высоты вместо inline-стилей.
+     - **Why to solve this issue and what will be achieved with this?** Чтобы удовлетворить требование пользователя о визуальной согласованности и читаемости логотипов.
+     - **Should Test frontend/backend/both after fix:** frontend
+     - **Is recurring issue?** Y
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Backend**: FastAPI, MongoDB (motor), Pydantic, JWT, bcrypt.
--   **Frontend**: React, React Router, Tailwind CSS, Shadcn UI, Axios, Framer Motion, Custom React Context for i18n.
--   **Architecture**: Monorepo with  and  directories, managed by .
-
-**key DB schema**
--   **users**: 
--   **pages**: 
-
-**changes in tech stack**
--   None.
+- **Frontend:** React, Tailwind CSS, react-router-dom, Framer Motion
+- **Backend:** FastAPI
+- **Database:** MongoDB
+- **i18n:** Кастомная реализация через React Context и централизованный объект с переводами.
+- **UI:** Компоненты на основе SVG, react-icons.
 
 **All files of reference**
-*   **/app/frontend/src/pages/AdminPanel.jsx**: **(In Progress)** Being refactored for i18n.
-*   **/app/frontend/src/i18n/translations.js**: Modified multiple times to add keys for , , and .
-*   **/app/frontend/src/pages/GlobalAnalytics.jsx**: Modified to be fully translated.
-*   **/app/frontend/src/pages/Support.jsx**: Modified to include content from  in a new tabbed interface.
-*   **/app/frontend/src/components/Sidebar.jsx**: Modified to remove the FAQ link and fix the verified link text, which solved a layout issue.
-*   **/app/frontend/src/pages/RandomCover.jsx**: Modified for translation and to fix a JSX error.
-*   **/app/frontend/src/pages/Domains.jsx**: Modified for translation.
-*   **/app/frontend/src/pages/Analytics.jsx**: Modified for translation.
-*   **/app/memory/PRD.md**: Updated to reflect completed work.
-
-**Areas that need refactoring**:
--   The hardcoded  and  in  should be moved to environment variables.
--   The file  is now redundant as its content has been merged into . It can be deleted to clean up the codebase.
-
-**key api endpoints**
--   
--   
--   
--   
+- : **В процессе рефакторинга.** Основной файл для текущей задачи.
+- : Модифицирован для иконок, переводов и стилей.
+- : Модифицирован для обновления демо-компонентов.
+- : Ключевой файл для всех текстовых элементов интерфейса.
+- , , : Файлы, измененные для интеграции шрифта Manrope.
+- : Директория со всеми загруженными логотипами платформ.
 
 **Critical Info for New Agent**
--   The highest priority (P0) is to finish translating  for English and Spanish. This is a large file and the previous agent was mid-task.
--   The user communicates exclusively in Russian. All  and  messages must be in Russian.
--   The custom i18n system uses the  hook and a  function.
--   Login credentials for the owner account are  / . The password was reset during this session.
--   After completing the Admin Panel translation, address the minor language-mixing bug in the PageBuilder preview.
-
-**documents and test reports created in this job**
--    was updated.
+- Текущая задача — это значительный рефакторинг макета . Файл в настоящее время неисправен и вызывает ошибку компиляции. Необходимо тщательно завершить начатые изменения, ориентируясь на скриншот пользователя.
+- Система i18n — кастомная. Любые изменения текста в UI должны быть отражены в  для всех трех языков (en, ru, es).
+- Многие иконки теперь являются кастомными компонентами (SVG/PNG с флагом ) и рендерятся иначе, чем стандартные иконки из библиотек. Это важно учитывать при работе с файлами  и .
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **User (Confirmation)**: Подтверждаю (I confirm).
-2.  **Agent**: Implemented initial batch of page translations.
-3.  **Agent**: Called , believing the task was complete.
-4.  **User (Feedback)**: Аналитика не переведена. verified-Верификация переведи нормально для всех языков в сайдбаре. Также перемести информацию FAQ в Поддержку, так как не видно кнопки Выход. Приложил скрины для твоего понимания. (Analytics is not translated. Translate verified normally for all languages in the sidebar. Also, move the FAQ info to Support, as the Logout button isn't visible. Attached screenshots for your understanding.)
-5.  **Agent**: Acknowledged and correctly identified the three issues from the user's feedback.
-6.  **Agent**: Implemented fixes for all three issues (translated , merged  into , and fixed the sidebar).
-7.  **Agent**: Verified all fixes with screenshots.
-8.  **Agent**: Called  again, summarizing the completed work.
-9.  **User (Feedback)**: осталось перевести админ панель на английский и испанский (the admin panel still needs to be translated into English and Spanish).
-10. **Agent**: Acknowledged the final remaining translation task and began working on .
+1.  **Redesign PageBuilder**: Запрос на редизайн экрана  в формате 50/50 с сайдбаром и превью. (IN PROGRESS)
+2.  **Change Custom Link background**: Изменить фон на черный. (DONE)
+3.  **Replace more logos**: Заменить логотипы Boomplay, MTS Music, Pandora и изменить фон Zvuk. (DONE)
+4.  **Remove platforms & replace logos**: Удалить несколько платформ и заменить логотипы для других. (DONE)
+5.  **Update Landing page buttons**: Обновить кнопки на главной странице, чтобы они соответствовали . (DONE)
+6.  **Translate Listen on PublicPage**: Добавить перевод Escuchar и исправить другие жестко закодированные тексты. (DONE)
+7.  **Update Landing page demo**: Заменить иконки-плейсхолдеры на реальные логотипы на главной. (DONE)
+8.  **Fix public page logo display**: Исправить отображение логотипов на публичной странице. (DONE)
+9.  **Implement Debounce and Redirect**: Добавить debounce для автосохранения и редирект после создания страницы. (DONE)
+10. **Change font to Manrope**: Заменить шрифт во всем приложении на Manrope. (DONE)
 
 **Project Health Check:**
-*   **Broken**: None. The application is running and functional.
-*   **Mocked**: None.
+- **Broken:**  в настоящее время сломан из-за незавершенного рефакторинга макета. Frontend не будет компилироваться.
 
 **3rd Party Integrations**
--   **Odesli/Songlink API**: For fetching music platform links (no key).
--   **iTunes Search API**: For UPC code lookups (no key).
--   **Resend**: API key is in , but not yet implemented in code.
--   **Hugging Face**: API key is in , but not yet implemented in code.
+- Odesli/Songlink API (для поиска ссылок на платформах)
 
 **Testing status**
--   **Testing agent used after significant changes**: NO
--   **Troubleshoot agent used after agent stuck in loop**: NO
--   **Test files created**: None.
--   **Known regressions**: None.
--   **Testing method**: The  tool was used extensively and successfully for visual UI verification after the agent logged into the application.
-
-**Credentials to test flow:**
--   **Owner**:  /  (Password was reset in this session).
--   **Admin**:  / 
--   **User**:  / 
-
-**What agent forgot to execute**
-The agent initially declared the i18n task finished twice prematurely. The first time, it missed several pages which the user listed. The second time, it overlooked that the  page was a separate component and also missed the sidebar layout issues. Finally, the agent did not check the  in languages other than Russian, which the user had to point out as the final remaining piece of the translation task.</analysis>
+- **Testing agent used after significant changes**: YES (использовался инструмент для скриншотов)
+- **Test files created**: N/A</analysis>
