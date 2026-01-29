@@ -197,13 +197,14 @@ const PLATFORMS = [
   { id: "itunes", name: "iTunes", icon: FaItunes, color: "#EA4CC0" },
   { id: "youtube", name: "YouTube", icon: FaYoutube, color: "#FF0000" },
   { id: "youtubeMusic", name: "YouTube Music", icon: YouTubeMusicIcon, color: "#FF0000" },
-  { id: "yandex", name: "Яндекс Музыка", icon: FaYandex, color: "#FFCC00" },
-  { id: "vk", name: "VK Музыка", icon: FaVk, color: "#4C75A3" },
+  { id: "yandex", name: "Яндекс Музыка", icon: YandexMusicIcon, color: "#FFCC00", isImage: true },
+  { id: "vk", name: "VK Музыка", icon: VKMusicIcon, color: "#4C75A3", isImage: true },
+  { id: "tiktok", name: "TikTok", icon: TikTokIcon, color: "#000000", isImage: true },
   { id: "deezer", name: "Deezer", icon: DeezerIcon, color: "#A238FF" },
   { id: "tidal", name: "Tidal", icon: SiTidal, color: "#000000" },
   { id: "amazonMusic", name: "Amazon Music", icon: FaAmazon, color: "#FF9900" },
   { id: "amazonStore", name: "Amazon Store", icon: FaAmazon, color: "#FF9900" },
-  { id: "soundcloud", name: "SoundCloud", icon: FaSoundcloud, color: "#FF5500" },
+  { id: "soundcloud", name: "SoundCloud", icon: SoundCloudIcon, color: "#FF5500", isImage: true },
   { id: "pandora", name: "Pandora", icon: PandoraIcon, color: "#005483" },
   { id: "napster", name: "Napster", icon: FaNapster, color: "#000000" },
   { id: "audiomack", name: "Audiomack", icon: SiAudiomack, color: "#FFA200" },
@@ -216,7 +217,7 @@ const PLATFORMS = [
   { id: "googleStore", name: "Google Store", icon: GooglePlayIcon, color: "#34A853" },
   { id: "zvuk", name: "Звук", icon: ZvukIcon, color: "#6B4EFF" },
   { id: "mts", name: "МТС Музыка", icon: MtsIcon, color: "#E30611" },
-  { id: "custom", name: "Другая ссылка", icon: FaLink, color: "#888888" },
+  { id: "custom", name: "Другая ссылка", icon: CustomLinkIcon, color: "#888888", isImage: true },
 ];
 
 export default function PageBuilder() {
