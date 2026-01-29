@@ -155,7 +155,6 @@ const detectPlatformFromUrl = (url) => {
     { platform: "audius", patterns: ["audius.co"] },
     { platform: "anghami", patterns: ["anghami.com"] },
     { platform: "boomplay", patterns: ["boomplay.com"] },
-    { platform: "spinrilla", patterns: ["spinrilla.com"] },
     { platform: "bandcamp", patterns: ["bandcamp.com"] },
     { platform: "zvuk", patterns: ["zvuk.com", "sber-zvuk.com"] },
     { platform: "mts", patterns: ["music.mts.ru"] },
