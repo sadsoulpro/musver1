@@ -935,9 +935,22 @@ export default function PageBuilder() {
         </div>
       </header>
       
-      <div className="max-w-7xl mx-auto p-4 sm:p-6 grid lg:grid-cols-2 gap-6 lg:gap-10 overflow-hidden">
-        {/* Form */}
-        <div className="space-y-6 sm:space-y-8">
+      <div className="flex h-[calc(100vh-64px)] overflow-hidden">
+        {/* Left Side - Editor with Sidebar */}
+        <div className="w-1/2 flex overflow-hidden">
+          {/* Sidebar */}
+          <div className="w-48 bg-card border-r border-border p-4 flex-shrink-0">
+            <nav className="space-y-1">
+              <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+                <Settings className="w-4 h-4" />
+                {t('pageBuilder', 'basicSettings') || 'Основные настройки'}
+              </button>
+            </nav>
+          </div>
+          
+          {/* Form Content */}
+          <div className="flex-1 overflow-y-auto p-6">
+            <div className="max-w-xl space-y-6">
           
           {/* 1. Автозаполнение через Odesli - ПЕРВЫМ */}
           <section className="overflow-hidden">
