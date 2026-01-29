@@ -5,6 +5,7 @@ import {
   Music2, Link2, BarChart3, Palette, QrCode, Zap, 
   ChevronDown, ArrowRight, Sparkles, Globe, Check
 } from "lucide-react";
+import { FaSpotify, FaApple, FaYoutube } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useAuth } from "@/App";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,6 +14,18 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
 import MuslinkLogo from "@/components/MuslinkLogo";
 import ProFeatureModal from "@/components/ProFeatureModal";
+
+// Deezer icon component
+const DeezerIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M6.01 11.75H0V15h6.01v-3.25zM6.01 7.25H0v3.25h6.01V7.25zM6.01 16.25H0v3.25h6.01v-3.25zM12.005 11.75H6.01V15h5.995v-3.25zM12.005 16.25H6.01v3.25h5.995v-3.25zM17.995 11.75H12V15h5.995v-3.25zM17.995 16.25H12v3.25h5.995v-3.25zM17.995 7.25H12v3.25h5.995V7.25zM24 11.75h-6.005V15H24v-3.25zM24 16.25h-6.005v3.25H24v-3.25zM24 7.25h-6.005v3.25H24V7.25zM24 2.75h-6.005V6H24V2.75z"/>
+  </svg>
+);
+
+// YouTube Music icon component
+const YouTubeMusicIcon = (props) => (
+  <img src="/icons/youtube-music.svg" alt="YouTube Music" {...props} style={{ width: '1.2em', height: '1.2em', ...props.style }} />
+);
 
 // Accordion component for FAQ
 function FAQItem({ question, answer, isOpen, onClick }) {
