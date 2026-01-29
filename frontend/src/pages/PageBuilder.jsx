@@ -940,21 +940,9 @@ export default function PageBuilder() {
         {/* Left Side - Editor with Sidebar */}
         <div className="w-1/2 flex overflow-hidden">
           {/* Sidebar */}
-          <div className="w-48 bg-card border-r border-border flex flex-col flex-shrink-0">
-            {/* Sidebar Header */}
-            <div className="p-4 border-b border-border">
-              <div className="flex items-center gap-2">
-                <Link to="/multilinks">
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <ArrowLeft className="w-4 h-4" />
-                  </Button>
-                </Link>
-                <span className="font-semibold text-sm">{t('pageBuilder', 'sidebarRelease')}</span>
-              </div>
-            </div>
-            
+          <div className="w-48 bg-card border-r border-border flex flex-col flex-shrink-0 overflow-y-auto">
             {/* Sidebar Navigation */}
-            <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+            <nav className="p-3 space-y-1">
               {/* Основные */}
               <div className="space-y-1">
                 <div className="flex items-center justify-between px-3 py-2 text-sm text-muted-foreground">
