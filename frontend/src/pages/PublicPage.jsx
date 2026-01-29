@@ -307,7 +307,11 @@ export default function PublicPage() {
   };
 
   const getPlatformInfo = (platformId) => {
-    return PLATFORMS[platformId] || PLATFORMS.custom;
+    const platform = PLATFORMS[platformId] || PLATFORMS.custom;
+    return {
+      ...platform,
+      name: t('platforms', platformId) || platformId
+    };
   };
 
   const getCoverUrl = (url) => {
