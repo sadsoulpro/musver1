@@ -983,22 +983,6 @@ export default function PageBuilder() {
                   <span>{t('pageBuilder', 'sidebarBasicSettings')}</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-primary ml-auto" />
                 </button>
-                <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted text-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-transparent" />
-                  <span>{t('pageBuilder', 'sidebarLinkAppearance')}</span>
-                </button>
-              </div>
-              
-              {/* Вид */}
-              <div className="flex items-center justify-between px-3 py-2 text-sm text-muted-foreground hover:bg-muted rounded-lg cursor-pointer">
-                <span>{t('pageBuilder', 'sidebarAppearance')}</span>
-                <ChevronRight className="w-4 h-4" />
-              </div>
-              
-              {/* Продвижение */}
-              <div className="flex items-center justify-between px-3 py-2 text-sm text-muted-foreground hover:bg-muted rounded-lg cursor-pointer">
-                <span>{t('pageBuilder', 'sidebarPromotion')}</span>
-                <ChevronRight className="w-4 h-4" />
               </div>
             </nav>
           </div>
