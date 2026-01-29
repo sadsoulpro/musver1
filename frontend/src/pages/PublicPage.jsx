@@ -63,10 +63,6 @@ const BandcampIcon = (props) => (
 
 // MTS Music icon
 const MtsIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <rect x="3" y="6" width="18" height="12" rx="2" fill="currentColor"/>
-// MTS Music icon
-const MtsIcon = (props) => (
   <img src="/icons/mts-mus.png" alt="MTS Music" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
 );
 
