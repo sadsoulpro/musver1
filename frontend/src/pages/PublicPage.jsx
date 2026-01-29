@@ -142,6 +142,7 @@ const PLATFORMS = {
 export default function PublicPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [page, setPage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
