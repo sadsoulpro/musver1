@@ -101,7 +101,7 @@ const PLATFORMS = {
   tidal: { icon: SiTidal, color: "#000000", bgClass: "platform-tidal" },
   amazonMusic: { icon: AmazonMusicIcon, color: "#000000", bgClass: "platform-amazon", isImage: true },
   soundcloud: { icon: SoundCloudIcon, color: "#000000", bgClass: "platform-soundcloud", isImage: true },
-  pandora: { icon: PandoraIcon, color: "#005483", bgClass: "platform-pandora" },
+  pandora: { icon: PandoraIcon, color: "#000000", bgClass: "platform-pandora", isImage: true },
   napster: { icon: FaNapster, color: "#000000", bgClass: "platform-napster" },
   audiomack: { icon: SiAudiomack, color: "#FFA200", bgClass: "platform-audiomack" },
   audius: { icon: AudiusIcon, color: "#000000", bgClass: "platform-audius", isImage: true },
