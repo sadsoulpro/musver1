@@ -111,13 +111,14 @@ const PLATFORMS = {
   itunes: { name: "iTunes", icon: FaItunes, color: "#EA4CC0", bgClass: "platform-itunes" },
   youtube: { name: "YouTube", icon: FaYoutube, color: "#FF0000", bgClass: "platform-youtube" },
   youtubeMusic: { name: "YouTube Music", icon: YouTubeMusicIcon, color: "#FF0000", bgClass: "platform-youtube" },
-  yandex: { name: "Яндекс Музыка", icon: FaYandex, color: "#FFCC00", bgClass: "platform-yandex" },
-  vk: { name: "VK Музыка", icon: FaVk, color: "#4C75A3", bgClass: "platform-vk" },
+  yandex: { name: "Яндекс Музыка", icon: YandexMusicIcon, color: "#FFCC00", bgClass: "platform-yandex", isImage: true },
+  vk: { name: "VK Музыка", icon: VKMusicIcon, color: "#4C75A3", bgClass: "platform-vk", isImage: true },
+  tiktok: { name: "TikTok", icon: TikTokIcon, color: "#000000", bgClass: "platform-tiktok", isImage: true },
   deezer: { name: "Deezer", icon: DeezerIcon, color: "#A238FF", bgClass: "platform-deezer" },
   tidal: { name: "Tidal", icon: SiTidal, color: "#000000", bgClass: "platform-tidal" },
   amazonMusic: { name: "Amazon Music", icon: FaAmazon, color: "#FF9900", bgClass: "platform-amazon" },
   amazonStore: { name: "Amazon Store", icon: FaAmazon, color: "#FF9900", bgClass: "platform-amazon" },
-  soundcloud: { name: "SoundCloud", icon: FaSoundcloud, color: "#FF5500", bgClass: "platform-soundcloud" },
+  soundcloud: { name: "SoundCloud", icon: SoundCloudIcon, color: "#FF5500", bgClass: "platform-soundcloud", isImage: true },
   pandora: { name: "Pandora", icon: PandoraIcon, color: "#005483", bgClass: "platform-pandora" },
   napster: { name: "Napster", icon: FaNapster, color: "#000000", bgClass: "platform-napster" },
   audiomack: { name: "Audiomack", icon: SiAudiomack, color: "#FFA200", bgClass: "platform-audiomack" },
@@ -133,7 +134,7 @@ const PLATFORMS = {
   // Legacy mappings for backward compatibility
   apple: { name: "Apple Music", icon: FaApple, color: "#FA233B", bgClass: "platform-apple" },
   amazon: { name: "Amazon Music", icon: FaAmazon, color: "#FF9900", bgClass: "platform-amazon" },
-  custom: { name: "Слушать", icon: FaLink, color: "#888888", bgClass: "" },
+  custom: { name: "Слушать", icon: CustomLinkIcon, color: "#888888", bgClass: "", isImage: true },
 };
 
 export default function PublicPage() {
