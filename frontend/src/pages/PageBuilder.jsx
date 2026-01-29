@@ -189,6 +189,7 @@ const PLATFORMS = [
   { id: "deezer", icon: DeezerIcon, color: "#A238FF" },
   { id: "tidal", icon: SiTidal, color: "#000000" },
   { id: "amazonMusic", icon: AmazonMusicIcon, color: "#000000", isImage: true },
+  { id: "amazonStore", icon: AmazonStoreIcon, color: "#FF9900", isImage: true },
   { id: "soundcloud", icon: SoundCloudIcon, color: "#000000", isImage: true },
   { id: "pandora", icon: PandoraIcon, color: "#000000", isImage: true },
   { id: "napster", icon: FaNapster, color: "#000000" },
