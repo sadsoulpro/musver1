@@ -394,7 +394,7 @@ export default function Landing() {
                 <Music2 className="w-16 h-16 sm:w-20 sm:h-20 text-white/80" />
               </div>
               <h3 className="text-2xl font-bold mb-1">Artist Name</h3>
-              <p className="text-muted-foreground mb-8">Single</p>
+              <p className="text-muted-foreground mb-8">Track Title</p>
               
               <div className="w-full max-w-md space-y-3">
                 {[
