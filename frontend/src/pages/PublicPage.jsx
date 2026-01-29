@@ -41,6 +41,11 @@ const AmazonMusicIcon = (props) => (
   <img src="/icons/amazon-mus.svg" alt="Amazon Music" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
 );
 
+// Amazon Store icon
+const AmazonStoreIcon = (props) => (
+  <img src="/icons/amazon-store.svg" alt="Amazon Store" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
+);
+
 // Zvuk icon
 const ZvukIcon = (props) => (
   <img src="/icons/zvuk-mus.svg" alt="Звук" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
