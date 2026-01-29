@@ -409,7 +409,7 @@ export default function PageBuilder() {
       toast.success(t('pageBuilder', 'pageCreated'), { duration: 1500 });
       
       // Navigate to edit page to prevent duplicates
-      navigate(`/pages/${newPageId}/edit`, { replace: true });
+      navigate(`/page/${newPageId}/edit`, { replace: true });
       
       return newPageId;
     } catch (error) {
