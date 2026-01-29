@@ -109,7 +109,7 @@ const PLATFORMS = {
   // Legacy mappings for backward compatibility
   apple: { icon: FaApple, color: "#FA233B", bgClass: "platform-apple" },
   amazon: { icon: AmazonMusicIcon, color: "#000000", bgClass: "platform-amazon", isImage: true },
-  custom: { icon: CustomLinkIcon, color: "#888888", bgClass: "", isImage: true },
+  custom: { icon: CustomLinkIcon, color: "#000000", bgClass: "", isImage: true },
 };
 
 export default function PublicPage() {

@@ -191,7 +191,7 @@ const PLATFORMS = [
   { id: "bandcamp", icon: BandcampIcon, color: "#000000", isImage: true },
   { id: "zvuk", icon: ZvukIcon, color: "#FFFFFF", isImage: true },
   { id: "mts", icon: MtsIcon, color: "#000000", isImage: true },
-  { id: "custom", icon: CustomLinkIcon, color: "#888888", isImage: true },
+  { id: "custom", icon: CustomLinkIcon, color: "#000000", isImage: true },
 ];
 
 export default function PageBuilder() {
