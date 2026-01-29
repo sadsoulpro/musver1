@@ -1382,14 +1382,15 @@ export default function PageBuilder() {
               </Button>
             </section>
           )}
+            </div>
+          </div>
         </div>
         
-        {/* Live Preview */}
-        <div className="hidden lg:block sticky top-24 h-fit">
-          <h2 className="text-lg font-semibold mb-4">{t('common', 'preview')}</h2>
-          <div className="relative mx-auto w-[300px]">
+        {/* Right Side - Preview */}
+        <div className="w-1/2 bg-zinc-950 flex items-center justify-center p-8 overflow-hidden">
+          <div className="relative w-[320px]">
             {/* Phone Frame */}
-            <div className="rounded-[40px] border-4 border-border bg-card p-2 shadow-2xl">
+            <div className="rounded-[40px] border-4 border-zinc-800 bg-zinc-900 p-2 shadow-2xl">
               <div className="rounded-[32px] overflow-hidden aspect-[9/16] relative bg-zinc-900">
                 {/* Background */}
                 <div 
