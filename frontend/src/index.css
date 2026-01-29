@@ -81,31 +81,76 @@
 }
 
 body {
-    font-family: 'Gilroy', sans-serif;
+    font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
+    font-weight: 400;
 }
 
+/* Typography utilities for Manrope */
 .font-display {
-    font-family: 'Gilroy', sans-serif;
+    font-family: 'Manrope', sans-serif;
 }
 
+/* Headings - ExtraBold with tight letter-spacing */
+.heading-xl {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+}
+
+.heading-lg {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+}
+
+.heading-md {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* Buttons, navigation, subheadings - SemiBold/Bold */
+.text-button {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+}
+
+.text-nav {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+}
+
+.text-subheading {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+}
+
+/* Body text - Regular */
+.text-body {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+}
+
+/* Legacy font classes for backward compatibility */
 .font-gilroy-300 {
-    font-family: 'Gilroy', sans-serif;
-    font-weight: 300;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
 }
 
 .font-gilroy-600 {
-    font-family: 'Gilroy', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: 600;
 }
 
 .font-gilroy-800 {
-    font-family: 'Gilroy', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: 800;
+    letter-spacing: -0.015em;
 }
 
 @layer base {
