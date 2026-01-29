@@ -904,316 +904,196 @@ export default function PageBuilder() {
     );
   }
 
-  // Toggle sidebar menu
-  const toggleMenu = (menu) => {
-    setExpandedMenus(prev => ({
-      ...prev,
-      [menu]: !prev[menu]
-    }));
-  };
-
-  // Sidebar menu item component
-  const SidebarMenuItem = ({ id, icon: Icon, label, isActive, onClick, hasSubmenu, isExpanded, children }) => (
-    <div>
-      <button
-        onClick={onClick}
-        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
-          isActive 
-            ? 'bg-primary/10 text-primary font-medium' 
-            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-        }`}
-      >
-        <div className="flex items-center gap-2">
-          {Icon && <Icon className="w-4 h-4" />}
-          <span>{label}</span>
-        </div>
-        {hasSubmenu && (
-          <ChevronRight className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
-        )}
-      </button>
-      {hasSubmenu && isExpanded && children && (
-        <div className="ml-4 mt-1 space-y-1">
-          {children}
-        </div>
-      )}
-    </div>
-  );
-
-  // Submenu item component
-  const SubMenuItem = ({ id, label, isActive, onClick, hasIndicator }) => (
-    <button
-      onClick={onClick}
-      className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors ${
-        isActive 
-          ? 'bg-primary/10 text-primary font-medium' 
-          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-      }`}
-    >
-      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-primary' : 'bg-transparent'}`} />
-      <span>{label}</span>
-      {hasIndicator && <span className="w-1.5 h-1.5 rounded-full bg-primary ml-auto" />}
-    </button>
-  );
-
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Main Container - Full height 3-column layout */}
-      <div className="flex flex-1 h-screen overflow-hidden">
-        
-        {/* LEFT SIDEBAR - Navigation */}
-        <div className="w-52 bg-card border-r border-border flex flex-col flex-shrink-0">
-          {/* Sidebar Header */}
-          <div className="p-4 border-b border-border">
-            <div className="flex items-center gap-2">
-              <Link to="/multilinks">
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <ArrowLeft className="w-4 h-4" />
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+            <Link to="/multilinks">
+              <Button variant="ghost" size="icon" className="flex-shrink-0">
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            </Link>
+            <h1 className="font-semibold text-sm sm:text-base truncate">{isEditing ? t('pageBuilder', 'editing') : t('pageBuilder', 'newPage')}</h1>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            {(isEditing || pageCreated) && formData.slug && (
+              <a href={`/${formData.slug}`} target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" className="rounded-full" data-testid="view-public-page-btn">
+                  <ExternalLink className="w-4 h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">{t('pageBuilder', 'viewPage')}</span>
                 </Button>
-              </Link>
-              <h2 className="font-semibold text-base">{t('pageBuilder', 'sidebarRelease')}</h2>
-            </div>
+              </a>
+            )}
+            <Button 
+              onClick={handleSubmit}
+              disabled={saving}
+              className="bg-primary hover:bg-primary/90 rounded-full text-sm"
+              data-testid="save-page-btn"
+            >
+              <Save className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">{saving ? t('pageBuilder', 'saving') : t('common', 'save')}</span>
+            </Button>
+          </div>
+        </div>
+      </header>
+      
+      <div className="flex h-[calc(100vh-64px)] overflow-hidden">
+        {/* Left Side - Editor with Sidebar */}
+        <div className="w-1/2 flex overflow-hidden">
+          {/* Sidebar */}
+          <div className="w-48 bg-card border-r border-border p-4 flex-shrink-0">
+            <nav className="space-y-1">
+              <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+                <Settings className="w-4 h-4" />
+                {t('pageBuilder', 'basicSettings') || 'Основные настройки'}
+              </button>
+            </nav>
           </div>
           
-          {/* Sidebar Navigation */}
-          <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-            {/* Основные */}
-            <SidebarMenuItem
-              id="basic"
-              label={t('pageBuilder', 'sidebarBasic')}
-              hasSubmenu={true}
-              isExpanded={expandedMenus.basic}
-              onClick={() => toggleMenu('basic')}
-            >
-              <SubMenuItem
-                id="basicSettings"
-                label={t('pageBuilder', 'sidebarBasicSettings')}
-                isActive={activeSection === 'basicSettings'}
-                onClick={() => setActiveSection('basicSettings')}
-                hasIndicator={true}
-              />
-              <SubMenuItem
-                id="linkAppearance"
-                label={t('pageBuilder', 'sidebarLinkAppearance')}
-                isActive={activeSection === 'linkAppearance'}
-                onClick={() => setActiveSection('linkAppearance')}
-              />
-            </SidebarMenuItem>
-
-            {/* Вид */}
-            <SidebarMenuItem
-              id="appearance"
-              label={t('pageBuilder', 'sidebarAppearance')}
-              hasSubmenu={true}
-              isExpanded={expandedMenus.appearance}
-              onClick={() => toggleMenu('appearance')}
-            />
-
-            {/* Продвижение */}
-            <SidebarMenuItem
-              id="promotion"
-              label={t('pageBuilder', 'sidebarPromotion')}
-              hasSubmenu={true}
-              isExpanded={expandedMenus.promotion}
-              onClick={() => toggleMenu('promotion')}
-            />
-          </nav>
-        </div>
-        
-        {/* CENTER - Form Content */}
-        <div className="flex-1 bg-background overflow-y-auto">
-          <div className="max-w-2xl mx-auto p-6 lg:p-8">
-            {/* Section Header */}
-            <div className="mb-6">
-              <h1 className="text-xl font-semibold mb-2">{t('pageBuilder', 'sidebarBasicSettings')}</h1>
-              <p className="text-sm text-muted-foreground">
-                {t('pageBuilder', 'sidebarBasicSettingsDesc')}
+          {/* Form Content */}
+          <div className="flex-1 overflow-y-auto p-6">
+            <div className="max-w-xl space-y-6">
+          
+          {/* 1. Автозаполнение через Odesli - ПЕРВЫМ */}
+          <section className="overflow-hidden">
+            <div className="p-3 sm:p-4 rounded-xl bg-primary/5 border border-primary/20">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <Search className="w-4 h-4 text-primary" />
+                <span className="text-xs sm:text-sm font-medium">{t('pageBuilder', 'autofill')}</span>
+              </div>
+              <p className="text-[10px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
+                {t('pageBuilder', 'autofillDesc')}
               </p>
+              <div className="flex gap-2">
+                <Input
+                  placeholder={t('pageBuilder', 'autofillPlaceholder')}
+                  value={scanInput}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setScanInput(value);
+                    setIsTypingUrl(true);
+                    
+                    // Clear previous timeout
+                    if (scanInputTimeoutRef.current) {
+                      clearTimeout(scanInputTimeoutRef.current);
+                    }
+                    
+                    // Set new timeout - wait for user to stop typing (1 second)
+                    scanInputTimeoutRef.current = setTimeout(() => {
+                      setIsTypingUrl(false);
+                    }, 1000);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !scanningSource && !isTypingUrl && scanInput.trim()) {
+                      e.preventDefault();
+                      scanSource();
+                    }
+                  }}
+                  data-testid="scan-source-input"
+                  className="h-9 sm:h-10 bg-muted border-zinc-700 flex-1 text-xs sm:text-sm"
+                />
+                <Button 
+                  onClick={scanSource}
+                  disabled={scanningSource || isTypingUrl || !scanInput.trim()}
+                  className="h-9 sm:h-10 bg-primary hover:bg-primary/90 px-3"
+                  data-testid="scan-source-btn"
+                  title={isTypingUrl ? (t('pageBuilder', 'waitingForInput') || 'Ожидание окончания ввода...') : ''}
+                >
+                  {scanningSource ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : isTypingUrl ? (
+                    <Loader2 className="w-4 h-4 animate-spin opacity-50" />
+                  ) : (
+                    <Search className="w-4 h-4" />
+                  )}
+                </Button>
+              </div>
+              {isTypingUrl && scanInput.trim() && (
+                <p className="text-[10px] text-muted-foreground mt-1 animate-pulse">
+                  {t('pageBuilder', 'waitingForInput') || 'Ожидание окончания ввода...'}
+                </p>
+              )}
             </div>
-            
-            {/* Links Section */}
-            <section className="mb-8">
-              <h2 className="text-base font-semibold mb-4">{t('common', 'links')}</h2>
-              
-              {/* Existing Links */}
-              <div className="space-y-2 mb-4">
-                {links.map((link, i) => {
-                  const platform = getPlatformInfo(link.platform);
-                  const Icon = platform.icon;
-                  
-                  return (
-                    <div 
-                      key={link.id}
-                      className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border"
-                    >
-                      <div className="flex flex-col gap-0.5">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-5 w-5 text-muted-foreground hover:text-foreground disabled:opacity-30"
-                          onClick={() => moveLink(i, -1)}
-                          disabled={i === 0}
-                        >
-                          <ChevronUp className="w-3 h-3" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-5 w-5 text-muted-foreground hover:text-foreground disabled:opacity-30"
-                          onClick={() => moveLink(i, 1)}
-                          disabled={i === links.length - 1}
-                        >
-                          <ChevronDown className="w-3 h-3" />
-                        </Button>
-                      </div>
-                      <Input
-                        value={link.url}
-                        readOnly
-                        className="flex-1 bg-background text-sm"
-                      />
-                      <Switch
-                        checked={link.active}
-                        onCheckedChange={() => toggleLink(link.id, link.active)}
-                      />
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => deleteLink(link.id)}
-                        className="text-muted-foreground hover:text-red-500"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  );
-                })}
-                
-                {links.length === 0 && (
-                  <div className="text-center py-8 text-muted-foreground text-sm border border-dashed border-border rounded-xl">
-                    {t('pageBuilder', 'noLinks')}
-                  </div>
-                )}
-              </div>
-              
-              {/* Add New Link */}
-              <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                <select
-                  value={newLink.platform}
-                  onChange={(e) => setNewLink(prev => ({ ...prev, platform: e.target.value }))}
-                  className="h-10 px-3 rounded-xl bg-muted border border-border text-foreground text-sm"
-                  data-testid="platform-select"
-                >
-                  {PLATFORMS.map(p => (
-                    <option key={p.id} value={p.id}>{t('platforms', p.id)}</option>
-                  ))}
-                </select>
-                <div className="flex gap-2 flex-1">
-                  <Input
-                    placeholder="https://..."
-                    value={newLink.url}
-                    onChange={(e) => {
-                      const url = e.target.value;
-                      setNewLink(prev => ({ ...prev, url }));
-                      const detectedPlatform = detectPlatformFromUrl(url);
-                      if (detectedPlatform) {
-                        setNewLink(prev => ({ ...prev, url, platform: detectedPlatform }));
-                      }
-                    }}
-                    data-testid="link-url-input"
-                    className="h-10 bg-muted border-border flex-1"
-                  />
-                </div>
-              </div>
-              
-              {/* Action Buttons */}
-              <div className="flex gap-3">
-                <Button 
-                  onClick={addLink}
-                  className="bg-primary hover:bg-primary/90 text-white"
-                  data-testid="add-link-btn"
-                >
-                  {t('pageBuilder', 'addLinkBtn')}
-                </Button>
-                <Button 
-                  variant="outline"
-                  className="border-border"
-                >
-                  {t('pageBuilder', 'addPresave')}
-                </Button>
-              </div>
-              
-              {/* Sort by clicks toggle */}
-              <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-                <span className="text-sm text-muted-foreground">{t('pageBuilder', 'sortByClicks')}</span>
-                <Switch
-                  checked={sortByClicks}
-                  onCheckedChange={setSortByClicks}
+          </section>
+          
+          {/* 2. Основная информация */}
+          <section>
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('pageBuilder', 'basicInfo')}</h2>
+            <div className="space-y-3 sm:space-y-4">
+              {/* Имя артиста */}
+              <div className="space-y-2">
+                <Label htmlFor="artist_name" className="text-sm">{t('pageBuilder', 'artistName')}</Label>
+                <Input
+                  id="artist_name"
+                  name="artist_name"
+                  placeholder={t('pageBuilder', 'artistPlaceholder')}
+                  value={formData.artist_name}
+                  onChange={handleChange}
+                  required
+                  data-testid="artist-name-input"
+                  className="h-10 sm:h-12 bg-card border-zinc-800"
                 />
               </div>
-            </section>
-            
-            {/* Artist Section */}
-            <section className="mb-8">
-              <h2 className="text-base font-semibold mb-4">{t('pageBuilder', 'artistSection')}</h2>
               
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Input
-                    id="artist_name"
-                    name="artist_name"
-                    placeholder={t('pageBuilder', 'artistPlaceholder')}
-                    value={formData.artist_name}
-                    onChange={handleChange}
-                    className="flex-1 h-10 bg-muted border-border"
-                    data-testid="artist-name-input"
-                  />
-                  <Button variant="outline" className="border-border">
-                    {t('pageBuilder', 'changeBtn')}
-                  </Button>
-                </div>
-                
-                <div>
-                  <Label className="text-sm text-muted-foreground mb-2 block">
-                    {t('pageBuilder', 'displayArtistName')}
-                  </Label>
-                  <Input
-                    value={formData.artist_name}
-                    onChange={handleChange}
-                    name="artist_name"
-                    className="h-10 bg-muted border-border"
-                  />
-                </div>
-                
-                <div>
-                  <Label className="text-sm text-muted-foreground mb-2 block">
-                    {t('pageBuilder', 'releaseName')}
-                  </Label>
-                  <Input
-                    id="release_title"
-                    name="release_title"
-                    placeholder={t('pageBuilder', 'releasePlaceholder')}
-                    value={formData.release_title}
-                    onChange={handleChange}
-                    className="h-10 bg-muted border-border"
-                    data-testid="release-title-input"
-                  />
-                </div>
-                
-                <div>
-                  <Label className="text-sm text-muted-foreground mb-2 block">
-                    {t('pageBuilder', 'releaseDate')}
-                  </Label>
-                  <Input
-                    type="date"
-                    className="h-10 bg-muted border-border"
-                  />
-                </div>
+              {/* Название релиза */}
+              <div className="space-y-2">
+                <Label htmlFor="release_title" className="text-sm">{t('pageBuilder', 'releaseTitle')}</Label>
+                <Input
+                  id="release_title"
+                  name="release_title"
+                  placeholder={t('pageBuilder', 'releasePlaceholder')}
+                  value={formData.release_title}
+                  onChange={handleChange}
+                  required
+                  data-testid="release-title-input"
+                  className="h-10 sm:h-12 bg-card border-zinc-800"
+                />
               </div>
-            </section>
-            
-            {/* Cover Image Section */}
-            <section className="mb-8">
-              <h2 className="text-base font-semibold mb-4">{t('pageBuilder', 'coverImage')}</h2>
+              
+              {/* URL-адрес */}
+              <div className="space-y-2">
+                <Label htmlFor="slug" className="text-sm">{t('pageBuilder', 'linkUrl')}</Label>
+                <div className="flex items-center">
+                  <span className="text-muted-foreground text-sm mr-2">/</span>
+                  <Input
+                    id="slug"
+                    name="slug"
+                    placeholder={t('pageBuilder', 'slugPlaceholder')}
+                    value={formData.slug}
+                    onChange={handleChange}
+                    data-testid="page-slug-input"
+                    className="h-10 sm:h-12 bg-card border-zinc-800"
+                  />
+                </div>
+                <p className="text-[10px] sm:text-xs text-muted-foreground">
+                  {t('pageBuilder', 'slugHint')}
+                </p>
+              </div>
+              
+              {/* Описание */}
+              <div className="space-y-2">
+                <Label htmlFor="description" className="text-sm">{t('pageBuilder', 'description')}</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  placeholder={t('pageBuilder', 'descPlaceholder')}
+                  value={formData.description}
+                  onChange={handleChange}
+                  data-testid="description-input"
+                  className="bg-card border-zinc-800 min-h-[80px] sm:min-h-[100px]"
+                />
+              </div>
+            </div>
+          </section>
+          
+          {/* 3. Обложка */}
+          <section>
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('pageBuilder', 'coverImage')}</h2>
+            <div className="space-y-3 sm:space-y-4">
               <div 
-                className="relative w-32 h-32 rounded-2xl bg-muted overflow-hidden border-2 border-dashed border-border hover:border-primary/50 transition-colors cursor-pointer group"
+                className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-muted overflow-hidden border-2 border-dashed border-zinc-700 hover:border-primary/50 transition-colors cursor-pointer group"
                 onClick={() => document.getElementById('cover-upload').click()}
               >
                 {formData.cover_image ? (
@@ -1242,281 +1122,366 @@ export default function PageBuilder() {
                 className="hidden"
                 data-testid="cover-upload-input"
               />
-              <p className="text-xs text-muted-foreground mt-2">
+              <p className="text-xs text-muted-foreground">
                 {t('pageBuilder', 'coverHint')}
               </p>
-            </section>
-            
-            {/* Page Design Section */}
-            <section className="mb-8">
-              <h2 className="text-base font-semibold mb-4">{t('pageBuilder', 'pageDesign')}</h2>
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => { 
-                    setPageTheme("dark"); 
-                    if (isEditing) setTimeout(() => instantSave({ page_theme: "dark" }), 100);
-                  }}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    pageTheme === "dark" 
-                      ? "border-primary bg-primary/10" 
-                      : "border-border bg-card hover:border-primary/50"
-                  }`}
-                  data-testid="theme-dark-btn"
-                >
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-12 h-12 rounded-xl bg-zinc-900 flex items-center justify-center">
-                      <Moon className="w-6 h-6 text-white" />
-                    </div>
-                    <span className="text-sm font-medium">{t('pageBuilder', 'darkTheme')}</span>
+            </div>
+          </section>
+          
+          {/* 3.5. Вид дизайна страницы */}
+          <section>
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('pageBuilder', 'pageDesign')}</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => { 
+                  setPageTheme("dark"); 
+                  if (isEditing) setTimeout(() => instantSave({ page_theme: "dark" }), 100);
+                }}
+                className={`p-4 rounded-xl border-2 transition-all ${
+                  pageTheme === "dark" 
+                    ? "border-primary bg-primary/10" 
+                    : "border-border bg-card hover:border-primary/50"
+                }`}
+                data-testid="theme-dark-btn"
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 rounded-xl bg-zinc-900 flex items-center justify-center">
+                    <Moon className="w-6 h-6 text-white" />
                   </div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { 
-                    setPageTheme("light"); 
-                    if (isEditing) setTimeout(() => instantSave({ page_theme: "light" }), 100);
-                  }}
-                  className={`p-4 rounded-xl border-2 transition-all ${
-                    pageTheme === "light" 
-                      ? "border-primary bg-primary/10" 
-                      : "border-border bg-card hover:border-primary/50"
-                  }`}
-                  data-testid="theme-light-btn"
-                >
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center">
-                      <Sun className="w-6 h-6 text-yellow-500" />
-                    </div>
-                    <span className="text-sm font-medium">{t('pageBuilder', 'lightTheme')}</span>
+                  <span className="text-sm font-medium">{t('pageBuilder', 'darkTheme')}</span>
+                </div>
+              </button>
+              <button
+                type="button"
+                onClick={() => { 
+                  setPageTheme("light"); 
+                  if (isEditing) setTimeout(() => instantSave({ page_theme: "light" }), 100);
+                }}
+                className={`p-4 rounded-xl border-2 transition-all ${
+                  pageTheme === "light" 
+                    ? "border-primary bg-primary/10" 
+                    : "border-border bg-card hover:border-primary/50"
+                }`}
+                data-testid="theme-light-btn"
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center">
+                    <Sun className="w-6 h-6 text-yellow-500" />
                   </div>
-                </button>
-              </div>
-            </section>
+                  <span className="text-sm font-medium">{t('pageBuilder', 'lightTheme')}</span>
+                </div>
+              </button>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              {t('pageBuilder', 'pageDesignHint')}
+            </p>
+          </section>
+          
+          {/* 4. Ссылки на платформы */}
+          <section className="overflow-hidden">
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('pageBuilder', 'platformLinks')}</h2>
             
-            {/* QR Code Section */}
-            <section className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <QrCode className="w-5 h-5 text-primary" />
-                  <h2 className="text-base font-semibold">{t('pageBuilder', 'qrCode')}</h2>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">
-                    {qrEnabled ? t('common', 'enabled') : t('common', 'disabled')}
-                  </span>
-                  <Switch
-                    checked={qrEnabled}
-                    onCheckedChange={(checked) => { 
-                      setQrEnabled(checked); 
-                      if (isEditing) setTimeout(() => instantSave({ qr_enabled: checked }), 100);
-                    }}
-                    data-testid="qr-toggle"
-                  />
-                </div>
+            {/* Add New Link */}
+            <div className="flex flex-col sm:flex-row gap-2 mb-3 sm:mb-4">
+              <select
+                value={newLink.platform}
+                onChange={(e) => setNewLink(prev => ({ ...prev, platform: e.target.value }))}
+                className="h-10 sm:h-12 px-3 sm:px-4 rounded-xl bg-card border border-zinc-800 text-foreground text-sm"
+                data-testid="platform-select"
+              >
+                {PLATFORMS.map(p => (
+                  <option key={p.id} value={p.id}>{t('platforms', p.id)}</option>
+                ))}
+              </select>
+              <div className="flex gap-2 flex-1">
+                <Input
+                  placeholder="https://..."
+                  value={newLink.url}
+                  onChange={(e) => {
+                    const url = e.target.value;
+                    setNewLink(prev => ({ ...prev, url }));
+                    // Auto-detect platform from URL
+                    const detectedPlatform = detectPlatformFromUrl(url);
+                    if (detectedPlatform) {
+                      setNewLink(prev => ({ ...prev, url, platform: detectedPlatform }));
+                    }
+                  }}
+                  data-testid="link-url-input"
+                  className="h-10 sm:h-12 bg-card border-zinc-800 flex-1"
+                />
+                <Button 
+                  onClick={addLink}
+                  className="h-10 sm:h-12 bg-primary hover:bg-primary/90 px-3 sm:px-4"
+                  data-testid="add-link-btn"
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
               </div>
-              
-              {qrEnabled && formData.slug && (
-                <div className="p-6 rounded-xl bg-muted/50 border border-border">
-                  <div className="flex flex-col sm:flex-row items-center gap-6">
+            </div>
+            
+            {/* Links List */}
+            <div className="space-y-2 w-full page-builder-links">
+              {links.map((link, i) => {
+                const platform = getPlatformInfo(link.platform);
+                const Icon = platform.icon;
+                
+                return (
+                  <motion.div
+                    key={link.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl panel-card w-full overflow-hidden"
+                    data-testid={`link-item-${link.id}`}
+                  >
+                    {/* Move Up/Down Buttons */}
+                    <div className="flex flex-col gap-0.5 flex-shrink-0">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                        onClick={() => moveLink(i, -1)}
+                        disabled={i === 0}
+                        data-testid={`move-up-${link.id}`}
+                      >
+                        <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-5 w-5 sm:h-6 sm:w-6 text-muted-foreground hover:text-foreground disabled:opacity-30"
+                        onClick={() => moveLink(i, 1)}
+                        disabled={i === links.length - 1}
+                        data-testid={`move-down-${link.id}`}
+                      >
+                        <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+                      </Button>
+                    </div>
                     <div 
-                      ref={qrRef}
-                      className="p-4 bg-white rounded-xl"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{ backgroundColor: platform.color }}
                     >
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm sm:text-base">{platform.name}</p>
+                    </div>
+                    <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                      <Switch
+                        checked={link.active}
+                        onCheckedChange={() => toggleLink(link.id, link.active)}
+                        data-testid={`toggle-link-${link.id}`}
+                      />
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        onClick={() => deleteLink(link.id)}
+                        className="h-7 w-7 sm:h-8 sm:w-8 text-muted-foreground hover:text-red-400"
+                        data-testid={`delete-link-${link.id}`}
+                      >
+                        <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      </Button>
+                    </div>
+                  </motion.div>
+                );
+              })}
+              
+              {links.length === 0 && (
+                <p className="text-center text-muted-foreground py-8 border border-dashed border-zinc-800 rounded-xl">
+                  {t('pageBuilder', 'noLinks')}
+                </p>
+              )}
+            </div>
+          </section>
+          
+          {/* QR Code Section */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <QrCode className="w-5 h-5 text-primary" />
+                <h2 className="text-lg font-semibold">{t('pageBuilder', 'qrCode')}</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">
+                  {qrEnabled ? t('common', 'enabled') : t('common', 'disabled')}
+                </span>
+                <Switch
+                  checked={qrEnabled}
+                  onCheckedChange={(checked) => { 
+                    setQrEnabled(checked); 
+                    if (isEditing) setTimeout(() => instantSave({ qr_enabled: checked }), 100);
+                  }}
+                  data-testid="qr-toggle"
+                />
+              </div>
+            </div>
+            
+            {qrEnabled && formData.slug && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="p-6 rounded-xl panel-card"
+              >
+                <div className="flex flex-col sm:flex-row items-center gap-6">
+                  <div 
+                    ref={qrRef}
+                    className="p-4 bg-white rounded-xl"
+                  >
+                    <QRCodeSVG
+                      value={getPublicUrl()}
+                      size={160}
+                      level="H"
+                      includeMargin={false}
+                      bgColor="#ffffff"
+                      fgColor="#18181b"
+                    />
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {t('pageBuilder', 'qrDesc')}
+                    </p>
+                    <p className="text-xs text-zinc-500 mb-4 font-mono break-all">
+                      {getPublicUrl()}
+                    </p>
+                    <Button
+                      onClick={downloadQRCode}
+                      variant="outline"
+                      className="rounded-full"
+                      data-testid="download-qr-btn"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      {t('pageBuilder', 'downloadPng')}
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+            
+            {qrEnabled && !formData.slug && (
+              <p className="text-center text-muted-foreground py-6 border border-dashed border-zinc-800 rounded-xl">
+                {t('pageBuilder', 'enterUrlForQr')}
+              </p>
+            )}
+            
+            {!qrEnabled && (
+              <p className="text-center text-muted-foreground py-6 border border-dashed border-zinc-800 rounded-xl">
+                {t('pageBuilder', 'qrDisabled')}
+              </p>
+            )}
+          </section>
+          
+          {/* Delete Page Section */}
+          {isEditing && (
+            <section className="mt-8 pt-6 border-t border-red-500/20">
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={deletePage}
+                className="w-full rounded-xl"
+                data-testid="delete-page-btn"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                {t('pageBuilder', 'deletePage')}
+              </Button>
+            </section>
+          )}
+            </div>
+          </div>
+        </div>
+        
+        {/* Right Side - Preview */}
+        <div className="w-1/2 bg-zinc-950 flex items-center justify-center p-8 overflow-hidden">
+          <div className="relative w-[320px]">
+            {/* Phone Frame */}
+            <div className="rounded-[40px] border-4 border-zinc-800 bg-zinc-900 p-2 shadow-2xl">
+              <div className="rounded-[32px] overflow-hidden aspect-[9/16] relative bg-zinc-900">
+                {/* Background */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-b from-purple-900/30 to-zinc-900"
+                  style={formData.cover_image ? {
+                    backgroundImage: `url(${formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    filter: 'blur(40px)',
+                    transform: 'scale(1.2)',
+                    opacity: 0.4
+                  } : {}}
+                />
+                
+                {/* Content */}
+                <div className="relative p-6 pt-10 flex flex-col items-center text-center h-full">
+                  {/* Cover */}
+                  <div className="w-24 h-24 rounded-xl bg-zinc-800 overflow-hidden mb-4 shadow-xl">
+                    {formData.cover_image ? (
+                      <img 
+                        src={formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image}
+                        alt="Cover"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Music className="w-10 h-10 text-zinc-600" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <h3 className="font-display text-lg uppercase text-white">
+                    {formData.artist_name || t('pageBuilder', 'artistName')}
+                  </h3>
+                  <p className="text-sm text-zinc-400 mb-6">
+                    {formData.release_title || t('pageBuilder', 'releaseTitle')}
+                  </p>
+                  
+                  {/* Links Preview */}
+                  <div className="w-full space-y-2 flex-1 overflow-auto">
+                    {links.filter(l => l.active).map(link => {
+                      const platform = getPlatformInfo(link.platform);
+                      const Icon = platform.icon;
+                      
+                      return (
+                        <div 
+                          key={link.id}
+                          className="w-full py-3 px-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3"
+                        >
+                          <Icon className="w-5 h-5" style={{ color: platform.color }} />
+                          <span className="text-sm font-medium text-white">{platform.name}</span>
+                        </div>
+                      );
+                    })}
+                    
+                    {links.filter(l => l.active).length === 0 && (
+                      <div className="py-3 px-4 rounded-xl border border-dashed border-white/20 text-xs text-zinc-400">
+                        {t('pageBuilder', 'linksWillAppear')}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* QR Code in Preview */}
+                  {qrEnabled && formData.slug && (
+                    <div className="mt-4 p-2 bg-white rounded-lg">
                       <QRCodeSVG
                         value={getPublicUrl()}
-                        size={120}
-                        level="H"
+                        size={60}
+                        level="L"
                         includeMargin={false}
                         bgColor="#ffffff"
                         fgColor="#18181b"
                       />
                     </div>
-                    <div className="flex-1 text-center sm:text-left">
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {t('pageBuilder', 'qrDesc')}
-                      </p>
-                      <p className="text-xs text-muted-foreground mb-4 font-mono break-all">
-                        {getPublicUrl()}
-                      </p>
-                      <Button
-                        onClick={downloadQRCode}
-                        variant="outline"
-                        className="rounded-full"
-                        data-testid="download-qr-btn"
-                      >
-                        <Download className="w-4 h-4 mr-2" />
-                        {t('pageBuilder', 'downloadPng')}
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </section>
-            
-            {/* Slug / URL Section */}
-            <section className="mb-8">
-              <h2 className="text-base font-semibold mb-4">{t('pageBuilder', 'linkUrl')}</h2>
-              <div className="flex items-center">
-                <span className="text-muted-foreground text-sm mr-2">/</span>
-                <Input
-                  id="slug"
-                  name="slug"
-                  placeholder={t('pageBuilder', 'slugPlaceholder')}
-                  value={formData.slug}
-                  onChange={handleChange}
-                  data-testid="page-slug-input"
-                  className="h-10 bg-muted border-border"
-                />
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                {t('pageBuilder', 'slugHint')}
-              </p>
-            </section>
-            
-            {/* Delete Page */}
-            {isEditing && (
-              <section className="pt-6 border-t border-red-500/20">
-                <Button
-                  type="button"
-                  variant="destructive"
-                  onClick={deletePage}
-                  className="w-full rounded-xl"
-                  data-testid="delete-page-btn"
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  {t('pageBuilder', 'deletePage')}
-                </Button>
-              </section>
-            )}
-          </div>
-        </div>
-        
-        {/* RIGHT SIDE - Preview */}
-        <div className="w-[480px] bg-zinc-900 flex flex-col flex-shrink-0 relative">
-          {/* Preview Header */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
-            <Button 
-              variant="outline" 
-              className="bg-zinc-800/80 backdrop-blur border-zinc-700 text-white hover:bg-zinc-700 rounded-full px-4"
-              onClick={() => {
-                if (formData.slug) {
-                  window.open(`/${formData.slug}`, '_blank');
-                }
-              }}
-            >
-              <ExternalLink className="w-4 h-4 mr-2" />
-              {t('pageBuilder', 'previewPage')}
-            </Button>
-          </div>
-          
-          {/* Preview Content */}
-          <div className="flex-1 flex items-center justify-center p-8 overflow-hidden">
-            <div className="relative w-[300px]">
-              {/* Phone Frame */}
-              <div className="rounded-[36px] border-4 border-zinc-700 bg-zinc-800 p-2 shadow-2xl">
-                <div className="rounded-[28px] overflow-hidden aspect-[9/16] relative bg-zinc-900">
-                  {/* Background */}
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-b from-purple-900/30 to-zinc-900"
-                    style={formData.cover_image ? {
-                      backgroundImage: `url(${formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      filter: 'blur(40px)',
-                      transform: 'scale(1.2)',
-                      opacity: 0.4
-                    } : {}}
-                  />
+                  )}
                   
-                  {/* Content */}
-                  <div className="relative p-5 pt-8 flex flex-col items-center text-center h-full">
-                    {/* Cover */}
-                    <div className="w-20 h-20 rounded-xl bg-zinc-800 overflow-hidden mb-3 shadow-xl">
-                      {formData.cover_image ? (
-                        <img 
-                          src={formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image}
-                          alt="Cover"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Music className="w-8 h-8 text-zinc-600" />
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Artist & Release */}
-                    <div className="flex items-center gap-1 mb-0.5">
-                      <h3 className="font-semibold text-base text-white">
-                        {formData.artist_name || t('pageBuilder', 'artistName')}
-                      </h3>
-                      <svg className="w-4 h-4 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <p className="text-xs text-zinc-400 mb-4">
-                      {formData.release_title || t('pageBuilder', 'releaseTitle')}
-                    </p>
-                    
-                    {/* Share button */}
-                    <button className="absolute top-8 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                      <Share2 className="w-4 h-4 text-white" />
-                    </button>
-                    
-                    {/* Links Preview */}
-                    <div className="w-full space-y-2 flex-1 overflow-auto">
-                      {links.filter(l => l.active).map(link => {
-                        const platform = getPlatformInfo(link.platform);
-                        const Icon = platform.icon;
-                        
-                        return (
-                          <div 
-                            key={link.id}
-                            className="w-full py-2.5 px-4 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between"
-                          >
-                            <div className="flex items-center gap-3">
-                              {platform.isImage ? (
-                                <Icon className="w-5 h-5" />
-                              ) : (
-                                <Icon className="w-5 h-5" style={{ color: platform.color }} />
-                              )}
-                              <span className="text-sm font-medium text-white">{platform.name}</span>
-                            </div>
-                            <span className="text-xs bg-primary text-white px-3 py-1 rounded-full">
-                              {t('common', 'listen')}
-                            </span>
-                          </div>
-                        );
-                      })}
-                      
-                      {links.filter(l => l.active).length === 0 && (
-                        <div className="py-3 px-4 rounded-xl border border-dashed border-white/20 text-xs text-zinc-400 text-center">
-                          {t('pageBuilder', 'linksWillAppear')}
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Footer */}
-                    <div className="mt-auto pt-3">
-                      <p className="text-[10px] text-zinc-500">Powered by Mus.Link</p>
-                    </div>
+                  {/* Footer */}
+                  <div className="mt-auto pt-4">
+                    <p className="text-[10px] text-zinc-500">Powered by Mus.Link</p>
                   </div>
                 </div>
               </div>
-              
-              {/* Glow */}
-              <div className="absolute -inset-4 bg-primary/5 blur-3xl -z-10 rounded-full" />
             </div>
+            
+            {/* Glow */}
+            <div className="absolute -inset-4 bg-primary/10 blur-3xl -z-10 rounded-full" />
           </div>
-          
-          {/* Close button */}
-          <button 
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white"
-            onClick={() => navigate('/multilinks')}
-          >
-            ×
-          </button>
         </div>
       </div>
     </div>
