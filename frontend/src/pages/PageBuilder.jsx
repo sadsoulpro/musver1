@@ -90,37 +90,12 @@ const PandoraIcon = (props) => (
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15v-4H8v-2h2V9c0-1.71 1.39-3 3.1-3H16v2h-2.9c-.59 0-1.1.51-1.1 1v2h4v2h-4v4h-2z"/>
   </svg>
 );
-);
-
-// Audius icon
-const AudiusIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <path d="M8 16V8l8 4-8 4z" fill="white"/>
-  </svg>
-);
-
-// Anghami icon
-const AnghamiIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="white"/>
-  </svg>
-);
 
 // Boomplay icon
 const BoomplayIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
     <circle cx="12" cy="12" r="10" fill="currentColor"/>
     <path d="M10 8v8l6-4-6-4z" fill="white"/>
-  </svg>
-);
-
-// Spinrilla icon
-const SpinrillaIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <circle cx="12" cy="12" r="4" fill="white"/>
   </svg>
 );
 
