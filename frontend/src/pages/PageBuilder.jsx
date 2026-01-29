@@ -939,12 +939,49 @@ export default function PageBuilder() {
         {/* Left Side - Editor with Sidebar */}
         <div className="w-1/2 flex overflow-hidden">
           {/* Sidebar */}
-          <div className="w-48 bg-card border-r border-border p-4 flex-shrink-0">
-            <nav className="space-y-1">
-              <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary text-sm font-medium">
-                <Settings className="w-4 h-4" />
-                {t('pageBuilder', 'basicSettings') || 'Основные настройки'}
-              </button>
+          <div className="w-48 bg-card border-r border-border flex flex-col flex-shrink-0">
+            {/* Sidebar Header */}
+            <div className="p-4 border-b border-border">
+              <div className="flex items-center gap-2">
+                <Link to="/multilinks">
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <ArrowLeft className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <span className="font-semibold text-sm">{t('pageBuilder', 'sidebarRelease')}</span>
+              </div>
+            </div>
+            
+            {/* Sidebar Navigation */}
+            <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+              {/* Основные */}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between px-3 py-2 text-sm text-muted-foreground">
+                  <span>{t('pageBuilder', 'sidebarBasic')}</span>
+                  <ChevronDown className="w-4 h-4" />
+                </div>
+                <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <span>{t('pageBuilder', 'sidebarBasicSettings')}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary ml-auto" />
+                </button>
+                <button className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted text-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-transparent" />
+                  <span>{t('pageBuilder', 'sidebarLinkAppearance')}</span>
+                </button>
+              </div>
+              
+              {/* Вид */}
+              <div className="flex items-center justify-between px-3 py-2 text-sm text-muted-foreground hover:bg-muted rounded-lg cursor-pointer">
+                <span>{t('pageBuilder', 'sidebarAppearance')}</span>
+                <ChevronRight className="w-4 h-4" />
+              </div>
+              
+              {/* Продвижение */}
+              <div className="flex items-center justify-between px-3 py-2 text-sm text-muted-foreground hover:bg-muted rounded-lg cursor-pointer">
+                <span>{t('pageBuilder', 'sidebarPromotion')}</span>
+                <ChevronRight className="w-4 h-4" />
+              </div>
             </nav>
           </div>
           
