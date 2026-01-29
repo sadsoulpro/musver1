@@ -234,9 +234,6 @@ export default function PageBuilder() {
   const [pageCreated, setPageCreated] = useState(false); // Track if page was created
   const [createdPageId, setCreatedPageId] = useState(null); // Store created page ID for new pages
   const [isTypingUrl, setIsTypingUrl] = useState(false); // Track if user is typing URL
-  const [sortByClicks, setSortByClicks] = useState(false); // Sort links by clicks
-  const [activeSection, setActiveSection] = useState('basicSettings'); // Active sidebar section
-  const [expandedMenus, setExpandedMenus] = useState({ basic: true, appearance: false, promotion: false }); // Expanded sidebar menus
   const qrRef = useRef(null);
   const formDataRef = useRef(formData);
   const pageThemeRef = useRef(pageTheme);
