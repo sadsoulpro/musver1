@@ -71,10 +71,7 @@ const BandcampIcon = (props) => (
 
 // MTS Music icon
 const MtsIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <rect x="3" y="6" width="18" height="12" rx="2" fill="currentColor"/>
-    <text x="12" y="14" fontSize="6" fill="white" textAnchor="middle" fontWeight="bold">MTC</text>
-  </svg>
+  <img src="/icons/mts-mus.png" alt="MTS Music" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 // Deezer icon
@@ -84,19 +81,14 @@ const DeezerIcon = (props) => (
   </svg>
 );
 
-// Pandora icon (fallback)
+// Pandora icon
 const PandoraIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15v-4H8v-2h2V9c0-1.71 1.39-3 3.1-3H16v2h-2.9c-.59 0-1.1.51-1.1 1v2h4v2h-4v4h-2z"/>
-  </svg>
+  <img src="/icons/pandora-mus.png" alt="Pandora" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 // Boomplay icon
 const BoomplayIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <path d="M10 8v8l6-4-6-4z" fill="white"/>
-  </svg>
+  <img src="/icons/boomplay-mus.png" alt="Boomplay" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 // Platform order for auto-fill sorting (lower index = higher priority)
