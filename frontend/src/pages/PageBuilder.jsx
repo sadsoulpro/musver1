@@ -1415,7 +1415,7 @@ export default function PageBuilder() {
               <Button
                 type="button"
                 variant="destructive"
-                onClick={deletePage}
+                onClick={handleDeleteClick}
                 className="w-full rounded-xl"
                 data-testid="delete-page-btn"
               >
@@ -1865,7 +1865,7 @@ export default function PageBuilder() {
                     <Button
                       type="button"
                       variant="destructive"
-                      onClick={deletePage}
+                      onClick={handleDeleteClick}
                       className="w-full rounded-xl"
                       data-testid="mobile-delete-page-btn"
                     >
