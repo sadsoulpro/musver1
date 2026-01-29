@@ -159,6 +159,52 @@ body {
     }
     body {
         @apply bg-background text-foreground;
+        font-family: 'Manrope', sans-serif;
+    }
+    
+    /* Headings - ExtraBold with tight letter-spacing */
+    h1 {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.015em;
+    }
+    
+    h2 {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.015em;
+    }
+    
+    h3 {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+    
+    h4, h5, h6 {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 600;
+    }
+    
+    /* Buttons - SemiBold */
+    button {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 600;
+    }
+    
+    /* Body text - Regular */
+    p, span, div {
+        font-family: 'Manrope', sans-serif;
+    }
+    
+    /* Links */
+    a {
+        font-family: 'Manrope', sans-serif;
+    }
+    
+    /* Form inputs */
+    input, textarea, select {
+        font-family: 'Manrope', sans-serif;
     }
 }
 
