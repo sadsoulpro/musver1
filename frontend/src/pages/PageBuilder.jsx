@@ -837,7 +837,7 @@ export default function PageBuilder() {
       }
 
       const platformNames = detectedLinks.slice(0, 5).map(l => 
-        PLATFORMS.find(p => p.id === l.platform)?.name || l.platform
+        t('platforms', l.platform) || l.platform
       ).join(", ");
       
       const moreCount = detectedLinks.length > 5 ? ` +${detectedLinks.length - 5}` : "";
