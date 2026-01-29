@@ -897,7 +897,11 @@ export default function PageBuilder() {
   };
 
   const getPlatformInfo = (platformId) => {
-    return PLATFORMS.find(p => p.id === platformId) || PLATFORMS[PLATFORMS.length - 1];
+    const platform = PLATFORMS.find(p => p.id === platformId) || PLATFORMS[PLATFORMS.length - 1];
+    return {
+      ...platform,
+      name: t('platforms', platform.id) || platform.id
+    };
   };
 
   if (loading) {
