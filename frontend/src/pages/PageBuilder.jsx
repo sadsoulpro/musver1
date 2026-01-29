@@ -20,28 +20,28 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 // Custom SVG icon components using uploaded SVG files
 const SoundCloudIcon = (props) => (
-  <img src="/icons/sc-mus.svg" alt="SoundCloud" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+  <img src="/icons/sc-mus.svg" alt="SoundCloud" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 const TikTokIcon = (props) => (
-  <img src="/icons/tik-tok.svg" alt="TikTok" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+  <img src="/icons/tik-tok.svg" alt="TikTok" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 const VKMusicIcon = (props) => (
-  <img src="/icons/vk-mus.svg" alt="VK Музыка" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+  <img src="/icons/vk-mus.svg" alt="VK Музыка" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 const YandexMusicIcon = (props) => (
-  <img src="/icons/yandex-mus.svg" alt="Яндекс Музыка" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+  <img src="/icons/yandex-mus.svg" alt="Яндекс Музыка" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 const CustomLinkIcon = (props) => (
-  <img src="/icons/link.svg" alt="Ссылка" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+  <img src="/icons/link.svg" alt="Ссылка" {...props} style={{ width: props.width || '1.5em', height: props.height || '1.5em', ...props.style }} />
 );
 
 // YouTube Music icon using uploaded SVG
 const YouTubeMusicIcon = (props) => (
-  <img src="/icons/youtube-music.svg" alt="YouTube Music" {...props} style={{ width: props.width || '1.5em', height: props.height || '1.5em', ...props.style }} />
+  <img src="/icons/youtube-music.svg" alt="YouTube Music" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
 // Custom SVG icons for platforms without react-icons support
