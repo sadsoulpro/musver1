@@ -250,17 +250,35 @@ export default function Landing() {
                       
                       {/* Buttons */}
                       <div className="space-y-2.5">
-                        {['Spotify', 'Apple Music', 'YouTube Music'].map((platform, i) => (
+                        {[
+                          { name: 'Spotify', color: '#1DB954', icon: FaSpotify },
+                          { name: 'Apple Music', color: '#FA233B', icon: FaApple },
+                          { name: 'YouTube Music', color: '#FF0000', icon: YouTubeMusicIcon, isImage: true },
+                        ].map((platform, i) => (
                           <div 
-                            key={platform}
-                            className={`w-full py-3 px-4 rounded-xl text-sm font-medium flex items-center justify-between transition-colors ${
+                            key={platform.name}
+                            className={`group w-full py-3 px-4 rounded-xl text-sm font-medium flex items-center justify-between transition-all duration-200 cursor-pointer ${
                               theme === 'dark' 
-                                ? 'bg-white/5 hover:bg-white/10 border border-white/10' 
-                                : 'bg-gray-50 hover:bg-gray-100 border border-gray-200'
+                                ? 'bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-primary/50' 
+                                : 'bg-gray-50 hover:bg-gray-100 border border-gray-200 hover:border-primary/50'
                             }`}
                           >
-                            <span>{platform}</span>
-                            <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                            <div className="flex items-center gap-3">
+                              <div 
+                                className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
+                                style={{ backgroundColor: platform.color }}
+                              >
+                                {platform.isImage ? (
+                                  <platform.icon style={{ width: '20px', height: '20px' }} />
+                                ) : (
+                                  <platform.icon className="w-5 h-5 text-white" />
+                                )}
+                              </div>
+                              <span className="font-medium">{platform.name}</span>
+                            </div>
+                            <span className="text-xs text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                              {t('common', 'listen')}
+                            </span>
                           </div>
                         ))}
                       </div>
