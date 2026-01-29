@@ -230,6 +230,7 @@ export const translations = {
       info: "Información",
       selected: "seleccionado",
       current: "Actual",
+      listen: "Escuchar",
     },
   },
 
