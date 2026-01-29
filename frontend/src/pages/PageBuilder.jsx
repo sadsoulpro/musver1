@@ -1186,7 +1186,7 @@ export default function PageBuilder() {
                 data-testid="platform-select"
               >
                 {PLATFORMS.map(p => (
-                  <option key={p.id} value={p.id}>{p.name}</option>
+                  <option key={p.id} value={p.id}>{t('platforms', p.id)}</option>
                 ))}
               </select>
               <div className="flex gap-2 flex-1">
