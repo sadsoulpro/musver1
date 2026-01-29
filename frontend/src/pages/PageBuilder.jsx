@@ -50,6 +50,11 @@ const AmazonMusicIcon = (props) => (
   <img src="/icons/amazon-mus.svg" alt="Amazon Music" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
 );
 
+// Amazon Store icon
+const AmazonStoreIcon = (props) => (
+  <img src="/icons/amazon-store.svg" alt="Amazon Store" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
+);
+
 // Zvuk icon
 const ZvukIcon = (props) => (
   <img src="/icons/zvuk-mus.svg" alt="Звук" {...props} style={{ width: props.width || '1.8em', height: props.height || '1.8em', ...props.style }} />
