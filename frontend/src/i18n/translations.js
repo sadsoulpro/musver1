@@ -869,6 +869,8 @@ export const translations = {
       sidebarLinkAppearance: "Apariencia del enlace",
       sidebarAppearance: "Apariencia",
       sidebarPromotion: "Promoción",
+      mobileTabSettings: "Ajustes",
+      mobileTabPreview: "Vista previa",
       sidebarBasicSettingsDesc: "Configura los parámetros básicos de visualización de la página y agrega enlaces a servicios de música. Pegar un enlace de iTunes llenará automáticamente los campos básicos.",
       addLinkBtn: "Agregar enlace",
       addPresave: "Agregar presave",
