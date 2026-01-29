@@ -371,7 +371,7 @@ export default function Landing() {
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
               <div className={`flex-1 mx-4 px-4 py-1.5 rounded-lg text-sm text-muted-foreground ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
-                mus.link/single
+                mus.link/demo
               </div>
             </div>
             
@@ -385,7 +385,7 @@ export default function Landing() {
               
               <div className="w-full max-w-md space-y-3">
                 {[
-                  { name: 'Spotify', color: '#1DB954' },
+                  { name: 'Spotify',  color: '#1DB954' },
                   { name: 'Apple Music', color: '#FA233B' },
                   { name: 'YouTube Music', color: '#FF0000' },
                   { name: 'Deezer', color: '#A238FF' },
