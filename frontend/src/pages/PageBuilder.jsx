@@ -12,11 +12,32 @@ import {
   GripVertical, ExternalLink, Save, ChevronUp, ChevronDown,
   QrCode, Download, Search, Loader2, Sun, Moon
 } from "lucide-react";
-import { FaSpotify, FaApple, FaYoutube, FaSoundcloud, FaLink, FaYandex, FaVk, FaAmazon, FaItunes, FaGoogle, FaNapster, FaBandcamp } from "react-icons/fa";
+import { FaSpotify, FaApple, FaYoutube, FaAmazon, FaItunes, FaGoogle, FaNapster, FaBandcamp } from "react-icons/fa";
 import { SiTidal, SiPandora, SiAudiomack } from "react-icons/si";
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+// Custom SVG icon components using uploaded SVG files
+const SoundCloudIcon = (props) => (
+  <img src="/icons/sc-mus.svg" alt="SoundCloud" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+);
+
+const TikTokIcon = (props) => (
+  <img src="/icons/tik-tok.svg" alt="TikTok" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+);
+
+const VKMusicIcon = (props) => (
+  <img src="/icons/vk-mus.svg" alt="VK Музыка" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+);
+
+const YandexMusicIcon = (props) => (
+  <img src="/icons/yandex-mus.svg" alt="Яндекс Музыка" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+);
+
+const CustomLinkIcon = (props) => (
+  <img src="/icons/link.svg" alt="Ссылка" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+);
 
 // Custom SVG icons for platforms without react-icons support
 const ZvukIcon = (props) => (
