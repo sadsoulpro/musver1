@@ -1441,7 +1441,7 @@ export default function PageBuilder() {
           </div>
         </div>
         
-        {/* Right Side - Preview */}
+        {/* Right Side - Preview (Desktop) */}
         <div className="w-1/2 bg-zinc-950 flex items-center justify-center p-8 overflow-hidden">
           <div className="relative w-[320px]">
             {/* Phone Frame */}
@@ -1534,6 +1534,471 @@ export default function PageBuilder() {
             <div className="absolute -inset-4 bg-primary/10 blur-3xl -z-10 rounded-full" />
           </div>
         </div>
+      </div>
+      
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        {/* Mobile Settings Tab */}
+        {mobileTab === 'settings' && (
+          <div className="flex flex-col h-[calc(100vh-120px)]">
+            {/* Mobile Section Dropdown */}
+            <div className="px-4 py-3 border-b border-border">
+              <button
+                onClick={() => setShowSectionMenu(!showSectionMenu)}
+                className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-muted"
+              >
+                <span className="text-sm font-medium">{t('pageBuilder', 'sidebarBasicSettings')}</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${showSectionMenu ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {/* Dropdown Menu */}
+              {showSectionMenu && (
+                <div className="mt-2 rounded-xl bg-card border border-border overflow-hidden">
+                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm bg-primary/10 text-primary font-medium">
+                    <span className="w-2 h-2 rounded-full bg-primary" />
+                    {t('pageBuilder', 'sidebarBasicSettings')}
+                  </button>
+                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground hover:bg-muted">
+                    <span className="w-2 h-2 rounded-full bg-transparent" />
+                    {t('pageBuilder', 'sidebarLinkAppearance')}
+                  </button>
+                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground hover:bg-muted border-t border-border">
+                    <span className="w-2 h-2 rounded-full bg-transparent" />
+                    {t('pageBuilder', 'sidebarAppearance')}
+                  </button>
+                  <button className="w-full flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground hover:bg-muted border-t border-border">
+                    <span className="w-2 h-2 rounded-full bg-transparent" />
+                    {t('pageBuilder', 'sidebarPromotion')}
+                  </button>
+                </div>
+              )}
+            </div>
+            
+            {/* Mobile Form Content */}
+            <div className="flex-1 overflow-y-auto px-4 py-4">
+              <div className="space-y-6">
+                {/* 1. Автозаполнение через Odesli */}
+                <section className="overflow-hidden">
+                  <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Search className="w-4 h-4 text-primary" />
+                      <span className="text-sm font-medium">{t('pageBuilder', 'autofill')}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      {t('pageBuilder', 'autofillDesc')}
+                    </p>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder={t('pageBuilder', 'autofillPlaceholder')}
+                        value={scanInput}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setScanInput(value);
+                          setIsTypingUrl(true);
+                          if (scanInputTimeoutRef.current) {
+                            clearTimeout(scanInputTimeoutRef.current);
+                          }
+                          scanInputTimeoutRef.current = setTimeout(() => {
+                            setIsTypingUrl(false);
+                          }, 1000);
+                        }}
+                        className="flex-1 h-10 bg-card border-zinc-800"
+                        data-testid="mobile-autofill-input"
+                      />
+                      <Button 
+                        onClick={scanSource}
+                        disabled={scanningSource || !scanInput.trim()}
+                        className="bg-primary hover:bg-primary/90 h-10 px-4"
+                      >
+                        {scanningSource ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Search className="w-4 h-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </section>
+
+                {/* 2. Basic Info */}
+                <section>
+                  <h3 className="text-sm font-medium mb-3">{t('pageBuilder', 'basicInfo')}</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <Label htmlFor="mobile_artist_name" className="text-xs text-muted-foreground">{t('pageBuilder', 'artistLabel')}</Label>
+                      <Input
+                        id="mobile_artist_name"
+                        name="artist_name"
+                        placeholder={t('pageBuilder', 'artistPlaceholder')}
+                        value={formData.artist_name}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 h-10 bg-card border-zinc-800"
+                        data-testid="mobile-artist-name-input"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="mobile_release_title" className="text-xs text-muted-foreground">{t('pageBuilder', 'releaseLabel')}</Label>
+                      <Input
+                        id="mobile_release_title"
+                        name="release_title"
+                        placeholder={t('pageBuilder', 'releasePlaceholder')}
+                        value={formData.release_title}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 h-10 bg-card border-zinc-800"
+                        data-testid="mobile-release-title-input"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="mobile_slug" className="text-xs text-muted-foreground">{t('pageBuilder', 'linkUrl')}</Label>
+                      <div className="mt-1 flex items-center">
+                        <span className="text-muted-foreground text-sm mr-1">mus.link/</span>
+                        <Input
+                          id="mobile_slug"
+                          name="slug"
+                          placeholder={t('pageBuilder', 'slugPlaceholder')}
+                          value={formData.slug}
+                          onChange={handleChange}
+                          className="flex-1 h-10 bg-card border-zinc-800"
+                          data-testid="mobile-page-slug-input"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="mobile_description" className="text-xs text-muted-foreground">{t('pageBuilder', 'descriptionLabel')}</Label>
+                      <textarea
+                        id="mobile_description"
+                        name="description"
+                        placeholder={t('pageBuilder', 'descriptionPlaceholder')}
+                        value={formData.description}
+                        onChange={handleChange}
+                        rows={3}
+                        className="mt-1 w-full rounded-xl border border-zinc-800 bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        data-testid="mobile-description-input"
+                      />
+                    </div>
+                  </div>
+                </section>
+
+                {/* 3. Cover Image */}
+                <section>
+                  <h3 className="text-sm font-medium mb-3">{t('pageBuilder', 'coverImage')}</h3>
+                  <div 
+                    className="relative w-32 h-32 rounded-2xl bg-muted overflow-hidden border-2 border-dashed border-zinc-700 hover:border-primary/50 transition-colors cursor-pointer"
+                    onClick={() => document.getElementById('mobile-cover-upload').click()}
+                  >
+                    {formData.cover_image ? (
+                      <img 
+                        src={formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image}
+                        alt="Cover"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <Upload className="w-8 h-8 text-muted-foreground mb-2" />
+                        <span className="text-xs text-muted-foreground">{t('common', 'upload')}</span>
+                      </div>
+                    )}
+                    {uploading && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-primary"></div>
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    id="mobile-cover-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleUpload}
+                    className="hidden"
+                    data-testid="mobile-cover-upload-input"
+                  />
+                </section>
+
+                {/* 4. Platform Links */}
+                <section>
+                  <h3 className="text-sm font-medium mb-3">{t('pageBuilder', 'platformLinks')}</h3>
+                  
+                  {/* Existing Links */}
+                  <div className="space-y-2 mb-4">
+                    {links.map((link, i) => {
+                      const platform = getPlatformInfo(link.platform);
+                      const Icon = platform.icon;
+                      
+                      return (
+                        <div 
+                          key={link.id}
+                          className="flex items-center gap-2 p-3 rounded-xl bg-muted/50 border border-border"
+                        >
+                          <div className="flex flex-col gap-0.5">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-5 w-5 text-muted-foreground"
+                              onClick={() => moveLink(i, -1)}
+                              disabled={i === 0}
+                            >
+                              <ChevronUp className="w-3 h-3" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-5 w-5 text-muted-foreground"
+                              onClick={() => moveLink(i, 1)}
+                              disabled={i === links.length - 1}
+                            >
+                              <ChevronDown className="w-3 h-3" />
+                            </Button>
+                          </div>
+                          <div 
+                            className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                            style={{ backgroundColor: platform.color + '20' }}
+                          >
+                            {platform.isImage ? (
+                              <Icon className="w-5 h-5" />
+                            ) : (
+                              <Icon className="w-5 h-5" style={{ color: platform.color }} />
+                            )}
+                          </div>
+                          <span className="text-xs truncate flex-1">{t('platforms', link.platform)}</span>
+                          <Switch
+                            checked={link.active}
+                            onCheckedChange={() => toggleLink(link.id, link.active)}
+                          />
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => deleteLink(link.id)}
+                            className="h-8 w-8 text-muted-foreground hover:text-red-500"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      );
+                    })}
+                    
+                    {links.length === 0 && (
+                      <div className="text-center py-6 text-muted-foreground text-sm border border-dashed border-border rounded-xl">
+                        {t('pageBuilder', 'noLinks')}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Add New Link */}
+                  <div className="space-y-2">
+                    <select
+                      value={newLink.platform}
+                      onChange={(e) => setNewLink(prev => ({ ...prev, platform: e.target.value }))}
+                      className="w-full h-10 px-3 rounded-xl bg-card border border-border text-sm"
+                      data-testid="mobile-platform-select"
+                    >
+                      {PLATFORMS.map(p => (
+                        <option key={p.id} value={p.id}>{t('platforms', p.id)}</option>
+                      ))}
+                    </select>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="https://..."
+                        value={newLink.url}
+                        onChange={(e) => {
+                          const url = e.target.value;
+                          setNewLink(prev => ({ ...prev, url }));
+                          const detectedPlatform = detectPlatformFromUrl(url);
+                          if (detectedPlatform) {
+                            setNewLink(prev => ({ ...prev, url, platform: detectedPlatform }));
+                          }
+                        }}
+                        className="flex-1 h-10 bg-card border-border"
+                        data-testid="mobile-link-url-input"
+                      />
+                      <Button
+                        onClick={addLink}
+                        className="bg-primary hover:bg-primary/90 h-10 px-4"
+                        data-testid="mobile-add-link-btn"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </section>
+
+                {/* 5. Page Design */}
+                <section>
+                  <h3 className="text-sm font-medium mb-3">{t('pageBuilder', 'pageDesign')}</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => { setPageTheme("dark"); if (isEditing) setTimeout(() => instantSave({ page_theme: "dark" }), 100); }}
+                      className={`p-4 rounded-xl border-2 transition-all ${pageTheme === "dark" ? "border-primary bg-primary/10" : "border-border bg-card"}`}
+                    >
+                      <Moon className="w-6 h-6 mx-auto mb-2" />
+                      <span className="text-xs">{t('pageBuilder', 'darkTheme')}</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setPageTheme("light"); if (isEditing) setTimeout(() => instantSave({ page_theme: "light" }), 100); }}
+                      className={`p-4 rounded-xl border-2 transition-all ${pageTheme === "light" ? "border-primary bg-primary/10" : "border-border bg-card"}`}
+                    >
+                      <Sun className="w-6 h-6 mx-auto mb-2 text-yellow-500" />
+                      <span className="text-xs">{t('pageBuilder', 'lightTheme')}</span>
+                    </button>
+                  </div>
+                </section>
+
+                {/* 6. QR Code */}
+                <section>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-sm font-medium flex items-center gap-2">
+                      <QrCode className="w-4 h-4 text-primary" />
+                      {t('pageBuilder', 'qrCode')}
+                    </h3>
+                    <Switch
+                      checked={qrEnabled}
+                      onCheckedChange={(checked) => { setQrEnabled(checked); if (isEditing) setTimeout(() => instantSave({ qr_enabled: checked }), 100); }}
+                    />
+                  </div>
+                  
+                  {qrEnabled && formData.slug && (
+                    <div className="p-4 rounded-xl bg-muted/50 border border-border flex flex-col items-center">
+                      <div ref={qrRef} className="p-3 bg-white rounded-xl mb-3">
+                        <QRCodeSVG
+                          value={getPublicUrl()}
+                          size={100}
+                          level="H"
+                          includeMargin={false}
+                          bgColor="#ffffff"
+                          fgColor="#18181b"
+                        />
+                      </div>
+                      <Button
+                        onClick={downloadQRCode}
+                        variant="outline"
+                        size="sm"
+                        className="rounded-full"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        {t('pageBuilder', 'downloadPng')}
+                      </Button>
+                    </div>
+                  )}
+                </section>
+
+                {/* Delete Page */}
+                {isEditing && (
+                  <section className="pt-4 border-t border-red-500/20">
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={deletePage}
+                      className="w-full rounded-xl"
+                      data-testid="mobile-delete-page-btn"
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      {t('pageBuilder', 'deletePage')}
+                    </Button>
+                  </section>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Mobile Preview Tab */}
+        {mobileTab === 'preview' && (
+          <div className="h-[calc(100vh-120px)] bg-zinc-950 flex items-center justify-center p-4 overflow-hidden">
+            <div className="relative w-full max-w-[280px]">
+              {/* Phone Frame */}
+              <div className="rounded-[36px] border-4 border-zinc-800 bg-zinc-900 p-2 shadow-2xl">
+                <div className="rounded-[28px] overflow-hidden aspect-[9/16] relative bg-zinc-900">
+                  {/* Background */}
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-b from-purple-900/30 to-zinc-900"
+                    style={formData.cover_image ? {
+                      backgroundImage: `url(${formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      filter: 'blur(40px)',
+                      transform: 'scale(1.2)',
+                      opacity: 0.4
+                    } : {}}
+                  />
+                  
+                  {/* Content */}
+                  <div className="relative p-5 pt-8 flex flex-col items-center text-center h-full">
+                    {/* Cover */}
+                    <div className="w-20 h-20 rounded-xl bg-zinc-800 overflow-hidden mb-3 shadow-xl">
+                      {formData.cover_image ? (
+                        <img 
+                          src={formData.cover_image.startsWith('/') ? `${process.env.REACT_APP_BACKEND_URL}${formData.cover_image}` : formData.cover_image}
+                          alt="Cover"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Music className="w-8 h-8 text-zinc-600" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <h3 className="font-display text-base uppercase text-white">
+                      {formData.artist_name || t('pageBuilder', 'artistName')}
+                    </h3>
+                    <p className="text-xs text-zinc-400 mb-4">
+                      {formData.release_title || t('pageBuilder', 'releaseTitle')}
+                    </p>
+                    
+                    {/* Links Preview */}
+                    <div className="w-full space-y-2 flex-1 overflow-auto">
+                      {links.filter(l => l.active).map(link => {
+                        const platform = getPlatformInfo(link.platform);
+                        const Icon = platform.icon;
+                        
+                        return (
+                          <div 
+                            key={link.id}
+                            className="w-full py-2.5 px-3 rounded-xl bg-white/5 border border-white/10 flex items-center gap-2"
+                          >
+                            <Icon className="w-4 h-4" style={{ color: platform.color }} />
+                            <span className="text-xs font-medium text-white">{platform.name}</span>
+                          </div>
+                        );
+                      })}
+                      
+                      {links.filter(l => l.active).length === 0 && (
+                        <div className="py-3 px-4 rounded-xl border border-dashed border-white/20 text-xs text-zinc-400">
+                          {t('pageBuilder', 'linksWillAppear')}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* QR Code in Preview */}
+                    {qrEnabled && formData.slug && (
+                      <div className="mt-3 p-2 bg-white rounded-lg">
+                        <QRCodeSVG
+                          value={getPublicUrl()}
+                          size={50}
+                          level="L"
+                          includeMargin={false}
+                          bgColor="#ffffff"
+                          fgColor="#18181b"
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Footer */}
+                    <div className="mt-auto pt-3">
+                      <p className="text-[10px] text-zinc-500">Powered by Mus.Link</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Glow */}
+              <div className="absolute -inset-4 bg-primary/10 blur-3xl -z-10 rounded-full" />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
