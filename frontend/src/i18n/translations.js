@@ -761,6 +761,8 @@ export const translations = {
       sidebarLinkAppearance: "Вид ссылки",
       sidebarAppearance: "Вид",
       sidebarPromotion: "Продвижение",
+      mobileTabSettings: "Настройки",
+      mobileTabPreview: "Превью",
       sidebarBasicSettingsDesc: "Позволяет настроить основные параметры отображения страницы релиза и добавить ссылки на музыкальные сервисы. Вставка ссылки на релиз в iTunes запускает автоматическое заполнение основных полей.",
       addLinkBtn: "Добавить ссылку",
       addPresave: "Добавить пресейв",
