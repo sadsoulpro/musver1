@@ -41,7 +41,7 @@ const CustomLinkIcon = (props) => (
 
 // YouTube Music icon using uploaded SVG
 const YouTubeMusicIcon = (props) => (
-  <img src="/icons/youtube-music.svg" alt="YouTube Music" {...props} style={{ width: props.width || '1em', height: props.height || '1em', ...props.style }} />
+  <img src="/icons/youtube-music.svg" alt="YouTube Music" {...props} style={{ width: props.width || '1.5em', height: props.height || '1.5em', ...props.style }} />
 );
 
 // Custom SVG icons for platforms without react-icons support
