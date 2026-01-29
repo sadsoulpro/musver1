@@ -1182,7 +1182,15 @@ export default function PageBuilder() {
                 <Input
                   placeholder="https://..."
                   value={newLink.url}
-                  onChange={(e) => setNewLink(prev => ({ ...prev, url: e.target.value }))}
+                  onChange={(e) => {
+                    const url = e.target.value;
+                    setNewLink(prev => ({ ...prev, url }));
+                    // Auto-detect platform from URL
+                    const detectedPlatform = detectPlatformFromUrl(url);
+                    if (detectedPlatform) {
+                      setNewLink(prev => ({ ...prev, url, platform: detectedPlatform }));
+                    }
+                  }}
                   data-testid="link-url-input"
                   className="h-10 sm:h-12 bg-card border-zinc-800 flex-1"
                 />
