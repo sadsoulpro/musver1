@@ -150,13 +150,19 @@ const detectPlatformFromUrl = (url) => {
   if (!url) return null;
   const urlLower = url.toLowerCase();
   
+  // Special case: Check for iTunes parameter in Apple Music URLs
+  if (urlLower.includes("music.apple.com") && urlLower.includes("app=itunes")) {
+    return "itunes";
+  }
+  
   const patterns = [
     { platform: "spotify", patterns: ["open.spotify.com", "spotify.com"] },
     { platform: "appleMusic", patterns: ["music.apple.com"] },
     { platform: "itunes", patterns: ["itunes.apple.com"] },
     { platform: "youtube", patterns: ["youtube.com/watch", "youtu.be"] },
     { platform: "youtubeMusic", patterns: ["music.youtube.com"] },
-    { platform: "yandex", patterns: ["music.yandex.ru", "music.yandex.com", "yandex.ru/music"] },
+    // Yandex Music - support all regional domains (ru, kz, by, uz, etc.)
+    { platform: "yandex", patterns: ["music.yandex."] },
     { platform: "vk", patterns: ["vk.com/music", "vk.com/audio", "boom.ru"] },
     { platform: "tiktok", patterns: ["tiktok.com", "vm.tiktok.com"] },
     { platform: "deezer", patterns: ["deezer.com", "deezer.page.link"] },
