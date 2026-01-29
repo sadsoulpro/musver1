@@ -106,10 +106,10 @@ const PLATFORMS = {
   audiomack: { icon: SiAudiomack, color: "#FFA200", bgClass: "platform-audiomack" },
   audius: { icon: AudiusIcon, color: "#000000", bgClass: "platform-audius", isImage: true },
   anghami: { icon: AnghamiIcon, color: "#000000", bgClass: "platform-anghami", isImage: true },
-  boomplay: { icon: BoomplayIcon, color: "#E11B22", bgClass: "platform-boomplay" },
+  boomplay: { icon: BoomplayIcon, color: "#000000", bgClass: "platform-boomplay", isImage: true },
   bandcamp: { icon: BandcampIcon, color: "#000000", bgClass: "platform-bandcamp", isImage: true },
-  zvuk: { icon: ZvukIcon, color: "#000000", bgClass: "platform-zvuk", isImage: true },
-  mts: { icon: MtsIcon, color: "#E30611", bgClass: "platform-mts" },
+  zvuk: { icon: ZvukIcon, color: "#FFFFFF", bgClass: "platform-zvuk", isImage: true },
+  mts: { icon: MtsIcon, color: "#000000", bgClass: "platform-mts", isImage: true },
   // Legacy mappings for backward compatibility
   apple: { icon: FaApple, color: "#FA233B", bgClass: "platform-apple" },
   amazon: { icon: AmazonMusicIcon, color: "#000000", bgClass: "platform-amazon", isImage: true },
