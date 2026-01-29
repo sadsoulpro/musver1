@@ -423,12 +423,17 @@ export default function Landing() {
                 ].map((platform) => (
                   <div 
                     key={platform.name}
-                    className={`w-full py-3.5 px-5 rounded-xl flex items-center justify-between ${
-                      theme === 'dark' ? 'bg-white/5 hover:bg-white/10' : 'bg-gray-50 hover:bg-gray-100'
-                    } transition-colors cursor-pointer`}
+                    className={`group w-full py-3.5 px-5 rounded-xl flex items-center justify-between transition-all duration-200 cursor-pointer ${
+                      theme === 'dark' 
+                        ? 'bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-primary/50' 
+                        : 'bg-gray-50 hover:bg-gray-100 border border-gray-200 hover:border-primary/50'
+                    }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: platform.color }}>
+                      <div 
+                        className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
+                        style={{ backgroundColor: platform.color }}
+                      >
                         {platform.isImage ? (
                           <platform.icon style={{ width: '20px', height: '20px' }} />
                         ) : (
@@ -437,7 +442,9 @@ export default function Landing() {
                       </div>
                       <span className="font-medium">{platform.name}</span>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-xs sm:text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      {t('common', 'listen')}
+                    </span>
                   </div>
                 ))}
               </div>
