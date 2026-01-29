@@ -236,6 +236,7 @@ export default function PageBuilder() {
   const [isTypingUrl, setIsTypingUrl] = useState(false); // Track if user is typing URL
   const [mobileTab, setMobileTab] = useState('settings'); // 'settings' or 'preview' - for mobile view
   const [showSectionMenu, setShowSectionMenu] = useState(false); // Mobile section dropdown
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // Delete confirmation modal
   const qrRef = useRef(null);
   const formDataRef = useRef(formData);
   const pageThemeRef = useRef(pageTheme);
