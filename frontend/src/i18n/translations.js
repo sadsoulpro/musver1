@@ -2569,7 +2569,7 @@ export const translations = {
       previewSubtitle: "Clean, fast, mobile-optimized pages that convert listeners",
       // FAQ
       faqTitle: "Frequently Asked Questions",
-      faq1Q: "Is Muslink free?",
+      faq1Q: "Is MusLink free?",
       faq1A: "Yes! Basic features are free forever. PRO unlocks analytics, custom domains, and more.",
       faq2Q: "How does auto-fill work?",
       faq2A: "Paste any streaming link or UPC code. We use Odesli/Songlink API to find all available platforms.",
@@ -2616,7 +2616,7 @@ export const translations = {
       previewSubtitle: "Чистые, быстрые, мобильные страницы, которые конвертируют слушателей",
       // FAQ
       faqTitle: "Частые вопросы",
-      faq1Q: "Muslink бесплатен?",
+      faq1Q: "MusLink бесплатен?",
       faq1A: "Да! Базовые функции бесплатны навсегда. PRO открывает аналитику, свои домены и многое другое.",
       faq2Q: "Как работает автозаполнение?",
       faq2A: "Вставьте любую стриминговую ссылку или UPC-код.",
@@ -2663,7 +2663,7 @@ export const translations = {
       previewSubtitle: "Páginas limpias, rápidas y optimizadas para móvil que convierten oyentes",
       // FAQ
       faqTitle: "Preguntas frecuentes",
-      faq1Q: "¿Muslink es gratis?",
+      faq1Q: "MusLink es gratis?",
       faq1A: "¡Sí! Las funciones básicas son gratis para siempre. PRO desbloquea analíticas, dominios personalizados y más.",
       faq2Q: "¿Cómo funciona el auto-completado?",
       faq2A: "Pega cualquier enlace de streaming o código UPC. Usamos Odesli/Songlink API para encontrar todas las plataformas.",

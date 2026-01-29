@@ -408,7 +408,8 @@ export default function PageBuilder() {
       
       toast.success(t('pageBuilder', 'pageCreated'), { duration: 1500 });
       
-      // NO navigation - stay on the same page, user can click "View Page" button
+      // Navigate to edit page to prevent duplicates
+      navigate(`/pages/${newPageId}/edit`, { replace: true });
       
       return newPageId;
     } catch (error) {
