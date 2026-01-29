@@ -763,6 +763,8 @@ export const translations = {
       pageDesignHint: "Выберите тему для вашей публичной страницы",
       deletePage: "Удалить страницу",
       confirmDelete: "Вы уверены, что хотите удалить эту страницу?",
+      deleteModalCancel: "Отмена",
+      deleteModalConfirm: "Удалить",
       pageDeleted: "Страница успешно удалена",
       // Sidebar navigation
       sidebarRelease: "Релиз",
