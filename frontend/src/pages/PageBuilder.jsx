@@ -112,21 +112,17 @@ const PLATFORM_ORDER = [
   "deezer",        // 9. Deezer
   "tidal",         // 10. Tidal
   "amazonMusic",   // 11. Amazon Music
-  "amazonStore",   // 12. Amazon Store
-  "soundcloud",    // 13. SoundCloud
-  "pandora",       // 14. Pandora
-  "napster",       // 15. Napster
-  "audiomack",     // 16. Audiomack
-  "audius",        // 17. Audius
-  "anghami",       // 18. Anghami
-  "boomplay",      // 19. Boomplay
-  "spinrilla",     // 20. Spinrilla
-  "bandcamp",      // 21. Bandcamp
-  "google",        // 22. Google
-  "googleStore",   // 23. Google Store
-  "zvuk",          // 24. Звук
-  "mts",           // 25. МТС Музыка
-  "custom",        // 26. Custom
+  "soundcloud",    // 12. SoundCloud
+  "pandora",       // 13. Pandora
+  "napster",       // 14. Napster
+  "audiomack",     // 15. Audiomack
+  "audius",        // 16. Audius
+  "anghami",       // 17. Anghami
+  "boomplay",      // 18. Boomplay
+  "bandcamp",      // 19. Bandcamp
+  "zvuk",          // 20. Звук
+  "mts",           // 21. МТС Музыка
+  "custom",        // 22. Custom
 ];
 
 // Auto-detect platform from URL
