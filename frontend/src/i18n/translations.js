@@ -78,6 +78,7 @@ export const translations = {
       info: "Info",
       selected: "selected",
       current: "Current",
+      listen: "Listen",
     },
     ru: {
       appName: "Mus.Link",
