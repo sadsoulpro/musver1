@@ -653,6 +653,8 @@ export const translations = {
       sidebarLinkAppearance: "Link appearance",
       sidebarAppearance: "Appearance",
       sidebarPromotion: "Promotion",
+      mobileTabSettings: "Settings",
+      mobileTabPreview: "Preview",
       sidebarBasicSettingsDesc: "Configure basic page display settings and add links to music services. Pasting a release link to iTunes will auto-fill basic fields.",
       addLinkBtn: "Add link",
       addPresave: "Add presave",
