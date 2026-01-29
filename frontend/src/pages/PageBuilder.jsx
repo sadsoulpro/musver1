@@ -234,6 +234,8 @@ export default function PageBuilder() {
   const [pageCreated, setPageCreated] = useState(false); // Track if page was created
   const [createdPageId, setCreatedPageId] = useState(null); // Store created page ID for new pages
   const [isTypingUrl, setIsTypingUrl] = useState(false); // Track if user is typing URL
+  const [mobileTab, setMobileTab] = useState('settings'); // 'settings' or 'preview' - for mobile view
+  const [showSectionMenu, setShowSectionMenu] = useState(false); // Mobile section dropdown
   const qrRef = useRef(null);
   const formDataRef = useRef(formData);
   const pageThemeRef = useRef(pageTheme);
