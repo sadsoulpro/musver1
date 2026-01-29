@@ -617,14 +617,19 @@ export default function PageBuilder() {
         toast.error(t('errors', 'generic'));
       }
     } else {
-      setLinks(prev => [...prev, { 
+      // For new pages, create the page first and add the link
+      const tempLink = { 
         id: Date.now().toString(),
         platform: newLink.platform, 
         url: newLink.url,
         active: true,
         clicks: 0
-      }]);
+      };
+      setLinks(prev => [...prev, tempLink]);
       setNewLink({ platform: "spotify", url: "" });
+      
+      // Create page and add link
+      await createPageFirst({}, [{ platform: newLink.platform, url: newLink.url }]);
     }
   };
 
