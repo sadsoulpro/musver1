@@ -109,7 +109,7 @@ const PLATFORMS = {
   appleMusic: { icon: FaApple, color: "#FA233B", bgClass: "platform-apple" },
   itunes: { icon: FaItunes, color: "#EA4CC0", bgClass: "platform-itunes" },
   youtube: { icon: FaYoutube, color: "#FF0000", bgClass: "platform-youtube" },
-  youtubeMusic: { icon: YouTubeMusicIcon, color: "#FF0000", bgClass: "platform-youtube" },
+  youtubeMusic: { icon: YouTubeMusicIcon, color: "#FF0000", bgClass: "platform-youtube", isImage: true },
   yandex: { icon: YandexMusicIcon, color: "#FFCC00", bgClass: "platform-yandex", isImage: true },
   vk: { icon: VKMusicIcon, color: "#4C75A3", bgClass: "platform-vk", isImage: true },
   tiktok: { icon: TikTokIcon, color: "#000000", bgClass: "platform-tiktok", isImage: true },
