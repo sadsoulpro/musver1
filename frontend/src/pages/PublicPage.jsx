@@ -511,6 +511,7 @@ export default function PublicPage() {
             {page.links?.map((link, i) => {
               const platform = getPlatformInfo(link.platform);
               const Icon = platform.icon;
+              const isImageIcon = platform.isImage;
               
               return (
                 <motion.button
@@ -527,16 +528,26 @@ export default function PublicPage() {
                   data-testid={`link-${link.platform}`}
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div 
-                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: platform.color }}
-                    >
-                      <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                    </div>
+                    {isImageIcon ? (
+                      /* For SVG image icons - show the icon directly with proper size */
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 overflow-hidden"
+                        style={{ backgroundColor: platform.color }}
+                      >
+                        <Icon style={{ width: '28px', height: '28px' }} />
+                      </div>
+                    ) : (
+                      /* For react-icons - show with colored background */
+                      <div 
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
+                        style={{ backgroundColor: platform.color }}
+                      >
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                      </div>
+                    )}
                     <span className="font-medium text-sm sm:text-base">{platform.name}</span>
                   </div>
                   <span className="text-xs sm:text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    Слушать
+                    {t('common', 'listen') || 'Слушать'}
                   </span>
                 </motion.button>
               );
