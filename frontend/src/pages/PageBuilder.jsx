@@ -110,7 +110,8 @@ const PLATFORM_ORDER = [
   "deezer",        // 9. Deezer
   "tidal",         // 10. Tidal
   "amazonMusic",   // 11. Amazon Music
-  "soundcloud",    // 12. SoundCloud
+  "amazonStore",   // 12. Amazon Store
+  "soundcloud",    // 13. SoundCloud
   "pandora",       // 13. Pandora
   "napster",       // 14. Napster
   "audiomack",     // 15. Audiomack
