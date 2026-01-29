@@ -2749,7 +2749,6 @@ export const translations = {
       deezer: "Deezer",
       tidal: "Tidal",
       amazonMusic: "Amazon Music",
-      amazonStore: "Amazon Store",
       soundcloud: "SoundCloud",
       pandora: "Pandora",
       napster: "Napster",
