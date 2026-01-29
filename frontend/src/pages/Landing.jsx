@@ -371,7 +371,7 @@ export default function Landing() {
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
               <div className={`flex-1 mx-4 px-4 py-1.5 rounded-lg text-sm text-muted-foreground ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
-                mus.link/your-artist-name
+                mus.link/single
               </div>
             </div>
             
@@ -381,7 +381,7 @@ export default function Landing() {
                 <Music2 className="w-16 h-16 sm:w-20 sm:h-20 text-white/80" />
               </div>
               <h3 className="text-2xl font-bold mb-1">Your Artist Name</h3>
-              <p className="text-muted-foreground mb-8">New Single — Out Now</p>
+              <p className="text-muted-foreground mb-8">Single</p>
               
               <div className="w-full max-w-md space-y-3">
                 {[
