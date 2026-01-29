@@ -124,25 +124,72 @@ const PLATFORM_ORDER = [
   "youtubeMusic",  // 5. YouTube Music
   "yandex",        // 6. Яндекс Музыка
   "vk",            // 7. VK Music
-  "deezer",        // 8. Deezer
-  "tidal",         // 9. Tidal
-  "amazonMusic",   // 10. Amazon Music
-  "amazonStore",   // 11. Amazon Store
-  "soundcloud",    // 12. SoundCloud
-  "pandora",       // 13. Pandora
-  "napster",       // 14. Napster
-  "audiomack",     // 15. Audiomack
-  "audius",        // 16. Audius
-  "anghami",       // 17. Anghami
-  "boomplay",      // 18. Boomplay
-  "spinrilla",     // 19. Spinrilla
-  "bandcamp",      // 20. Bandcamp
-  "google",        // 21. Google
-  "googleStore",   // 22. Google Store
-  "zvuk",          // 23. Звук
-  "mts",           // 24. МТС Музыка
-  "custom",        // 25. Custom
+  "tiktok",        // 8. TikTok
+  "deezer",        // 9. Deezer
+  "tidal",         // 10. Tidal
+  "amazonMusic",   // 11. Amazon Music
+  "amazonStore",   // 12. Amazon Store
+  "soundcloud",    // 13. SoundCloud
+  "pandora",       // 14. Pandora
+  "napster",       // 15. Napster
+  "audiomack",     // 16. Audiomack
+  "audius",        // 17. Audius
+  "anghami",       // 18. Anghami
+  "boomplay",      // 19. Boomplay
+  "spinrilla",     // 20. Spinrilla
+  "bandcamp",      // 21. Bandcamp
+  "google",        // 22. Google
+  "googleStore",   // 23. Google Store
+  "zvuk",          // 24. Звук
+  "mts",           // 25. МТС Музыка
+  "custom",        // 26. Custom
 ];
+
+// Auto-detect platform from URL
+const detectPlatformFromUrl = (url) => {
+  if (!url) return null;
+  const urlLower = url.toLowerCase();
+  
+  const patterns = [
+    { platform: "spotify", patterns: ["open.spotify.com", "spotify.com"] },
+    { platform: "appleMusic", patterns: ["music.apple.com"] },
+    { platform: "itunes", patterns: ["itunes.apple.com"] },
+    { platform: "youtube", patterns: ["youtube.com/watch", "youtu.be"] },
+    { platform: "youtubeMusic", patterns: ["music.youtube.com"] },
+    { platform: "yandex", patterns: ["music.yandex.ru", "music.yandex.com", "yandex.ru/music"] },
+    { platform: "vk", patterns: ["vk.com/music", "vk.com/audio", "boom.ru"] },
+    { platform: "tiktok", patterns: ["tiktok.com", "vm.tiktok.com"] },
+    { platform: "deezer", patterns: ["deezer.com", "deezer.page.link"] },
+    { platform: "tidal", patterns: ["tidal.com", "listen.tidal.com"] },
+    { platform: "amazonMusic", patterns: ["music.amazon", "amazon.com/music"] },
+    { platform: "soundcloud", patterns: ["soundcloud.com"] },
+    { platform: "pandora", patterns: ["pandora.com"] },
+    { platform: "napster", patterns: ["napster.com"] },
+    { platform: "audiomack", patterns: ["audiomack.com"] },
+    { platform: "audius", patterns: ["audius.co"] },
+    { platform: "anghami", patterns: ["anghami.com"] },
+    { platform: "boomplay", patterns: ["boomplay.com"] },
+    { platform: "spinrilla", patterns: ["spinrilla.com"] },
+    { platform: "bandcamp", patterns: ["bandcamp.com"] },
+    { platform: "zvuk", patterns: ["zvuk.com", "sber-zvuk.com"] },
+    { platform: "mts", patterns: ["music.mts.ru"] },
+  ];
+  
+  for (const { platform, patterns: urlPatterns } of patterns) {
+    for (const pattern of urlPatterns) {
+      if (urlLower.includes(pattern)) {
+        return platform;
+      }
+    }
+  }
+  
+  // If URL but no match, return custom
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return "custom";
+  }
+  
+  return null;
+};
 
 const PLATFORMS = [
   { id: "spotify", name: "Spotify", icon: FaSpotify, color: "#1DB954" },
