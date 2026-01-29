@@ -1,13 +1,34 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Music, Share2, Copy, Check, BadgeCheck, ChevronLeft, ChevronRight } from "lucide-react";
-import { FaSpotify, FaApple, FaYoutube, FaSoundcloud, FaLink, FaYandex, FaVk, FaAmazon, FaItunes, FaGoogle, FaNapster, FaBandcamp } from "react-icons/fa";
+import { FaSpotify, FaApple, FaYoutube, FaAmazon, FaItunes, FaGoogle, FaNapster, FaBandcamp } from "react-icons/fa";
 import { SiTidal, SiPandora, SiAudiomack } from "react-icons/si";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 import { QRCodeSVG } from "qrcode.react";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+
+// Custom SVG icon components using uploaded SVG files
+const SoundCloudIcon = (props) => (
+  <img src="/icons/sc-mus.svg" alt="SoundCloud" className={props.className} style={{ width: '1em', height: '1em', ...props.style }} />
+);
+
+const TikTokIcon = (props) => (
+  <img src="/icons/tik-tok.svg" alt="TikTok" className={props.className} style={{ width: '1em', height: '1em', ...props.style }} />
+);
+
+const VKMusicIcon = (props) => (
+  <img src="/icons/vk-mus.svg" alt="VK Музыка" className={props.className} style={{ width: '1em', height: '1em', ...props.style }} />
+);
+
+const YandexMusicIcon = (props) => (
+  <img src="/icons/yandex-mus.svg" alt="Яндекс Музыка" className={props.className} style={{ width: '1em', height: '1em', ...props.style }} />
+);
+
+const CustomLinkIcon = (props) => (
+  <img src="/icons/link.svg" alt="Ссылка" className={props.className} style={{ width: '1em', height: '1em', ...props.style }} />
+);
 
 // Custom SVG icons for platforms without react-icons support
 const ZvukIcon = (props) => (
