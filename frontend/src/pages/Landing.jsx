@@ -380,7 +380,7 @@ export default function Landing() {
               <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl bg-gradient-to-br from-primary to-purple-600 mb-6 shadow-xl flex items-center justify-center">
                 <Music2 className="w-16 h-16 sm:w-20 sm:h-20 text-white/80" />
               </div>
-              <h3 className="text-2xl font-bold mb-1">Your Artist Name</h3>
+              <h3 className="text-2xl font-bold mb-1">Artist Name</h3>
               <p className="text-muted-foreground mb-8">Single</p>
               
               <div className="w-full max-w-md space-y-3">
