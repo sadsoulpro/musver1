@@ -269,6 +269,7 @@ export default function PageBuilder() {
   const qrEnabledRef = useRef(qrEnabled);
   const linksRef = useRef(links);
   const scanInputTimeoutRef = useRef(null); // Debounce timeout for URL input
+  const saveTimeoutRef = useRef(null); // Debounce timeout for auto-save
 
   // Keep refs in sync
   useEffect(() => {
@@ -292,6 +293,9 @@ export default function PageBuilder() {
     return () => {
       if (scanInputTimeoutRef.current) {
         clearTimeout(scanInputTimeoutRef.current);
+      }
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
       }
     };
   }, []);
