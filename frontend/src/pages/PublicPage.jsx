@@ -52,12 +52,9 @@ const DeezerIcon = (props) => (
   </svg>
 );
 
-// YouTube Music icon
+// YouTube Music icon using uploaded SVG
 const YouTubeMusicIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <polygon points="10,8 16,12 10,16" fill="white"/>
-  </svg>
+  <img src="/icons/youtube-music.svg" alt="YouTube Music" className={props.className} style={{ width: '1em', height: '1em', ...props.style }} />
 );
 
 // Google Play Music icon
