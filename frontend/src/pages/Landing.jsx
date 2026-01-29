@@ -398,10 +398,10 @@ export default function Landing() {
               
               <div className="w-full max-w-md space-y-3">
                 {[
-                  { name: 'Spotify',  color: '#1DB954' },
-                  { name: 'Apple Music', color: '#FA233B' },
-                  { name: 'YouTube Music', color: '#FF0000' },
-                  { name: 'Deezer', color: '#A238FF' },
+                  { name: 'Spotify', color: '#1DB954', icon: FaSpotify },
+                  { name: 'Apple Music', color: '#FA233B', icon: FaApple },
+                  { name: 'YouTube Music', color: '#FF0000', icon: YouTubeMusicIcon, isImage: true },
+                  { name: 'Deezer', color: '#A238FF', icon: DeezerIcon },
                 ].map((platform) => (
                   <div 
                     key={platform.name}
@@ -411,7 +411,11 @@ export default function Landing() {
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: platform.color }}>
-                        <Music2 className="w-4 h-4 text-white" />
+                        {platform.isImage ? (
+                          <platform.icon style={{ width: '20px', height: '20px' }} />
+                        ) : (
+                          <platform.icon className="w-5 h-5 text-white" />
+                        )}
                       </div>
                       <span className="font-medium">{platform.name}</span>
                     </div>
