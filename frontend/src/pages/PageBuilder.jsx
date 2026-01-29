@@ -495,9 +495,20 @@ export default function PageBuilder() {
       return updated;
     });
     
-    // Instant save after change (debounced slightly to avoid too many requests)
+    // Debounced auto-save for text fields (slug, description)
+    // Use longer debounce (900ms) for slug and description to avoid saving on every keystroke
     if (isEditing) {
-      setTimeout(() => instantSave(), 500);
+      // Clear any existing timeout
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+      
+      // Set debounce time based on field type
+      const debounceTime = (name === 'slug' || name === 'description') ? 900 : 500;
+      
+      saveTimeoutRef.current = setTimeout(() => {
+        instantSave();
+      }, debounceTime);
     }
   };
 
