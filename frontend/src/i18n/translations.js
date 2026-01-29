@@ -154,6 +154,7 @@ export const translations = {
       info: "Информация",
       selected: "выбран",
       current: "Текущий",
+      listen: "Слушать",
     },
     es: {
       appName: "Mus.Link",
