@@ -576,12 +576,12 @@ export default function PublicPage() {
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-500" />
-                  <span className="text-green-500">Скопировано!</span>
+                  <span className="text-green-500">{t('publicPage', 'linkCopied')}</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  <span>Скопировать</span>
+                  <span>{t('publicPage', 'copy')}</span>
                 </>
               )}
             </button>
@@ -594,7 +594,7 @@ export default function PublicPage() {
                 }`}
               >
                 <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
-                <span className={isLightTheme ? 'text-primary' : 'text-white'}>Поделиться</span>
+                <span className={isLightTheme ? 'text-primary' : 'text-white'}>{t('publicPage', 'share')}</span>
               </button>
             )}
           </motion.div>
@@ -630,7 +630,7 @@ export default function PublicPage() {
                   className="hidden sm:block"
                 />
               </div>
-              <p className={`text-[10px] sm:text-xs ${isLightTheme ? 'text-gray-500' : 'text-zinc-500'} mt-2`}>Сканируйте, чтобы поделиться</p>
+              <p className={`text-[10px] sm:text-xs ${isLightTheme ? 'text-gray-500' : 'text-zinc-500'} mt-2`}>{t('publicPage', 'scanToShare')}</p>
             </motion.div>
           )}
         </div>
