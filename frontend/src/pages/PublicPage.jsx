@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Music, Share2, Copy, Check, BadgeCheck, ChevronLeft, ChevronRight } from "lucide-react";
-import { FaSpotify, FaApple, FaYoutube, FaAmazon, FaItunes, FaGoogle, FaNapster, FaBandcamp } from "react-icons/fa";
+import { FaSpotify, FaApple, FaYoutube, FaItunes, FaNapster } from "react-icons/fa";
 import { SiTidal, SiPandora, SiAudiomack } from "react-icons/si";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
@@ -31,14 +31,37 @@ const CustomLinkIcon = (props) => (
   <img src="/icons/link.svg" alt="Ссылка" className={props.className} style={{ width: '1.5em', height: '1.5em', ...props.style }} />
 );
 
-// Custom SVG icons for platforms without react-icons support
-const ZvukIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
-    <path d="M8 8l8 4-8 4V8z" fill="currentColor"/>
-  </svg>
+// YouTube Music icon using uploaded SVG
+const YouTubeMusicIcon = (props) => (
+  <img src="/icons/youtube-music.svg" alt="YouTube Music" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
 );
 
+// Amazon Music icon
+const AmazonMusicIcon = (props) => (
+  <img src="/icons/amazon-mus.svg" alt="Amazon Music" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
+);
+
+// Zvuk icon
+const ZvukIcon = (props) => (
+  <img src="/icons/zvuk-mus.svg" alt="Звук" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
+);
+
+// Anghami icon
+const AnghamiIcon = (props) => (
+  <img src="/icons/anghami-mus.png" alt="Anghami" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
+);
+
+// Audius icon
+const AudiusIcon = (props) => (
+  <img src="/icons/audius-mus.png" alt="Audius" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
+);
+
+// Bandcamp icon
+const BandcampIcon = (props) => (
+  <img src="/icons/bandcamp-mus.png" alt="Bandcamp" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
+);
+
+// MTS Music icon
 const MtsIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
     <rect x="3" y="6" width="18" height="12" rx="2" fill="currentColor"/>
@@ -46,21 +69,10 @@ const MtsIcon = (props) => (
   </svg>
 );
 
+// Deezer icon
 const DeezerIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
     <path d="M6.01 11.75H0V15h6.01v-3.25zM6.01 7.25H0v3.25h6.01V7.25zM6.01 16.25H0v3.25h6.01v-3.25zM12.005 11.75H6.01V15h5.995v-3.25zM12.005 16.25H6.01v3.25h5.995v-3.25zM17.995 11.75H12V15h5.995v-3.25zM17.995 16.25H12v3.25h5.995v-3.25zM17.995 7.25H12v3.25h5.995V7.25zM24 11.75h-6.005V15H24v-3.25zM24 16.25h-6.005v3.25H24v-3.25zM24 7.25h-6.005v3.25H24V7.25zM24 2.75h-6.005V6H24V2.75z"/>
-  </svg>
-);
-
-// YouTube Music icon using uploaded SVG
-const YouTubeMusicIcon = (props) => (
-  <img src="/icons/youtube-music.svg" alt="YouTube Music" className={props.className} style={{ width: '1.8em', height: '1.8em', ...props.style }} />
-);
-
-// Google Play Music icon
-const GooglePlayIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
   </svg>
 );
 
@@ -68,6 +80,16 @@ const GooglePlayIcon = (props) => (
 const PandoraIcon = (props) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15v-4H8v-2h2V9c0-1.71 1.39-3 3.1-3H16v2h-2.9c-.59 0-1.1.51-1.1 1v2h4v2h-4v4h-2z"/>
+  </svg>
+);
+
+// Boomplay icon
+const BoomplayIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <circle cx="12" cy="12" r="10" fill="currentColor"/>
+    <path d="M10 8v8l6-4-6-4z" fill="white"/>
+  </svg>
+);
   </svg>
 );
 
