@@ -1975,6 +1975,42 @@ export default function PageBuilder() {
           </div>
         )}
       </div>
+      
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowDeleteModal(false)}
+          />
+          
+          {/* Modal */}
+          <div className="relative bg-card border border-border rounded-2xl p-6 mx-4 max-w-sm w-full shadow-xl">
+            <h3 className="text-lg font-semibold mb-2">{t('pageBuilder', 'deletePage')}</h3>
+            <p className="text-muted-foreground text-sm mb-6">
+              {t('pageBuilder', 'confirmDelete')}
+            </p>
+            
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1 rounded-xl"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                {t('pageBuilder', 'deleteModalCancel')}
+              </Button>
+              <Button
+                variant="destructive"
+                className="flex-1 rounded-xl"
+                onClick={deletePage}
+              >
+                {t('pageBuilder', 'deleteModalConfirm')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
