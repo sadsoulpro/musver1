@@ -547,7 +547,7 @@ export default function PublicPage() {
                     <span className="font-medium text-sm sm:text-base">{platform.name}</span>
                   </div>
                   <span className="text-xs sm:text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    {t('common', 'listen') || 'Слушать'}
+                    {t('common', 'Listen') || 'Слушать'}
                   </span>
                 </motion.button>
               );
