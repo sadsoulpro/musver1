@@ -403,18 +403,20 @@ export default function PageBuilder() {
   const deletePage = async () => {
     if (!pageId) return;
     
-    if (!window.confirm(t('pageBuilder', 'confirmDelete'))) {
-      return;
-    }
-    
     try {
       await api.delete(`/pages/${pageId}`);
       toast.success(t('pageBuilder', 'pageDeleted'));
+      setShowDeleteModal(false);
       navigate('/multilinks');
     } catch (error) {
       console.error('Delete page failed:', error);
       toast.error(t('errors', 'deleteFailed'));
     }
+  };
+
+  // Open delete confirmation modal
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
   };
 
   useEffect(() => {
