@@ -178,6 +178,22 @@ All pages now use CSS variables (`bg-background`, `bg-muted`, `border-border`, `
 - [x] Subdomains: updated translations from "Custom Domains" to "Subdomains"
 - [x] Subdomains: added instructions about subdomain functionality
 - [x] Full rebranding: MyTrack → Mus.Link (all files, translations, FAQ)
+- [x] Custom platform logos (SoundCloud, TikTok, VK, Yandex, YouTube Music, Amazon Music, Zvuk, Anghami, Audius, Bandcamp, Boomplay, MTS Music, Pandora)
+- [x] Auto-detect platform from URL (including .kz domain for Yandex, iTunes parameter)
+- [x] Added TikTok platform
+- [x] Platform translations (EN, RU, ES)
+- [x] "Listen" button translation on PublicPage (EN, RU, ES)
+- [x] Manrope font integration
+- [x] Debounce for auto-save (900ms) in PageBuilder
+- [x] Auto-redirect after page creation to edit mode
+- [x] Landing page buttons redesign (matching PublicPage style)
+- [x] **PageBuilder redesign (2025-01-29)**:
+  - 50/50 split layout: left side (sidebar + form with scroll), right side (preview)
+  - Left sidebar with navigation: Basic (Basic settings, Link appearance), Appearance, Promotion
+  - Auto-fill section with Odesli integration preserved
+  - Form with scrollable content area
+  - Phone mockup preview with real-time updates
+  - QR code generation in preview
 
 ## Pending/Future Tasks
 
