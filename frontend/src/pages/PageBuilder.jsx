@@ -200,7 +200,7 @@ const PLATFORMS = [
   { id: "appleMusic", icon: FaApple, color: "#FA233B" },
   { id: "itunes", icon: FaItunes, color: "#EA4CC0" },
   { id: "youtube", icon: FaYoutube, color: "#FF0000" },
-  { id: "youtubeMusic", icon: YouTubeMusicIcon, color: "#FF0000" },
+  { id: "youtubeMusic", icon: YouTubeMusicIcon, color: "#FF0000", isImage: true },
   { id: "yandex", icon: YandexMusicIcon, color: "#FFCC00", isImage: true },
   { id: "vk", icon: VKMusicIcon, color: "#4C75A3", isImage: true },
   { id: "tiktok", icon: TikTokIcon, color: "#000000", isImage: true },
