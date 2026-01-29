@@ -918,7 +918,7 @@ export default function PageBuilder() {
           </div>
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             {(isEditing || pageCreated) && formData.slug && (
-              <a href={`/${formData.slug}`} target="_blank" rel="noopener noreferrer">
+              <a href={`/${formData.slug}`} target="_blank" rel="noopener noreferrer" className="hidden sm:block">
                 <Button variant="outline" className="rounded-full" data-testid="view-public-page-btn">
                   <ExternalLink className="w-4 h-4 sm:mr-2" />
                   <span className="hidden sm:inline">{t('pageBuilder', 'viewPage')}</span>
@@ -936,9 +936,36 @@ export default function PageBuilder() {
             </Button>
           </div>
         </div>
+        
+        {/* Mobile Tabs */}
+        <div className="lg:hidden border-t border-border">
+          <div className="flex">
+            <button
+              onClick={() => setMobileTab('settings')}
+              className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+                mobileTab === 'settings' 
+                  ? 'text-primary border-b-2 border-primary bg-primary/5' 
+                  : 'text-muted-foreground'
+              }`}
+            >
+              {t('pageBuilder', 'mobileTabSettings')}
+            </button>
+            <button
+              onClick={() => setMobileTab('preview')}
+              className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+                mobileTab === 'preview' 
+                  ? 'text-primary border-b-2 border-primary bg-primary/5' 
+                  : 'text-muted-foreground'
+              }`}
+            >
+              {t('pageBuilder', 'mobileTabPreview')}
+            </button>
+          </div>
+        </div>
       </header>
       
-      <div className="flex h-[calc(100vh-64px)] overflow-hidden">
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex h-[calc(100vh-64px)] overflow-hidden">
         {/* Left Side - Editor with Sidebar */}
         <div className="w-1/2 flex overflow-hidden">
           {/* Sidebar */}
@@ -976,7 +1003,7 @@ export default function PageBuilder() {
             </nav>
           </div>
           
-          {/* Form Content */}
+          {/* Form Content - Desktop */}
           <div className="flex-1 overflow-y-auto p-6">
             <div className="max-w-xl space-y-6">
           
