@@ -101,30 +101,6 @@ const AudiusIcon = (props) => (
   </svg>
 );
 
-// Anghami icon
-const AnghamiIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="white"/>
-  </svg>
-);
-
-// Boomplay icon
-const BoomplayIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <path d="M10 8v8l6-4-6-4z" fill="white"/>
-  </svg>
-);
-
-// Spinrilla icon
-const SpinrillaIcon = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <circle cx="12" cy="12" r="10" fill="currentColor"/>
-    <circle cx="12" cy="12" r="4" fill="white"/>
-  </svg>
-);
-
 // Platform definitions (names come from translations)
 const PLATFORMS = {
   spotify: { icon: FaSpotify, color: "#1DB954", bgClass: "platform-spotify" },
@@ -137,8 +113,7 @@ const PLATFORMS = {
   tiktok: { icon: TikTokIcon, color: "#000000", bgClass: "platform-tiktok", isImage: true },
   deezer: { icon: DeezerIcon, color: "#A238FF", bgClass: "platform-deezer" },
   tidal: { icon: SiTidal, color: "#000000", bgClass: "platform-tidal" },
-  amazonMusic: { icon: FaAmazon, color: "#FF9900", bgClass: "platform-amazon" },
-  amazonStore: { icon: FaAmazon, color: "#FF9900", bgClass: "platform-amazon" },
+  amazonMusic: { icon: AmazonMusicIcon, color: "#000000", bgClass: "platform-amazon", isImage: true },
   soundcloud: { icon: SoundCloudIcon, color: "#000000", bgClass: "platform-soundcloud", isImage: true },
   pandora: { icon: PandoraIcon, color: "#005483", bgClass: "platform-pandora" },
   napster: { icon: FaNapster, color: "#000000", bgClass: "platform-napster" },
