@@ -101,6 +101,7 @@ const PLATFORMS = {
   deezer: { icon: DeezerIcon, color: "#A238FF", bgClass: "platform-deezer" },
   tidal: { icon: SiTidal, color: "#000000", bgClass: "platform-tidal" },
   amazonMusic: { icon: AmazonMusicIcon, color: "#000000", bgClass: "platform-amazon", isImage: true },
+  amazonStore: { icon: AmazonStoreIcon, color: "#FF9900", bgClass: "platform-amazon-store", isImage: true },
   soundcloud: { icon: SoundCloudIcon, color: "#000000", bgClass: "platform-soundcloud", isImage: true },
   pandora: { icon: PandoraIcon, color: "#000000", bgClass: "platform-pandora", isImage: true },
   napster: { icon: FaNapster, color: "#000000", bgClass: "platform-napster" },
