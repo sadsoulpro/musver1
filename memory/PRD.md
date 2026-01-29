@@ -194,6 +194,11 @@ All pages now use CSS variables (`bg-background`, `bg-muted`, `border-border`, `
   - Form with scrollable content area
   - Phone mockup preview with real-time updates
   - QR code generation in preview
+  - **Mobile responsive layout**:
+    - Tabs "Settings" / "Preview" for switching between form and preview
+    - Dropdown menu for section navigation (Basic settings, Link appearance, etc.)
+    - Full form functionality on mobile
+    - Phone mockup preview in separate tab
 
 ## Pending/Future Tasks
 
