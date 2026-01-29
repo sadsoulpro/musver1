@@ -15,6 +15,13 @@ module.exports = {
                 '2xl': '1536px',
         },
         extend: {
+                fontFamily: {
+                        sans: ['Manrope', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        manrope: ['Manrope', 'sans-serif'],
+                },
+                letterSpacing: {
+                        'heading': '-0.015em',
+                },
                 borderRadius: {
                         lg: 'var(--radius)',
                         md: 'calc(var(--radius) - 2px)',
