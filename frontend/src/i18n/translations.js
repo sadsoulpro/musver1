@@ -649,6 +649,8 @@ export const translations = {
       pageDesignHint: "Choose the theme for your public page",
       deletePage: "Delete Page",
       confirmDelete: "Are you sure you want to delete this page?",
+      deleteModalCancel: "Cancel",
+      deleteModalConfirm: "Delete",
       pageDeleted: "Page deleted successfully",
       // Sidebar navigation
       sidebarRelease: "Release",
